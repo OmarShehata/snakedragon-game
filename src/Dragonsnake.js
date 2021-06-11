@@ -1,12 +1,35 @@
 const KEYBOARD_ANGULAR_ACC = 1;
 const ANGULAR_SPEED_FRICTION = 0.85;
-const PLAYER_SPEED = 5;
+const PLAYER_SPEED = 10;
+//const PLAYER_SPEED = 1;
 
 class Dragonsnake {
 	constructor(xPos, yPos, playerNumber, game) {
 		this.game = game;
 		const head = game.add.sprite(xPos, yPos, 'dragon_body');
 		head.setOrigin(0.5, 0.5);
+
+		this.pieceArray = [];
+
+		// Create body pieces
+		const piecesNumber = 10;
+		for (let i = 1; i <= piecesNumber; i++) {
+			const spacing = 60;
+			const piece = game.add.sprite(xPos, yPos + i * spacing, 'dragon_body');
+			this.pieceArray.push(piece);
+
+			if (i == 1) {
+				piece.previous = head;
+			} else {
+				piece.previous = this.pieceArray[i - 2];
+			}
+
+			piece.originalPosition = {
+				x: piece.x, 
+				y: piece.y
+			}
+		}
+
 		this.originalPosition = { x: xPos, y: yPos };
 		this.playerNumber = playerNumber;
 
@@ -62,6 +85,22 @@ class Dragonsnake {
         const angle = (head.angle - 90) * (Math.PI / 180);
         head.x += Math.cos(angle) * PLAYER_SPEED;
         head.y += Math.sin(angle) * PLAYER_SPEED;
+
+        // Make the body pieces follow the one before it
+        for (let piece of this.pieceArray) {
+        	const prev = piece.previous;
+
+        	const dx = prev.x - piece.x;
+        	const dy = prev.y - piece.y;
+        	const newAngle = Math.atan2(dy, dx);
+        	const dist = Math.sqrt(dx * dx + dy * dy);
+
+        	const distSpeed = 0.12;
+
+        	piece.angle = newAngle * (180 / Math.PI) + 90;
+        	piece.x += Math.cos(newAngle) * dist * distSpeed;
+        	piece.y += Math.sin(newAngle) * dist * distSpeed;
+        }
 	}
 
 	reset() {
@@ -70,6 +109,13 @@ class Dragonsnake {
 		head.body.setVelocityX(0);
         head.body.setVelocityY(0);
         head.setPosition(this.originalPosition.x, this.originalPosition.y);
+        head.angle = 0;
+        head.angularSpeed = 0;
+
+        for (let piece of this.pieceArray) {
+        	piece.x = piece.originalPosition.x;
+        	piece.y = piece.originalPosition.y;
+        }
 	}
 
 

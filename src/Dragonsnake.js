@@ -41,6 +41,8 @@ class Dragonsnake {
 
 		this.DKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 		this.AKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+		this.upArrowKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+		this.WKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
 		this.rightArrowKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 		this.leftArrowKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -53,6 +55,17 @@ class Dragonsnake {
 
 		if (this.playerNumber == 2) {
 			return this.leftArrowKey.isDown;
+		}
+	}
+
+	isForwardDown() {
+		return true;
+		if (this.playerNumber == 1) {
+			return this.WKey.isDown;
+		}
+
+		if (this.playerNumber == 2) {
+			return this.upArrowKey.isDown;
 		}
 	}
 
@@ -81,10 +94,13 @@ class Dragonsnake {
 
         head.angle += head.angularSpeed;
 
-        // Make player move in direction they are facing 
-        const angle = (head.angle - 90) * (Math.PI / 180);
-        head.x += Math.cos(angle) * PLAYER_SPEED;
-        head.y += Math.sin(angle) * PLAYER_SPEED;
+        // Make player move in direction they are facing
+        if (this.isForwardDown()) {
+        	const angle = (head.angle - 90) * (Math.PI / 180);
+	        head.x += Math.cos(angle) * PLAYER_SPEED;
+	        head.y += Math.sin(angle) * PLAYER_SPEED;
+        } 
+        
 
         // Make the body pieces follow the one before it
         for (let piece of this.pieceArray) {
@@ -97,9 +113,11 @@ class Dragonsnake {
 
         	const distSpeed = 0.12;
 
-        	piece.angle = newAngle * (180 / Math.PI) + 90;
-        	piece.x += Math.cos(newAngle) * dist * distSpeed;
-        	piece.y += Math.sin(newAngle) * dist * distSpeed;
+        	if (this.isForwardDown()) {
+	        	piece.angle = newAngle * (180 / Math.PI) + 90;
+	        	piece.x += Math.cos(newAngle) * dist * distSpeed;
+	        	piece.y += Math.sin(newAngle) * dist * distSpeed;
+	        }
         }
 	}
 

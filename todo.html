@@ -2,15 +2,12 @@ https://docs.google.com/document/d/1i8XkIMdm8WNbEHkNkHefKSi-cQllReTp7qjzrVZDO_s/
 
 game.clouds.forEach(cloud => {cloud.shake = true; }); game.clouds[0].becomeRainCloud();
 
-tile.plot.setTexture('atlas', plotTypes.vegetables);
-
-
-
-* If rain cloud close enough to farm tile, make it go to next level. 
+* Add remaining cloud number in the top left
 * Fade to black when no more clouds (or less than 10 clouds left within bounds?)
 * End screen gives you stats
 
-* Rotate the clouds
+* M to mute
+* Rotate the clouds for variety
 * Make arrow keys also work for single dragon
 * Fix camera jump when you go back to solo mode
 
@@ -20,8 +17,19 @@ tile.plot.setTexture('atlas', plotTypes.vegetables);
 * if player is out of bounds, turn torwads center
 * Connect gamepad twin stick
 
+STUFF TO TWEAK:
+
+* If you combine more than 10 clouds it automatically floods?
+* Size of rain cloud given number of input clouds?
+* How many farms there are?
+* How many clouds there are?
+* How long the dragon is?
+* Rain dance dragon dist radius
+* Rain dance cloud radius
 
 Done:
+* If rain cloud close enough to farm tile, make it go to next level. 
+
 * Add farm pieces
 * Make rain cloud appear when clouds disappear. For a few seconds, then disappears. 
 	* Size depends on number of clouds inside?

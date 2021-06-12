@@ -174,6 +174,46 @@ class Game extends Phaser.Scene {
         // Make camera follow player 
         // See: https://photonstorm.github.io/phaser3-docs/Phaser.Cameras.Scene2D.Camera.html#startFollow__anchor
         // this.cameras.main.startFollow(this.player, false, 0.5, 0.5, 0, 100);
+
+        this.sound.pauseOnBlur = true;
+        // this.windLoop1 = this.sound.playAudioSprite('audio', 'wind1', {
+        //     loop: true
+        // });
+
+        // this.windLoop2 = this.sound.playAudioSprite('audio', 'wind2', {
+        //     loop: true
+        // });
+
+        this.windLoop1 = this.sound.addAudioSprite('audio');
+        this.windLoop1.play('wind1', { loop: true });
+
+        this.windLoop2 = this.sound.addAudioSprite('audio');
+        this.windLoop2.play('wind2', { loop: true });
+        this.windLoop2.volume = 0;
+    }
+
+    crossFadeAudio(soloMode) {
+        const duration = 2000;
+
+        if (!soloMode) {
+            this.tweens.add({
+                targets: this.windLoop1,
+                volume: { value: 0, duration: duration, ease: 'Linear' },
+            });
+            this.tweens.add({
+                targets: this.windLoop2,
+                volume: { value: 1, duration: duration, ease: 'Linear' },
+            });
+        } else {
+            this.tweens.add({
+                targets: this.windLoop2,
+                volume: { value: 0, duration: duration, ease: 'Linear' },
+            });
+            this.tweens.add({
+                targets: this.windLoop1,
+                volume: { value: 1, duration: duration, ease: 'Linear' },
+            });
+        }
     }
 
     getDist() {
@@ -216,6 +256,8 @@ class Game extends Phaser.Scene {
           alpha: { value: 0, duration: 3000, ease: 'Linear' },
           delay: 3000
         });
+
+        this.sound.playAudioSprite('audio', 'rain');
 
         // Find the farmland closest to it, decide whether to move it to the next phase
         for (let farm of this.farmLand) {
@@ -479,6 +521,7 @@ class Game extends Phaser.Scene {
 
         if (isSoloMode && Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
             isSoloMode = false;
+            this.crossFadeAudio(isSoloMode);
             this.dragonsnakeTwo.isFrozen = false;
             this.dragonsnakeTwo.moveToOtherDragon(this.dragonsnakeOne);
         }
@@ -492,6 +535,7 @@ class Game extends Phaser.Scene {
         }
         if (!isSoloMode && this.dragonsnakeTwo.isFrozen) {
             isSoloMode = true;
+             this.crossFadeAudio(isSoloMode);
             this.clouds.forEach(cloud => cloud.resetShake());
         }
 

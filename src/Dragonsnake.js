@@ -1,7 +1,9 @@
 const KEYBOARD_ANGULAR_ACC = 1;
 const ANGULAR_SPEED_FRICTION = 0.85;
-const PLAYER_SPEED = 15;
+const PLAYER_SPEED = 25;
 //const PLAYER_SPEED = 1;
+
+const SYMMETRY_MODE = true;
 
 class Dragonsnake {
 	constructor(xPos, yPos, playerNumber, game) {
@@ -12,6 +14,7 @@ class Dragonsnake {
 		head.setOrigin(0.5, 0.5);
 		game.physics.add.existing(head, false);
 		head.body.collideWorldBounds = true;
+		head.head = head;
 
 		if (playerNumber == 2) {
 			head.setTint(0xFF0000);
@@ -43,15 +46,14 @@ class Dragonsnake {
 				x: piece.x, 
 				y: piece.y
 			}
+
+			piece.head = head;
 		}
 
 		this.originalPosition = { x: xPos, y: yPos };
 		this.playerNumber = playerNumber;
 
 		head.angularSpeed = 0;
-
-		
-
 		this.head = head;
 
 		this.DKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -69,6 +71,11 @@ class Dragonsnake {
 		const collider = this.game.physics.add.collider(allPieces, clouds, (dragonPiece, cloudPiece) => {
 			// Make cloud disappear
 			//cloudPiece.alpha = 0;
+
+			// Do not push clouds when going slow
+			if (dragonPiece.head.speedMode != 'fast') {
+				return;
+			}
 
 			if (cloudPiece.collidingPieces == undefined) {
 				cloudPiece.collidingPieces = [];
@@ -104,17 +111,22 @@ class Dragonsnake {
 		}
 
 		if (this.playerNumber == 2) {
+			if (SYMMETRY_MODE) {
+				return !this.AKey.isDown;
+			}
 			return this.leftArrowKey.isDown;
 		}
 	}
 
 	isForwardDown() {
-		//return true;
 		if (this.playerNumber == 1) {
 			return this.WKey.isDown;
 		}
 
 		if (this.playerNumber == 2) {
+			if (SYMMETRY_MODE) {
+				return this.WKey.isDown;
+			}
 			return this.upArrowKey.isDown;
 		}
 	}
@@ -125,6 +137,9 @@ class Dragonsnake {
 		}
 
 		if (this.playerNumber == 2) {
+			if (SYMMETRY_MODE) {
+				return !this.DKey.isDown;
+			}
 			return this.rightArrowKey.isDown;
 		}
 	}
@@ -145,40 +160,44 @@ class Dragonsnake {
         head.angle += head.angularSpeed;
 
         // Make player move in direction they are facing
+        let speed = PLAYER_SPEED * 0.75;
+        head.speedMode = 'slow'
         if (this.isForwardDown()) {
-        	const angle = (head.angle - 90) * (Math.PI / 180);
-	        head.x += Math.cos(angle) * PLAYER_SPEED;
-	        head.y += Math.sin(angle) * PLAYER_SPEED;
+        	speed = PLAYER_SPEED;
+        	head.speedMode = 'fast'
+        }
 
-	        headStepsArray.push({
-	        	x: head.x, 
-	        	y: head.y, 
-	        	angle: head.angle
-	        });
+        const angle = (head.angle - 90) * (Math.PI / 180);
+        head.x += Math.cos(angle) * speed;
+        head.y += Math.sin(angle) * speed;
 
-	        // Make the body pieces follow the one before it
-	        for (let piece of this.pieceArray) {
-	        	const prev = piece.previous;
+        headStepsArray.push({
+        	x: head.x, 
+        	y: head.y, 
+        	angle: head.angle
+        });
 
-	        	const dx = prev.x - piece.x;
-	        	const dy = prev.y - piece.y;
-	        	const newAngle = Math.atan2(dy, dx);
-	        	const dist = Math.sqrt(dx * dx + dy * dy);
+        // Make the body pieces follow the one before it
+        for (let piece of this.pieceArray) {
+        	const prev = piece.previous;
 
-	        	const distSpeed = 0.12;
+        	const dx = prev.x - piece.x;
+        	const dy = prev.y - piece.y;
+        	const newAngle = Math.atan2(dy, dx);
+        	const dist = Math.sqrt(dx * dx + dy * dy);
 
-	        	// piece.angle = newAngle * (180 / Math.PI) + 90;
-	        	// piece.x += Math.cos(newAngle) * dist * distSpeed;
-	        	// piece.y += Math.sin(newAngle) * dist * distSpeed;
+        	const distSpeed = 0.12;
 
-	        	const step = headStepsArray[headStepsArray.length - 1 - piece.index * 4];
-	        	if (step == undefined) continue;
-	        	piece.x = step.x;
-	        	piece.y = step.y;
-	        	piece.angle = step.angle;
-	        }
+        	// piece.angle = newAngle * (180 / Math.PI) + 90;
+        	// piece.x += Math.cos(newAngle) * dist * distSpeed;
+        	// piece.y += Math.sin(newAngle) * dist * distSpeed;
 
-        } 
+        	const step = headStepsArray[headStepsArray.length - 1 - piece.index * 4];
+        	if (step == undefined) continue;
+        	piece.x = step.x;
+        	piece.y = step.y;
+        	piece.angle = step.angle;
+        }
         
 
         

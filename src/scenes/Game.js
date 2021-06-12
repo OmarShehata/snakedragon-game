@@ -125,7 +125,7 @@ class Game extends Phaser.Scene {
               // Then add up all those velocities to make up the final distance
               for (let piece of cloud.collidingPieces) {
                   const angle = (piece.angle - 90) * (Math.PI/180);
-                  const power = 0.2;
+                  const power = 0.15;
                   cloud.speedX += Math.cos(angle) * power;
                   cloud.speedY += Math.sin(angle) * power;
                   // cloud.speedX = Math.cos(angle) * 3;

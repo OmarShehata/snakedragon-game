@@ -7,6 +7,7 @@ var game = new Phaser.Game({
     parent: 'game', // The ID of the div in index.html
     width: 1120,
     height: 630,
+    backgroundColor: 'rgb(0, 0, 0)',
     scale: {
         mode: Phaser.Scale.ScaleModes.FIT ,
         autoCenter: Phaser.Scale.CENTER_BOTH

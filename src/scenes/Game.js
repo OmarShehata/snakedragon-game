@@ -1,5 +1,6 @@
 import 'phaser';
 import Dragonsnake from '../Dragonsnake.js';
+const WORLD_SIZE = 1024 * 2;
 
 class Game extends Phaser.Scene {
     constructor(config) {
@@ -32,34 +33,66 @@ class Game extends Phaser.Scene {
         this.dragonsnakeTwo = dragonsnakeTwo;
     }
 
+    generateClouds() {
+        // Create background
+
+        const bg1 = this.add.sprite(-WORLD_SIZE, -WORLD_SIZE, 'background1');
+        bg1.setOrigin(0, 0);
+        bg1.depth = -10;
+        bg1.scale = 2;
+        this.bg1 = bg1;
+        bg1.alpha = 0.4;
+
+        const bg2 = this.add.sprite(-WORLD_SIZE, -WORLD_SIZE + bg1.height * bg1.scale, 'background2');
+        bg2.setOrigin(0, 0);
+        bg2.depth = -10;
+        bg2.scale = 2;
+        this.bg2 = bg2;
+        bg2.alpha = bg1.alpha;
+
+        // Generate clouds randomly
+        const numClouds = 70;
+        this.clouds = [];
+        const bounds = game.cameras.main.getBounds();
+        const padding = 400;
+
+        for (let i = 0; i < numClouds; i++) {
+            const cloud = this.add.sprite(0, 0, 'cloud');
+
+            cloud.x = bounds.x + padding + Math.random() * (bounds.width - padding);
+            cloud.y = bounds.y + padding + Math.random() * (bounds.height - padding);
+            cloud.alpha = 0.2 + Math.random() * 0.5;
+            cloud.originalAlpha = cloud.alpha;
+            game.physics.add.existing(cloud, false);
+            cloud.body.setCircle(150, -115, -115);
+
+            this.clouds.push(cloud);
+        }
+
+        this.dragonsnakeOne.setupCollider(this.clouds);
+        this.dragonsnakeTwo.setupCollider(this.clouds);
+    }
+
     create() {
         this.iconMin = this.add.sprite(0, 0, 'icon_crossLarge');
         this.iconMax = this.add.sprite(0, 0, 'icon_crossLarge');
         this.iconMax.alpha = 0;
         this.iconMin.alpha = 0;
         this.setupKeyboard();
-        
 
         // Create ground
         const { width, height } = game.sys.canvas;
-
-        for (let i = 0; i < 10; i++) {
-            this.add.sprite(i * 500, height - 100, 'ground');
-        }
 
         // Diagonal size of screen 
         const diagonalSize = Math.sqrt(width * width + height * height);
         this.diagonalSize = diagonalSize;
         
-        
-        const ground2 = this.add.sprite(width/2 + 400, height - 300, 'ground_small');
-        this.physics.add.existing(ground2, true);
-
-        const WORLD_SIZE = 1024 * 2;
-        this.cameras.main.setBounds(-WORLD_SIZE, -WORLD_SIZE, WORLD_SIZE * 3, WORLD_SIZE * 3);
-        this.physics.world.setBounds(-WORLD_SIZE, -WORLD_SIZE, WORLD_SIZE * 3, WORLD_SIZE * 3);
+        this.cameras.main.setBounds(-WORLD_SIZE, -WORLD_SIZE, WORLD_SIZE * 2, WORLD_SIZE * 2);
+        this.physics.world.setBounds(-WORLD_SIZE, -WORLD_SIZE, WORLD_SIZE * 2, WORLD_SIZE * 2);
 
         this.createPlayer();
+
+        this.generateClouds();
 
         // this.physics.add.collider(this.player, [ground, ground2], (_player, _ground) => {
         //     if (_player.body.touching.down && _ground.body.touching.up) {
@@ -79,10 +112,39 @@ class Game extends Phaser.Scene {
         }
     }
 
+    updateClouds() {
+        for (let cloud of this.clouds) {
+            if (cloud.speedX == undefined) {
+                cloud.speedX = 0;
+                cloud.speedY = 0;
+                cloud.friction = 0.95;
+            }
+
+            if (cloud.collidingPieces != undefined && cloud.collidingPieces.length > 0) {
+              // For each colliding piece, make the cloud move parallel to it 
+              // Then add up all those velocities to make up the final distance
+              for (let piece of cloud.collidingPieces) {
+                  const angle = (piece.angle - 90) * (Math.PI/180);
+                  const power = 0.2;
+                  cloud.speedX += Math.cos(angle) * power;
+                  cloud.speedY += Math.sin(angle) * power;
+                  // cloud.speedX = Math.cos(angle) * 3;
+                  // cloud.speedY = Math.sin(angle) * 3;
+              }
+            }
+
+            cloud.x += cloud.speedX;
+            cloud.y += cloud.speedY;
+            cloud.speedX *= cloud.friction;
+            cloud.speedY *= cloud.friction;
+
+            cloud.collidingPieces = [];
+        }
+    }
+
     update () {
         this.dragonsnakeOne.update();
         this.dragonsnakeTwo.update();
-
 
         if (Phaser.Input.Keyboard.JustDown(this.RKey)) {
             this.dragonsnakeOne.reset();
@@ -113,7 +175,7 @@ class Game extends Phaser.Scene {
         this.iconMax.x = max.x;
         this.iconMax.y = max.y;
 
-        const padding = 100;
+        const padding = 800;
         const dx = Math.abs(max.x - min.x) + padding;
         const dy = Math.abs(max.y - min.y) + padding;
 
@@ -133,6 +195,8 @@ class Game extends Phaser.Scene {
        
         camera.centerOn(cx, cy);
 
+
+        this.updateClouds();
     }
 }
 

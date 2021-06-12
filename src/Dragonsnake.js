@@ -13,6 +13,10 @@ class Dragonsnake {
 		game.physics.add.existing(head, false);
 		head.body.collideWorldBounds = true;
 
+		if (playerNumber == 2) {
+			head.setTint(0xFF0000);
+		}
+
 		this.headStepsArray = [];
 		this.pieceArray = [];
 
@@ -21,7 +25,11 @@ class Dragonsnake {
 		for (let i = 1; i <= piecesNumber; i++) {
 			const spacing = 60;
 			const piece = game.add.sprite(xPos, yPos + i * spacing, 'dragon_body');
+			game.physics.add.existing(piece, false);
 			this.pieceArray.push(piece);
+			if (playerNumber == 2) {
+				piece.setTint(0xFF0000);
+			}
 
 			if (i == 1) {
 				piece.previous = head;
@@ -55,6 +63,23 @@ class Dragonsnake {
 		this.leftArrowKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
 	}
 
+	setupCollider(clouds) {
+		const allPieces = [this.head, ...this.pieceArray];
+
+		const collider = this.game.physics.add.collider(allPieces, clouds, (dragonPiece, cloudPiece) => {
+			// Make cloud disappear
+			//cloudPiece.alpha = 0;
+
+			if (cloudPiece.collidingPieces == undefined) {
+				cloudPiece.collidingPieces = [];
+			}
+
+			cloudPiece.collidingPieces.push(dragonPiece);
+		});
+
+		collider.overlapOnly = true;
+	}
+
 	bounds() {
 		// Find the min/max position of all pieces
 		const allPieces = [this.head, ...this.pieceArray];
@@ -84,7 +109,7 @@ class Dragonsnake {
 	}
 
 	isForwardDown() {
-		return true;
+		//return true;
 		if (this.playerNumber == 1) {
 			return this.WKey.isDown;
 		}

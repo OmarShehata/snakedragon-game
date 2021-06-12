@@ -1,11 +1,18 @@
 import 'phaser';
 import Dragonsnake from '../Dragonsnake.js';
 let isSoloMode = true;
+const plotTypes = {
+    'empty': 'ENV_PLOT_EMPTY',
+    'vegetables': 'ENV_PLOT_VEGETABLES',
+    'flooded': 'ENV_PLOT_FLOODED'
+}
 
 class Game extends Phaser.Scene {
     constructor(config) {
     	super('Game');
         window.game = this;
+        this.rainClouds = [];
+        this.farmLand = [];
     }
 
     setupKeyboard() {
@@ -42,9 +49,10 @@ class Game extends Phaser.Scene {
         let NUM_TILES_Y = height / TILE_SIZE;
        
         const farmLocations = [
-            [1, 1],
-            [2, 3],
-            [4, 2],
+            [1, 1, true],
+            [2, 3, false],
+            [4, 2, true],
+            [5, 0, false]
         ];
 
         // Create extra row of tiles because sometiems camera
@@ -53,26 +61,58 @@ class Game extends Phaser.Scene {
         // NUM_TILES_X += 3;
 
         const houseTypes = ['BG_TILE1', 'BG_TILE2', 'BG_TILE3', 'BG_TILE4', 'BG_TILE5', 'BG_TILE6', 'BG_TILE7', 'BG_TILE8'];
+        const plotOffsets = {
+            BG_TILE1: {x: 180, y: 400},
+            BG_TILE2: {x: 166, y: 630},
+            BG_TILE3: {x: 440, y: 390, rotated: true},
+            BG_TILE4: {x: 630, y: 350, rotated: true},
+            BG_TILE5: {x: 180, y: 400},
+            BG_TILE6: {x: 166, y: 630},
+            BG_TILE7: {x: 440, y: 390, rotated: true},
+            BG_TILE8: {x: 630, y: 350, rotated: true},
+        }
+
+        const plotSize = {width: 370, height: 297}
 
         for (let x = 0; x < NUM_TILES_X; x++) {
             for (let y = 0; y < NUM_TILES_Y; y++) {
                 let type = 'BG_TILE_GRASS'
+                let isFarmLand = false;
+                let isPious;
 
                 for (let loc of farmLocations) {
                     if (x == loc[0] && y == loc[1]) {
-                        type = houseTypes[Math.round(Math.random() * (houseTypes.length - 1))];
+                        const index = Math.round(Math.random() * (houseTypes.length - 1));
+                        type = houseTypes[index];
+                        houseTypes.splice(index, 1);
+                        isFarmLand = true;
+                        isPious = loc[2];
                     }
                 }
                 
                 const tile = this.add.image(x * TILE_SIZE + bounds.x, y * TILE_SIZE + bounds.y, 'atlas', type);
-                tile.setOrigin(0, 0)
+                tile.setOrigin(0, 0);
+
+                if (isFarmLand) {
+                    this.farmLand.push(tile);
+                    const offset = plotOffsets[type];
+                    tile.plot = this.add.image(
+                        tile.x + offset.x + plotSize.width / 2, 
+                        tile.y + offset.y + plotSize.height / 2, 
+                        'atlas', plotTypes.empty);
+                    tile.isPious = isPious;
+
+                    if (offset.rotated) {
+                        tile.plot.angle = 90;
+                    }
+                }
             }
         }
     }
 
     generateClouds() {
         // Generate clouds randomly
-        const numClouds = 70;
+        const numClouds = 100;
         this.clouds = [];
         const bounds = game.cameras.main.getBounds();
         const padding = 400;
@@ -84,6 +124,10 @@ class Game extends Phaser.Scene {
             cloud.scale = 0.5;
             cloud.x = bounds.x + padding + Math.random() * (bounds.width - padding);
             cloud.y = bounds.y + padding + Math.random() * (bounds.height - padding);
+
+            // cloud.x =  Math.random() * 500 - 1000;
+            // cloud.y =  Math.random() * 500 - 1000;
+
             cloud.alpha = 0.5;
             cloud.originalAlpha = cloud.alpha;
             game.physics.add.existing(cloud, false);
@@ -139,6 +183,69 @@ class Game extends Phaser.Scene {
         }
     }
 
+    makeRainCloud(x, y, cloudNumber) {
+        const rainCloud = this.add.sprite(x, y, 'atlas', 'ENV_CLOUD_RAIN');
+        rainCloud.depth = 1000;
+        rainCloud.alpha = 0.7;
+        // cloudNumber should be min 3, max 15
+        const MAX = 15;
+        let factor;
+        if (cloudNumber < 3) {
+            factor = 0;
+        }
+        else if (cloudNumber > MAX) {
+            factor = 1
+        } else {
+            factor = (cloudNumber - 3) / (MAX - 3);
+        }
+
+        rainCloud.scale = 0.25 + factor * 0.75;
+        this.rainClouds.push(rainCloud);
+
+        // Make it float a bit and then disappear 
+        const duration = 2000;
+        this.tweens.add({
+          targets: rainCloud,
+          y: { value: y - 20, duration: duration, ease: 'Quadratic.easeInOut' },
+          loop: -1,
+          yoyo: true
+        });
+
+        this.tweens.add({
+          targets: rainCloud,
+          alpha: { value: 0, duration: 3000, ease: 'Linear' },
+          delay: 3000
+        });
+
+        // Find the farmland closest to it, decide whether to move it to the next phase
+        for (let farm of this.farmLand) {
+            const dist = this.computeDistance(farm.plot, rainCloud);
+            const cloudSize = rainCloud.scale * rainCloud.width; 
+            if (dist <= cloudSize + 100) {
+                const forceFlood = cloudNumber >= 10;
+                this.advanceFarm(farm, forceFlood);
+            }
+        }
+        // If farmland is more than 10 is automatically floods
+    }
+
+    advanceFarm(farm, forceFlood) {
+        if (farm.plot.planted != true) {
+            farm.plot.planted = true;
+            farm.plot.setTexture('atlas', plotTypes.vegetables);
+        } else {
+            farm.plot.flooded = true;
+            farm.plot.setTexture('atlas', plotTypes.flooded);
+        }
+    }
+
+    computeDistance(obj1, obj2) {
+        const dx = obj1.x - obj2.x;
+        const dy = obj1.y - obj2.y; 
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        return dist;
+    }
+
     updateClouds() {
         const that = this;
         if (this.clouds == undefined) return;
@@ -155,7 +262,6 @@ class Game extends Phaser.Scene {
                 cloud.rainCloudTransform = false;
 
                 cloud.becomeRainCloud = function() {
-                    console.log("Become raincloud!");
                     this.rainCloudTransform = true;
                     // Make all shaking clouds also rainclouds
                     let X = 0;
@@ -173,12 +279,18 @@ class Game extends Phaser.Scene {
 
                     X /= c; Y /= c;
 
+                    let duration = 3000;
+                    if (c == 1) duration = 300;
+
+                    setTimeout(function() {
+                        that.makeRainCloud(X, Y, c);
+                    }, duration);
+
                     for (let otherCloud of that.clouds) {
                         // See: https://rexrainbow.github.io/phaser3-rex-notes/docs/site/ease-function/
                         if (otherCloud.shake) {
                             otherCloud.setTint(0x000000);
-                            let duration = 3000;
-                            if (c == 1) duration = 300;
+                            
                             that.tweens.add({
                               targets: otherCloud,
                               x: { value: X, duration: duration, ease: 'Expo.easeIn' },

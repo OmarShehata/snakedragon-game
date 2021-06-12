@@ -5,7 +5,7 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 1917,
-				"h": 1813
+				"h": 2027
 			},
 			"scale": 1,
 			"frames": [
@@ -52,48 +52,6 @@
 					}
 				},
 				{
-					"filename": "CH_DRAGON1_TAIL",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 791,
-						"h": 175
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 791,
-						"h": 175
-					},
-					"frame": {
-						"x": 1,
-						"y": 1637,
-						"w": 791,
-						"h": 175
-					}
-				},
-				{
-					"filename": "CH_DRAGON2_TAIL",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 791,
-						"h": 175
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 791,
-						"h": 175
-					},
-					"frame": {
-						"x": 794,
-						"y": 1637,
-						"w": 791,
-						"h": 175
-					}
-				},
-				{
 					"filename": "CH_DRAGON1_HEAD",
 					"rotated": false,
 					"trimmed": false,
@@ -115,24 +73,45 @@
 					}
 				},
 				{
-					"filename": "ENV_CLOUD_SMALL",
+					"filename": "CH_DRAGON1_TAIL",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 263,
-						"h": 237
+						"w": 791,
+						"h": 175
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 263,
-						"h": 237
+						"w": 791,
+						"h": 175
 					},
 					"frame": {
-						"x": 1587,
+						"x": 983,
 						"y": 1552,
-						"w": 263,
-						"h": 237
+						"w": 791,
+						"h": 175
+					}
+				},
+				{
+					"filename": "CH_DRAGON2_TAIL",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 791,
+						"h": 175
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 791,
+						"h": 175
+					},
+					"frame": {
+						"x": 1,
+						"y": 1637,
+						"w": 791,
+						"h": 175
 					}
 				},
 				{
@@ -150,8 +129,8 @@
 						"h": 50
 					},
 					"frame": {
-						"x": 1852,
-						"y": 1552,
+						"x": 794,
+						"y": 1637,
 						"w": 50,
 						"h": 50
 					}
@@ -171,8 +150,8 @@
 						"h": 34
 					},
 					"frame": {
-						"x": 1852,
-						"y": 1604,
+						"x": 794,
+						"y": 1689,
 						"w": 50,
 						"h": 34
 					}
@@ -220,6 +199,27 @@
 					}
 				},
 				{
+					"filename": "ENV_CLOUD_SMALL",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 263,
+						"h": 237
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 263,
+						"h": 237
+					},
+					"frame": {
+						"x": 1637,
+						"y": 526,
+						"w": 263,
+						"h": 237
+					}
+				},
+				{
 					"filename": "CH_DRAGON1_MIDDLE",
 					"rotated": false,
 					"trimmed": false,
@@ -235,9 +235,72 @@
 					},
 					"frame": {
 						"x": 1637,
-						"y": 526,
+						"y": 765,
 						"w": 245,
 						"h": 200
+					}
+				},
+				{
+					"filename": "ENV_PLOT_EMPTY",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 370,
+						"h": 297
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 370,
+						"h": 297
+					},
+					"frame": {
+						"x": 794,
+						"y": 1729,
+						"w": 370,
+						"h": 297
+					}
+				},
+				{
+					"filename": "ENV_PLOT_FLOODED",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 370,
+						"h": 297
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 370,
+						"h": 297
+					},
+					"frame": {
+						"x": 1166,
+						"y": 1729,
+						"w": 370,
+						"h": 297
+					}
+				},
+				{
+					"filename": "ENV_PLOT_VEGETABLES",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 370,
+						"h": 297
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 370,
+						"h": 297
+					},
+					"frame": {
+						"x": 1538,
+						"y": 1729,
+						"w": 370,
+						"h": 297
 					}
 				},
 				{
@@ -255,8 +318,8 @@
 						"h": 200
 					},
 					"frame": {
-						"x": 1637,
-						"y": 728,
+						"x": 1,
+						"y": 1814,
 						"w": 245,
 						"h": 200
 					}
@@ -523,6 +586,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:bc81169e421ef80cd9b5fb7539f98629:12b8e3ffaaa0496c38b1a5ff42e23879:98177d5f2dd141dd4778ed0e46bf17c7$"
+		"smartupdate": "$TexturePacker:SmartUpdate:a34843998a2e206ff8630214ef6fd130:420f454cc8419f1b7dfb55595680bb86:98177d5f2dd141dd4778ed0e46bf17c7$"
 	}
 }

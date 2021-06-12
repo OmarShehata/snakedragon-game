@@ -23,13 +23,13 @@ class Loading extends Phaser.Scene {
         this.load.image('dragon_head', directory + 'CH_DRAGON1_HEAD.png');
         this.load.image('dragon_body', directory + 'CH_DRAGON1_MIDDLE.png');
         this.load.image('dragon_tail', directory + 'CH_DRAGON1_TAIL.png');
+        this.load.image('cloud_small', directory + 'ENV_CLOUD_SMALL.png');
+        this.load.image('cloud_big', directory + 'ENV_CLOUD_BIG.png');
+        this.load.image('cloud_rain', directory + 'ENV_CLOUD_RAIN.png');
 
         this.load.image('icon_crossLarge', directory + 'icon_crossLarge.png');
-
-        this.load.image('background1', directory + 'background1.jpg');
-        this.load.image('background2', directory + 'background2.jpg');
-
-        this.load.image('cloud', directory + 'cloud.png');
+        this.load.image('tile_grass', directory + 'BG_TILE_GRASS.png');
+        this.load.image('tile_farm1', directory + 'BG_TILE1.png');
 
         // const audio_name = 'assets/audio/audio_sprite';
         // this.load.audioSprite('audio', audio_name + '.json', 

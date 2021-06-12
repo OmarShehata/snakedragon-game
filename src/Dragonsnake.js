@@ -18,6 +18,7 @@ class Dragonsnake {
 		head.head = head;
 		head.scale = SCALE;
 		head.depth = 100;
+		head.body.setCircle(1);
 
 		if (playerNumber == 2) {
 			head.setTint(0xFF0000);
@@ -37,16 +38,20 @@ class Dragonsnake {
 				spriteName = 'dragon_tail';
 			}
 
-			const piece = game.add.sprite(xPos, yPos + i * spacing, spriteName);
+			const piece = game.add.sprite(xPos, yPos, spriteName);
 			piece.scale = SCALE;
 			piece.setOrigin(0.5, 0.5);
 
-			if (spriteName == 'dragon_tail') {
-				piece.setOrigin(0.2, 0.5);
-			}
+
 
 			piece.depth = head.depth - i;
 			game.physics.add.existing(piece, false);
+
+			if (spriteName == 'dragon_tail') {
+				piece.setOrigin(0.2, 0.5);
+				piece.body.setCircle(1);
+			}
+
 			this.pieceArray.push(piece);
 			if (playerNumber == 2) {
 				piece.setTint(0xFF0000);
@@ -163,6 +168,10 @@ class Dragonsnake {
 		}
 	}
 
+	getSpeed() {
+		return PLAYER_SPEED;
+	}
+
 	update() {
 		const { head, headStepsArray } = this;
 
@@ -212,7 +221,11 @@ class Dragonsnake {
         	// piece.y += Math.sin(newAngle) * dist * distSpeed;
 
         	const step = headStepsArray[headStepsArray.length - 1 - piece.index * 6];
-        	if (step == undefined) continue;
+        	if (step == undefined) {
+        		piece.alpha = 0;
+        		continue;
+        	}
+        	piece.alpha = 1;
         	piece.x = step.x;
         	piece.y = step.y;
         	piece.angle = step.angle;

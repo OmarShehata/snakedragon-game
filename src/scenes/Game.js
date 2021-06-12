@@ -33,7 +33,7 @@ class Game extends Phaser.Scene {
         this.dragonsnakeTwo = dragonsnakeTwo;
     }
 
-    generateClouds() {
+    generateBackground() {
         // Create background
 
         const bg1 = this.add.sprite(-WORLD_SIZE, -WORLD_SIZE, 'background1');
@@ -50,6 +50,9 @@ class Game extends Phaser.Scene {
         this.bg2 = bg2;
         bg2.alpha = bg1.alpha;
 
+    }
+
+    generateClouds() {
         // Generate clouds randomly
         const numClouds = 70;
         this.clouds = [];
@@ -92,7 +95,8 @@ class Game extends Phaser.Scene {
 
         this.createPlayer();
 
-        this.generateClouds();
+        this.generateBackground();
+        //this.generateClouds();
 
         // this.physics.add.collider(this.player, [ground, ground2], (_player, _ground) => {
         //     if (_player.body.touching.down && _ground.body.touching.up) {
@@ -113,6 +117,8 @@ class Game extends Phaser.Scene {
     }
 
     updateClouds() {
+        if (this.clouds == undefined) return;
+
         for (let cloud of this.clouds) {
             if (cloud.speedX == undefined) {
                 cloud.speedX = 0;
@@ -144,7 +150,7 @@ class Game extends Phaser.Scene {
 
     update () {
         this.dragonsnakeOne.update();
-        this.dragonsnakeTwo.update();
+        //this.dragonsnakeTwo.update();
 
         if (Phaser.Input.Keyboard.JustDown(this.RKey)) {
             this.dragonsnakeOne.reset();

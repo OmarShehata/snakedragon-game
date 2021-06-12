@@ -1,6 +1,6 @@
 const KEYBOARD_ANGULAR_ACC = 1;
 const ANGULAR_SPEED_FRICTION = 0.85;
-const PLAYER_SPEED = 25;
+const PLAYER_SPEED = 18;
 //const PLAYER_SPEED = 1;
 
 const SYMMETRY_MODE = true;
@@ -9,29 +9,48 @@ class Dragonsnake {
 	constructor(xPos, yPos, playerNumber, game) {
 		this.game = game;
 		this.path = [];
+		const SCALE = 0.5;
 
-		const head = game.add.sprite(xPos, yPos, 'dragon_body');
-		head.setOrigin(0.5, 0.5);
+		const head = game.add.sprite(xPos, yPos, 'dragon_head');
+		head.setOrigin(0.35, 0.5);
 		game.physics.add.existing(head, false);
 		head.body.collideWorldBounds = true;
 		head.head = head;
+		head.scale = SCALE;
+		head.depth = 100;
 
 		if (playerNumber == 2) {
 			head.setTint(0xFF0000);
+			head.alpha = 0;
 		}
 
 		this.headStepsArray = [];
 		this.pieceArray = [];
 
 		// Create body pieces
-		const piecesNumber = 10;
+		const piecesNumber = 20;
 		for (let i = 1; i <= piecesNumber; i++) {
-			const spacing = 60;
-			const piece = game.add.sprite(xPos, yPos + i * spacing, 'dragon_body');
+			let spacing = 100;
+			let spriteName = 'dragon_body';
+
+			if (i == piecesNumber) {
+				spriteName = 'dragon_tail';
+			}
+
+			const piece = game.add.sprite(xPos, yPos + i * spacing, spriteName);
+			piece.scale = SCALE;
+			piece.setOrigin(0.5, 0.5);
+
+			if (spriteName == 'dragon_tail') {
+				piece.setOrigin(0.2, 0.5);
+			}
+
+			piece.depth = head.depth - i;
 			game.physics.add.existing(piece, false);
 			this.pieceArray.push(piece);
 			if (playerNumber == 2) {
 				piece.setTint(0xFF0000);
+				piece.alpha = 0;
 			}
 
 			if (i == 1) {
@@ -167,7 +186,7 @@ class Dragonsnake {
         	head.speedMode = 'fast'
         }
 
-        const angle = (head.angle - 90) * (Math.PI / 180);
+        const angle = (head.angle + 180) * (Math.PI / 180);
         head.x += Math.cos(angle) * speed;
         head.y += Math.sin(angle) * speed;
 
@@ -192,7 +211,7 @@ class Dragonsnake {
         	// piece.x += Math.cos(newAngle) * dist * distSpeed;
         	// piece.y += Math.sin(newAngle) * dist * distSpeed;
 
-        	const step = headStepsArray[headStepsArray.length - 1 - piece.index * 4];
+        	const step = headStepsArray[headStepsArray.length - 1 - piece.index * 6];
         	if (step == undefined) continue;
         	piece.x = step.x;
         	piece.y = step.y;

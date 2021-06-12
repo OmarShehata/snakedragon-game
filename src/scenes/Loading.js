@@ -19,10 +19,11 @@ class Loading extends Phaser.Scene {
     preload() {
         const directory = 'assets/sprites/';
         this.load.atlas('player', directory + 'player.png', directory + 'player.json');
-        this.load.image('ground', directory + 'ground_snow.png');
-        this.load.image('ground_small', directory + 'ground_snow_small.png');
 
-        this.load.image('dragon_body', directory + 'dragon_body.png');
+        this.load.image('dragon_head', directory + 'CH_DRAGON1_HEAD.png');
+        this.load.image('dragon_body', directory + 'CH_DRAGON1_MIDDLE.png');
+        this.load.image('dragon_tail', directory + 'CH_DRAGON1_TAIL.png');
+
         this.load.image('icon_crossLarge', directory + 'icon_crossLarge.png');
 
         this.load.image('background1', directory + 'background1.jpg');

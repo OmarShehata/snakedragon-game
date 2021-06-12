@@ -11,50 +11,58 @@ class Dragonsnake {
 		this.path = [];
 		const SCALE = 0.5;
 
-		const head = game.add.sprite(xPos, yPos, 'dragon_head');
+		let dragon_head_name = 'CH_DRAGON1_HEAD';
+		let dragon_body_name = 'CH_DRAGON1_MIDDLE';
+		let dragon_tail_name = 'CH_DRAGON1_TAIL';
+		if (playerNumber == 2) {
+			dragon_head_name = 'CH_DRAGON2_HEAD';
+			dragon_body_name = 'CH_DRAGON2_MIDDLE';
+			dragon_tail_name = 'CH_DRAGON2_TAIL';
+		}
+
+		const head = game.add.sprite(xPos, yPos, 'atlas', dragon_head_name);
 		head.setOrigin(0.35, 0.5);
 		game.physics.add.existing(head, false);
 		head.body.collideWorldBounds = true;
 		head.head = head;
 		head.scale = SCALE;
-		head.depth = 100;
+		head.depth = 500 - playerNumber * 50;
 		head.body.setCircle(1);
 
 		if (playerNumber == 2) {
-			head.setTint(0xFF0000);
 			head.alpha = 0;
 		}
 
 		this.headStepsArray = [];
 		this.pieceArray = [];
 
+		this.isFrozen = playerNumber == 2;
+		this.isFadingAway = false;
+
 		// Create body pieces
 		const piecesNumber = 20;
 		for (let i = 1; i <= piecesNumber; i++) {
 			let spacing = 100;
-			let spriteName = 'dragon_body';
+			let spriteName = dragon_body_name;
 
 			if (i == piecesNumber) {
-				spriteName = 'dragon_tail';
+				spriteName = dragon_tail_name;
 			}
 
-			const piece = game.add.sprite(xPos, yPos, spriteName);
+			const piece = game.add.sprite(xPos, yPos, 'atlas', spriteName);
 			piece.scale = SCALE;
 			piece.setOrigin(0.5, 0.5);
-
-
 
 			piece.depth = head.depth - i;
 			game.physics.add.existing(piece, false);
 
-			if (spriteName == 'dragon_tail') {
+			if (spriteName == dragon_tail_name) {
 				piece.setOrigin(0.2, 0.5);
 				piece.body.setCircle(1);
 			}
 
 			this.pieceArray.push(piece);
 			if (playerNumber == 2) {
-				piece.setTint(0xFF0000);
 				piece.alpha = 0;
 			}
 
@@ -109,6 +117,22 @@ class Dragonsnake {
 		});
 
 		collider.overlapOnly = true;
+	}
+
+	averagePos() {
+		const allPieces = [this.head, ...this.pieceArray];
+
+		const pos = {x:0, y:0};
+		for (let piece of allPieces) {
+			pos.x += piece.x;
+			pos.y += piece.y;
+		}
+
+		pos.x /= allPieces.length;
+		pos.y /= allPieces.length;
+
+		return pos;
+
 	}
 
 	bounds() {
@@ -172,7 +196,60 @@ class Dragonsnake {
 		return PLAYER_SPEED;
 	}
 
+	moveToOtherDragon(dragon1) {
+		// Move all pieces to the other dragon's pieces
+		// And clear this dragon's move array
+		const allPieces = [this.head, ...this.pieceArray];
+		const otherPieces = [dragon1.head, ...dragon1.pieceArray];
+
+		for (let i = 0; i < allPieces.length; i++) {
+			const piece = allPieces[i];
+			const otherPiece = otherPieces[i];
+			piece.x = otherPiece.x;
+			piece.y = otherPiece.y;
+			piece.angle = otherPiece.angle;
+		}
+
+		this.head.alpha = 1;
+
+		this.headStepsArray = [];
+	}
+
+	fadeAway() {
+		this.isFadingAway = true;
+		this.fadeIndex = 0;
+	}
+
 	update() {
+		const allPieces = [this.head, ...this.pieceArray];
+
+		if (this.isFrozen) {
+			for (let piece of allPieces) {
+				piece.alpha = 0;
+			}
+			return;
+		}
+
+		if (this.isFadingAway) {
+			
+			let allIsInvisible = true;
+
+			for (let i = 0; i < allPieces.length; i++) {
+				const piece = allPieces[i];
+				if (piece.alpha > 0) {
+					piece.alpha -= 0.01;
+					allIsInvisible = false;
+				}
+				
+			}
+
+			if (allIsInvisible) {
+				this.isFadingAway = false;
+				this.isFrozen = true;
+				return;
+			}
+		}
+
 		const { head, headStepsArray } = this;
 
         // Keyboard controls to turn
@@ -222,10 +299,10 @@ class Dragonsnake {
 
         	const step = headStepsArray[headStepsArray.length - 1 - piece.index * 6];
         	if (step == undefined) {
-        		piece.alpha = 0;
+        		if (!this.isFadingAway) piece.alpha = 0;
         		continue;
         	}
-        	piece.alpha = 1;
+        	if (!this.isFadingAway) piece.alpha = 1;
         	piece.x = step.x;
         	piece.y = step.y;
         	piece.angle = step.angle;

@@ -5,6 +5,7 @@ class Game extends Phaser.Scene {
     constructor(config) {
     	super('Game');
         window.game = this;
+        window.zoom = 0.6;
     }
 
     setupKeyboard() {
@@ -32,7 +33,10 @@ class Game extends Phaser.Scene {
     }
 
     create() {
-        
+        this.iconMin = this.add.sprite(0, 0, 'icon_crossLarge');
+        this.iconMax = this.add.sprite(0, 0, 'icon_crossLarge');
+        this.iconMax.alpha = 0;
+        this.iconMin.alpha = 0;
         this.setupKeyboard();
         
 
@@ -51,8 +55,9 @@ class Game extends Phaser.Scene {
         const ground2 = this.add.sprite(width/2 + 400, height - 300, 'ground_small');
         this.physics.add.existing(ground2, true);
 
-        //this.cameras.main.setBounds(0, 0, width * 10, height * 10);
-        //this.cameras.main.setSize(width * 10, height * 10);
+        const WORLD_SIZE = 1024 * 2;
+        this.cameras.main.setBounds(-WORLD_SIZE, -WORLD_SIZE, WORLD_SIZE * 3, WORLD_SIZE * 3);
+        this.physics.world.setBounds(-WORLD_SIZE, -WORLD_SIZE, WORLD_SIZE * 3, WORLD_SIZE * 3);
 
         this.createPlayer();
 
@@ -71,7 +76,6 @@ class Game extends Phaser.Scene {
         return {
             dist: this.dist, diagonalSize: 
             this.diagonalSize, 
-            factor: (this.dist / (this.diagonalSize - 300))
         }
     }
 
@@ -89,24 +93,43 @@ class Game extends Phaser.Scene {
         const head1 = this.dragonsnakeOne.head;
         const head2 = this.dragonsnakeTwo.head;
 
-        const dx = Math.abs(head1.x - head2.x);
-        const dy = Math.abs(head1.y - head2.y);
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const padding = 400;
-        let zoomScale = dist / (this.diagonalSize - padding);
-        camera.zoom = (1 / zoomScale) - 0.2;
-        
-        if (camera.zoom > 1) camera.zoom = 1;
-        if (camera.zoom < 0.1) camera.zoom = 0.1;
+        //camera.zoom = window.zoom;
 
-        // if (zoomScale < 1) zoomScale = 1;
-        // if (zoomScale < 0.1) zoomScale = 0.1;
-        //this.dist = dist;
-        
-        
+        const boundsOne = this.dragonsnakeOne.bounds();
+        const boundsTwo = this.dragonsnakeTwo.bounds();
 
-        const cx = (head1.x + head2.x) / 2;
-        const cy = (head1.y + head2.y) / 2;
+        const min = {
+            x: Math.min(boundsOne.min.x, boundsTwo.min.x),
+            y: Math.min(boundsOne.min.y, boundsTwo.min.y),
+        }; 
+        const max = {
+            x: Math.max(boundsOne.max.x, boundsTwo.max.x),
+            y: Math.max(boundsOne.max.y, boundsTwo.max.y),
+        };
+
+        this.iconMin.x = min.x;
+        this.iconMin.y = min.y;
+
+        this.iconMax.x = max.x;
+        this.iconMax.y = max.y;
+
+        const padding = 100;
+        const dx = Math.abs(max.x - min.x) + padding;
+        const dy = Math.abs(max.y - min.y) + padding;
+
+        const targetZoomH = (camera.height / dy);
+        const targetZoomW = (camera.width / dx);
+
+        let targetZoom = Math.min(targetZoomH, targetZoomW);
+
+
+        if (targetZoom > 0.6) targetZoom = 0.6;
+
+        camera.zoom += (targetZoom - camera.zoom) * 0.16;
+
+
+        const cx = (max.x + min.x) / 2;
+        const cy = (max.y + min.y) / 2;
        
         camera.centerOn(cx, cy);
 

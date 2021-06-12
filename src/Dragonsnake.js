@@ -1,14 +1,19 @@
 const KEYBOARD_ANGULAR_ACC = 1;
 const ANGULAR_SPEED_FRICTION = 0.85;
-const PLAYER_SPEED = 10;
+const PLAYER_SPEED = 15;
 //const PLAYER_SPEED = 1;
 
 class Dragonsnake {
 	constructor(xPos, yPos, playerNumber, game) {
 		this.game = game;
+		this.path = [];
+
 		const head = game.add.sprite(xPos, yPos, 'dragon_body');
 		head.setOrigin(0.5, 0.5);
+		game.physics.add.existing(head, false);
+		head.body.collideWorldBounds = true;
 
+		this.headStepsArray = [];
 		this.pieceArray = [];
 
 		// Create body pieces
@@ -24,6 +29,8 @@ class Dragonsnake {
 				piece.previous = this.pieceArray[i - 2];
 			}
 
+			piece.index = i;
+
 			piece.originalPosition = {
 				x: piece.x, 
 				y: piece.y
@@ -35,7 +42,7 @@ class Dragonsnake {
 
 		head.angularSpeed = 0;
 
-		game.physics.add.existing(head, false);
+		
 
 		this.head = head;
 
@@ -46,6 +53,24 @@ class Dragonsnake {
 
 		this.rightArrowKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 		this.leftArrowKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+	}
+
+	bounds() {
+		// Find the min/max position of all pieces
+		const allPieces = [this.head, ...this.pieceArray];
+
+		const min = {x: this.head.x, y: this.head.y};
+		const max = {x: this.head.x, y: this.head.y};
+
+		for (let piece of allPieces) {
+			if (min.x > piece.x) min.x = piece.x;
+			if (min.y > piece.y) min.y = piece.y;
+
+			if (max.x < piece.x) max.x = piece.x;
+			if (max.y < piece.y) max.y = piece.y;
+		}
+
+		return { min, max };
 	}
 
 	isLeftDown() {
@@ -80,7 +105,7 @@ class Dragonsnake {
 	}
 
 	update() {
-		const { head } = this;
+		const { head, headStepsArray } = this;
 
         // Keyboard controls to turn
         if (this.isLeftDown()) {
@@ -99,26 +124,41 @@ class Dragonsnake {
         	const angle = (head.angle - 90) * (Math.PI / 180);
 	        head.x += Math.cos(angle) * PLAYER_SPEED;
 	        head.y += Math.sin(angle) * PLAYER_SPEED;
+
+	        headStepsArray.push({
+	        	x: head.x, 
+	        	y: head.y, 
+	        	angle: head.angle
+	        });
+
+	        // Make the body pieces follow the one before it
+	        for (let piece of this.pieceArray) {
+	        	const prev = piece.previous;
+
+	        	const dx = prev.x - piece.x;
+	        	const dy = prev.y - piece.y;
+	        	const newAngle = Math.atan2(dy, dx);
+	        	const dist = Math.sqrt(dx * dx + dy * dy);
+
+	        	const distSpeed = 0.12;
+
+	        	// piece.angle = newAngle * (180 / Math.PI) + 90;
+	        	// piece.x += Math.cos(newAngle) * dist * distSpeed;
+	        	// piece.y += Math.sin(newAngle) * dist * distSpeed;
+
+	        	const step = headStepsArray[headStepsArray.length - 1 - piece.index * 4];
+	        	if (step == undefined) continue;
+	        	piece.x = step.x;
+	        	piece.y = step.y;
+	        	piece.angle = step.angle;
+	        }
+
         } 
         
 
-        // Make the body pieces follow the one before it
-        for (let piece of this.pieceArray) {
-        	const prev = piece.previous;
+        
 
-        	const dx = prev.x - piece.x;
-        	const dy = prev.y - piece.y;
-        	const newAngle = Math.atan2(dy, dx);
-        	const dist = Math.sqrt(dx * dx + dy * dy);
-
-        	const distSpeed = 0.12;
-
-        	if (this.isForwardDown()) {
-	        	piece.angle = newAngle * (180 / Math.PI) + 90;
-	        	piece.x += Math.cos(newAngle) * dist * distSpeed;
-	        	piece.y += Math.sin(newAngle) * dist * distSpeed;
-	        }
-        }
+        // TODO: if player is out of bounds, turn torwads center
 	}
 
 	reset() {

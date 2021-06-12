@@ -23,6 +23,7 @@ class Loading extends Phaser.Scene {
         this.load.image('ground_small', directory + 'ground_snow_small.png');
 
         this.load.image('dragon_body', directory + 'dragon_body.png');
+        this.load.image('icon_crossLarge', directory + 'icon_crossLarge.png');
 
         // const audio_name = 'assets/audio/audio_sprite';
         // this.load.audioSprite('audio', audio_name + '.json', 

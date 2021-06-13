@@ -13,6 +13,9 @@ class Game extends Phaser.Scene {
         window.game = this;
         this.rainClouds = [];
         this.farmLand = [];
+        this.mute = false;
+        this.numOfClouds = 0;
+        this.endCounter = 0;
     }
 
     setupKeyboard() {
@@ -27,6 +30,7 @@ class Game extends Phaser.Scene {
         this.WKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
         this.RKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        this.MKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
@@ -41,6 +45,10 @@ class Game extends Phaser.Scene {
         this.dragonsnakeTwo = dragonsnakeTwo;
     }
 
+    setupUI() {
+        this.scene.get('UIScene').setupUI()
+    }
+
     generateBackground() {
         const bounds = game.cameras.main.getBounds();
         const { width, height } = bounds;
@@ -52,7 +60,7 @@ class Game extends Phaser.Scene {
             [1, 1, true],
             [2, 3, false],
             [4, 2, true],
-            [5, 0, false]
+            [4, 0, false]
         ];
 
         // Create extra row of tiles because sometiems camera
@@ -108,6 +116,70 @@ class Game extends Phaser.Scene {
                 }
             }
         }
+
+        // Create border
+        
+
+        const topLeftCorner = this.add.image(bounds.x + 512, bounds.y + 512, 'atlas', 'border_corner');
+        topLeftCorner.angle = 90;
+        topLeftCorner.depth = 600;
+
+        const topRightCorner = this.add.image(
+            bounds.x + bounds.width - 512, 
+            bounds.y + 512,
+            'atlas', 'border_corner');
+        topRightCorner.depth = 600;
+        topRightCorner.angle = 180;
+
+        const bottomLeftCorner = this.add.image(
+            bounds.x + 512, 
+            bounds.y + bounds.height - 512, 
+            'atlas', 'border_corner');
+        bottomLeftCorner.depth = 600;
+
+        const bottomRightCorner = this.add.image(
+            bounds.x + bounds.width - 512, 
+            bounds.y + bounds.height - 512, 
+            'atlas', 'border_corner');
+        bottomRightCorner.depth = 600;
+        bottomRightCorner.angle = -90;
+
+        // LEFT
+        let numBorderTiles = (height / 1024);
+        for (let i = 1; i < numBorderTiles - 1; i++) {
+            const tile = this.add.image(bounds.x + 256, bounds.y + i * 1024, 'atlas', 'border1');
+            tile.setOrigin(0, 0);
+            tile.angle = 90;
+            tile.depth = 600;
+        }
+        // RIGHT
+        for (let i = 1; i < numBorderTiles - 1; i++) {
+            const tile = this.add.image(bounds.x + bounds.width - 256, bounds.y + i * 1024 + 1024, 'atlas', 'border1');
+            tile.setOrigin(0, 0);
+            tile.angle = -90;
+            tile.depth = 600;
+        }
+        // TOP
+        numBorderTiles = (width / 1024);
+        for (let i = 1; i < numBorderTiles - 1; i++) {
+            const tile = this.add.image(
+                bounds.x + i * 1024 + 1024, 
+                bounds.y + 256, 
+                'atlas', 'border1');
+            tile.setOrigin(0, 0);
+            tile.angle = -180;
+            tile.depth = 600;
+        }
+        // BOTTOM
+        numBorderTiles = (width / 1024);
+        for (let i = 1; i < numBorderTiles - 1; i++) {
+            const tile = this.add.image(
+                bounds.x + i * 1024, 
+                bounds.y + bounds.height - 256, 
+                'atlas', 'border1');
+            tile.setOrigin(0, 0);
+            tile.depth = 600;
+        }
     }
 
     generateClouds() {
@@ -116,6 +188,7 @@ class Game extends Phaser.Scene {
         this.clouds = [];
         const bounds = game.cameras.main.getBounds();
         const padding = 400;
+        this.numOfClouds = numClouds;
 
         for (let i = 0; i < numClouds; i++) {
             const cloud = this.add.sprite(0, 0, 'atlas', 'ENV_CLOUD_SMALL');
@@ -190,6 +263,11 @@ class Game extends Phaser.Scene {
         this.windLoop2 = this.sound.addAudioSprite('audio');
         this.windLoop2.play('wind2', { loop: true });
         this.windLoop2.volume = 0;
+
+        this.mute = (localStorage.getItem('mute') == "true");
+        this.sound.setMute(this.mute);
+
+        this.setupUI();
     }
 
     crossFadeAudio(soloMode) {
@@ -227,8 +305,8 @@ class Game extends Phaser.Scene {
         const rainCloud = this.add.sprite(x, y, 'atlas', 'ENV_CLOUD_RAIN');
         rainCloud.depth = 1000;
         rainCloud.alpha = 0.7;
-        // cloudNumber should be min 3, max 15
-        const MAX = 15;
+        // cloudNumber should be min 3, max 50
+        const MAX = 50;
         let factor;
         if (cloudNumber < 3) {
             factor = 0;
@@ -259,12 +337,15 @@ class Game extends Phaser.Scene {
 
         this.sound.playAudioSprite('audio', 'rain');
 
+        this.numOfClouds -= cloudNumber;
+        this.scene.get('UIScene').updateCloudNumber(this.numOfClouds, cloudNumber);
+
         // Find the farmland closest to it, decide whether to move it to the next phase
         for (let farm of this.farmLand) {
             const dist = this.computeDistance(farm.plot, rainCloud);
             const cloudSize = rainCloud.scale * rainCloud.width; 
             if (dist <= cloudSize + 100) {
-                const forceFlood = cloudNumber >= 10;
+                const forceFlood = cloudNumber >= 20;
                 this.advanceFarm(farm, forceFlood);
             }
         }
@@ -272,6 +353,9 @@ class Game extends Phaser.Scene {
     }
 
     advanceFarm(farm, forceFlood) {
+        if (forceFlood) {
+            farm.plot.planted = true;
+        }
         if (farm.plot.planted != true) {
             farm.plot.planted = true;
             farm.plot.setTexture('atlas', plotTypes.vegetables);
@@ -290,6 +374,7 @@ class Game extends Phaser.Scene {
 
     updateClouds() {
         const that = this;
+        const bounds = this.cameras.main.getBounds();
         if (this.clouds == undefined) return;
         const playerSpeed = this.dragonsnakeOne.getSpeed();
         for (let cloud of this.clouds) {
@@ -302,6 +387,13 @@ class Game extends Phaser.Scene {
                 cloud.Oy = cloud.y;
                 cloud.shakeCounter = 0;
                 cloud.rainCloudTransform = false;
+                cloud.isOutOfBounds = false;
+
+                cloud.setOutOfBounds = () => {
+                    cloud.isOutOfBounds = true;
+                    this.numOfClouds --;
+                    this.scene.get('UIScene').updateCloudNumber(this.numOfClouds, 1);
+                };
 
                 cloud.becomeRainCloud = function() {
                     this.rainCloudTransform = true;
@@ -355,7 +447,7 @@ class Game extends Phaser.Scene {
                 }
             }
              // Can't move clouds while split 
-            if (isSoloMode == true && cloud.collidingPieces != undefined && cloud.collidingPieces.length > 0) {
+            if (isSoloMode == true && cloud.collidingPieces != undefined && cloud.collidingPieces.length > 0 && !cloud.isOutOfBounds) {
               // For each colliding piece, make the cloud move parallel to it 
               // Then add up all those velocities to make up the final distance
               for (let piece of cloud.collidingPieces) {
@@ -368,14 +460,35 @@ class Game extends Phaser.Scene {
               }
             }
 
+            if (cloud.isOutOfBounds && cloud.alpha > 0) {
+                cloud.alpha -= 0.1;
+            }
+
             if (!cloud.rainCloudTransform) {
                 cloud.x += cloud.speedX;
                 cloud.y += cloud.speedY;
                 cloud.speedX *= cloud.friction;
                 cloud.speedY *= cloud.friction;
+
+                // Detect if out of bounds
+                if (!cloud.isOutOfBounds) {
+                  if (cloud.x < bounds.x + cloud.width / 2) {
+                        cloud.setOutOfBounds();
+                   }  
+                   if (cloud.y < bounds.y + cloud.height / 2) {
+                        cloud.setOutOfBounds();
+                   }  
+                   if (cloud.x > bounds.x + bounds.width - cloud.width / 2) {
+                        cloud.setOutOfBounds();
+                   }  
+                   if (cloud.y > bounds.y + bounds.height - cloud.height / 2) {
+                        cloud.setOutOfBounds();
+                   }  
+                }
+                
             }
             
-            if (cloud.shake && !cloud.rainCloudTransform) {
+            if (cloud.shake && !cloud.rainCloudTransform && !cloud.isOutOfBounds) {
                 cloud.x = cloud.Ox + Math.random() * 20 - 10;
                 cloud.y = cloud.Oy + Math.random() * 20 - 10;
                 cloud.shakeCounter ++;
@@ -502,21 +615,49 @@ class Game extends Phaser.Scene {
             }
             
         }
-
-        
-
         
     }
 
+    triggerEnd() {
+        
+        this.cameras.main.fade(3000, 0, 0, 0);
+        this.scene.get('UIScene').destroyUI();
+        const that = this;
+        setTimeout(function() {
+            
+            that.scene.get('UIScene').scene.stop()
+            that.scene.start("End", { farmLand: that.farmLand });
+
+        }, 3000);
+
+    }
+
     update () {
-        document.querySelector("#fps").innerHTML = `fps: ${Math.round(this.game.loop.actualFps)}`;
+        //document.querySelector("#fps").innerHTML = `fps: ${Math.round(this.game.loop.actualFps)}`;
+
+        if (this.numOfClouds < 30 && this.endCounter == 0) {
+            this.endCounter = -1;
+        }
+
+        if (this.endCounter < 0) {
+            this.endCounter --;
+            if (this.endCounter < -60 * 30) {
+                this.triggerEnd();
+            }
+        }
 
         this.dragonsnakeOne.update();
         this.dragonsnakeTwo.update();
 
         if (Phaser.Input.Keyboard.JustDown(this.RKey)) {
-            this.dragonsnakeOne.reset();
-            this.dragonsnakeTwo.reset();
+            // Trigger end screen
+            this.triggerEnd();
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.MKey)) {
+            this.mute = !this.mute;
+            this.sound.setMute(this.mute);
+            localStorage.setItem('mute', this.mute);
         }
 
         if (isSoloMode && Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
@@ -530,8 +671,6 @@ class Game extends Phaser.Scene {
             //isSoloMode = true;
             //this.dragonsnakeTwo.isFrozen = true;
             this.dragonsnakeTwo.fadeAway();
-
-            
         }
         if (!isSoloMode && this.dragonsnakeTwo.isFrozen) {
             isSoloMode = true;

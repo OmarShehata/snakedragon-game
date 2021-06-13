@@ -2,11 +2,16 @@ https://docs.google.com/document/d/1i8XkIMdm8WNbEHkNkHefKSi-cQllReTp7qjzrVZDO_s/
 
 game.clouds.forEach(cloud => {cloud.shake = true; }); game.clouds[0].becomeRainCloud();
 
-* Add remaining cloud number in the top left
-* Fade to black when no more clouds (or less than 10 clouds left within bounds?)
+* IF IS_PIOUS, then use the version of the BG with pious?
+* Make sure music cuts out with scene?
+* remove X
+
+* Fade to black when no more clouds (or less than 30 clouds left within bounds?)
 * End screen gives you stats
 
-* M to mute
+
+
+
 * Rotate the clouds for variety
 * Make arrow keys also work for single dragon
 * Fix camera jump when you go back to solo mode
@@ -26,8 +31,16 @@ STUFF TO TWEAK:
 * How long the dragon is?
 * Rain dance dragon dist radius
 * Rain dance cloud radius
+* When to fade to black?
+	* If there are less than 50 clouds left
+	* And you haven't made anything rain in 2 minutes, fade out
+	* Or below 30 clouds, fade out
 
 Done:
+* Add cloud border
+* Add remaining cloud number in the top left
+
+* M to mute
 * If rain cloud close enough to farm tile, make it go to next level. 
 
 * Add farm pieces

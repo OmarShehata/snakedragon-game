@@ -13,7 +13,7 @@ class Game extends Phaser.Scene {
         window.game = this;
         this.rainClouds = [];
         this.farmLand = [];
-        this.mute = false;
+        window.mute = false;
         this.numOfClouds = 0;
         this.endCounter = 0;
     }
@@ -46,7 +46,8 @@ class Game extends Phaser.Scene {
     }
 
     setupUI() {
-        this.scene.get('UIScene').setupUI()
+        this.scene.get('UIScene').setupUI();
+        this.scene.get('UIScene').updateCloudNumber(this.numOfClouds);
     }
 
     generateBackground() {
@@ -98,7 +99,7 @@ class Game extends Phaser.Scene {
                     }
                 }
                 
-                const tile = this.add.image(x * TILE_SIZE + bounds.x, y * TILE_SIZE + bounds.y, 'atlas', type);
+                const tile = this.add.image(x * TILE_SIZE + bounds.x, y * TILE_SIZE + bounds.y, 'atlas', type + (isPious ? '_PIOUS' : ''));
                 tile.setOrigin(0, 0);
 
                 if (isFarmLand) {
@@ -187,19 +188,26 @@ class Game extends Phaser.Scene {
         const numClouds = 100;
         this.clouds = [];
         const bounds = game.cameras.main.getBounds();
-        const padding = 400;
+        const padding = 0;
         this.numOfClouds = numClouds;
+
+        const startX = bounds.x + 512;
+        const endX = bounds.x + bounds.width - 512;
+        const startY = bounds.y + 512;
+        const endY = bounds.y + bounds.height - 512;
 
         for (let i = 0; i < numClouds; i++) {
             const cloud = this.add.sprite(0, 0, 'atlas', 'ENV_CLOUD_SMALL');
             cloud.depth = 1000;
 
             cloud.scale = 0.5;
-            cloud.x = bounds.x + padding + Math.random() * (bounds.width - padding);
-            cloud.y = bounds.y + padding + Math.random() * (bounds.height - padding);
+            cloud.x = startX + Math.random() * (endX - startX);
+            cloud.y = startY + Math.random() * (endY - startY);
 
-            // cloud.x =  Math.random() * 500 - 1000;
-            // cloud.y =  Math.random() * 500 - 1000;
+            // cloud.x = bounds.x + 512 + i * 30;
+            // cloud.y = bounds.y + 512 + i * 30;
+            // cloud.x = bounds.x + bounds.width - 512 - i * 30;
+            // cloud.y = bounds.y + bounds.height - 512 - i * 30;
 
             cloud.alpha = 0.5;
             cloud.originalAlpha = cloud.alpha;
@@ -209,15 +217,24 @@ class Game extends Phaser.Scene {
             this.clouds.push(cloud);
         }
 
+
         this.dragonsnakeOne.setupCollider(this.clouds);
         this.dragonsnakeTwo.setupCollider(this.clouds);
     }
 
     create() {
+        this.cameras.main.fadeIn(1000);
+
+        // Logging
+        gameanalytics.GameAnalytics.addProgressionEvent(
+            gameanalytics.EGAProgressionStatus.Start, "level1");
+
+
+
         this.iconMin = this.add.sprite(0, 0, 'atlas', 'icon_crossLarge');
         this.iconMax = this.add.sprite(0, 0, 'atlas', 'icon_crossLarge');
-        this.iconMax.alpha = 1;
-        this.iconMin.alpha = 1;
+        this.iconMax.alpha = 0;
+        this.iconMin.alpha = 0;
         this.iconMin.depth = 1000;
         this.iconMax.depth = 1000;
         this.setupKeyboard();
@@ -264,13 +281,26 @@ class Game extends Phaser.Scene {
         this.windLoop2.play('wind2', { loop: true });
         this.windLoop2.volume = 0;
 
-        this.mute = (localStorage.getItem('mute') == "true");
-        this.sound.setMute(this.mute);
+        window.mute = (localStorage.getItem('mute') == "true");
+        this.sound.setMute(window.mute);
 
         this.setupUI();
     }
 
+    fadeOutAudio() {
+        this.tweens.add({
+                targets: this.windLoop1,
+                volume: { value: 0, duration: 2900, ease: 'Linear' },
+            });
+            this.tweens.add({
+                targets: this.windLoop2,
+                volume: { value: 0, duration: 2900, ease: 'Linear' },
+            });
+    }
+
     crossFadeAudio(soloMode) {
+        if (this.ending) return;
+
         const duration = 2000;
 
         if (!soloMode) {
@@ -335,7 +365,7 @@ class Game extends Phaser.Scene {
           delay: 3000
         });
 
-        this.sound.playAudioSprite('audio', 'rain');
+        
 
         this.numOfClouds -= cloudNumber;
         this.scene.get('UIScene').updateCloudNumber(this.numOfClouds, cloudNumber);
@@ -359,9 +389,11 @@ class Game extends Phaser.Scene {
         if (farm.plot.planted != true) {
             farm.plot.planted = true;
             farm.plot.setTexture('atlas', plotTypes.vegetables);
+            this.sound.playAudioSprite('audio', 'rain');
         } else {
             farm.plot.flooded = true;
             farm.plot.setTexture('atlas', plotTypes.flooded);
+            this.sound.playAudioSprite('audio', 'rain_too_much');
         }
     }
 
@@ -381,7 +413,7 @@ class Game extends Phaser.Scene {
             if (cloud.speedX == undefined) {
                 cloud.speedX = 0;
                 cloud.speedY = 0;
-                cloud.friction = 0.95;
+                cloud.friction = 0.8;
                 cloud.shake = false;
                 cloud.Ox = cloud.x;
                 cloud.Oy = cloud.y;
@@ -390,6 +422,9 @@ class Game extends Phaser.Scene {
                 cloud.isOutOfBounds = false;
 
                 cloud.setOutOfBounds = () => {
+                    if (cloud.isOutOfBounds) {
+                        return;
+                    }
                     cloud.isOutOfBounds = true;
                     this.numOfClouds --;
                     this.scene.get('UIScene').updateCloudNumber(this.numOfClouds, 1);
@@ -619,6 +654,12 @@ class Game extends Phaser.Scene {
     }
 
     triggerEnd() {
+        if (this.ending) {
+            return;
+        }
+        this.ending = true;
+        gameanalytics.GameAnalytics.addProgressionEvent(
+            gameanalytics.EGAProgressionStatus.Complete, "level1");
         
         this.cameras.main.fade(3000, 0, 0, 0);
         this.scene.get('UIScene').destroyUI();
@@ -627,8 +668,12 @@ class Game extends Phaser.Scene {
             
             that.scene.get('UIScene').scene.stop()
             that.scene.start("End", { farmLand: that.farmLand });
+            that.windLoop1.stop();
+            that.windLoop2.stop();
 
         }, 3000);
+
+        this.fadeOutAudio();
 
     }
 
@@ -641,7 +686,7 @@ class Game extends Phaser.Scene {
 
         if (this.endCounter < 0) {
             this.endCounter --;
-            if (this.endCounter < -60 * 30) {
+            if (this.endCounter < -60 * 10) {
                 this.triggerEnd();
             }
         }
@@ -651,13 +696,13 @@ class Game extends Phaser.Scene {
 
         if (Phaser.Input.Keyboard.JustDown(this.RKey)) {
             // Trigger end screen
-            this.triggerEnd();
+            //this.triggerEnd();
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.MKey)) {
-            this.mute = !this.mute;
-            this.sound.setMute(this.mute);
-            localStorage.setItem('mute', this.mute);
+            window.mute = !window.mute;
+            this.sound.setMute(window.mute);
+            localStorage.setItem('mute', window.mute);
         }
 
         if (isSoloMode && Phaser.Input.Keyboard.JustDown(this.spaceKey)) {

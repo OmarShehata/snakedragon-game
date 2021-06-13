@@ -155,12 +155,12 @@ class Dragonsnake {
 
 	isLeftDown() {
 		if (this.playerNumber == 1) {
-			return this.AKey.isDown;
+			return this.AKey.isDown || this.leftArrowKey.isDown;
 		}
 
 		if (this.playerNumber == 2) {
 			if (SYMMETRY_MODE) {
-				return !this.AKey.isDown;
+				return !(this.AKey.isDown || this.leftArrowKey.isDown);
 			}
 			return this.leftArrowKey.isDown;
 		}
@@ -168,12 +168,12 @@ class Dragonsnake {
 
 	isForwardDown() {
 		if (this.playerNumber == 1) {
-			return this.WKey.isDown;
+			return this.WKey.isDown || this.upArrowKey.isDown;
 		}
 
 		if (this.playerNumber == 2) {
 			if (SYMMETRY_MODE) {
-				return this.WKey.isDown;
+				return this.WKey.isDown || this.upArrowKey.isDown;
 			}
 			return this.upArrowKey.isDown;
 		}
@@ -181,12 +181,12 @@ class Dragonsnake {
 
 	isRightDown() {
 		if (this.playerNumber == 1) {
-			return this.DKey.isDown;
+			return this.DKey.isDown || this.rightArrowKey.isDown;
 		}
 
 		if (this.playerNumber == 2) {
 			if (SYMMETRY_MODE) {
-				return !this.DKey.isDown;
+				return !(this.DKey.isDown || this.rightArrowKey.isDown);
 			}
 			return this.rightArrowKey.isDown;
 		}

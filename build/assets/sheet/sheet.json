@@ -4,30 +4,30 @@
 			"image": "sheet-0.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1026,
-				"h": 1761
+				"w": 2016,
+				"h": 1989
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE1",
+					"filename": "SCREEN_TITLE",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					}
 				},
 				{
@@ -46,9 +46,30 @@
 					},
 					"frame": {
 						"x": 1,
-						"y": 1027,
+						"y": 1203,
 						"w": 1024,
 						"h": 370
+					}
+				},
+				{
+					"filename": "ENV_CLOUD_RAIN",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 980,
+						"h": 608
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 980,
+						"h": 608
+					},
+					"frame": {
+						"x": 1027,
+						"y": 1203,
+						"w": 980,
+						"h": 608
 					}
 				},
 				{
@@ -67,83 +88,9 @@
 					},
 					"frame": {
 						"x": 1,
-						"y": 1399,
+						"y": 1575,
 						"w": 1024,
 						"h": 361
-					}
-				}
-			]
-		},
-		{
-			"image": "sheet-1.png",
-			"format": "RGBA8888",
-			"size": {
-				"w": 1917,
-				"h": 2027
-			},
-			"scale": 1,
-			"frames": [
-				{
-					"filename": "BG_TILE2",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 1024,
-						"h": 1024
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 1024,
-						"h": 1024
-					},
-					"frame": {
-						"x": 1,
-						"y": 1,
-						"w": 1024,
-						"h": 1024
-					}
-				},
-				{
-					"filename": "ENV_CLOUD_RAIN",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 980,
-						"h": 608
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 980,
-						"h": 608
-					},
-					"frame": {
-						"x": 1,
-						"y": 1027,
-						"w": 980,
-						"h": 608
-					}
-				},
-				{
-					"filename": "CH_DRAGON1_HEAD",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 889,
-						"h": 523
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 889,
-						"h": 523
-					},
-					"frame": {
-						"x": 983,
-						"y": 1027,
-						"w": 889,
-						"h": 523
 					}
 				},
 				{
@@ -161,29 +108,8 @@
 						"h": 175
 					},
 					"frame": {
-						"x": 983,
-						"y": 1552,
-						"w": 791,
-						"h": 175
-					}
-				},
-				{
-					"filename": "CH_DRAGON2_TAIL",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 791,
-						"h": 175
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 791,
-						"h": 175
-					},
-					"frame": {
-						"x": 1,
-						"y": 1637,
+						"x": 1027,
+						"y": 1813,
 						"w": 791,
 						"h": 175
 					}
@@ -203,8 +129,8 @@
 						"h": 50
 					},
 					"frame": {
-						"x": 794,
-						"y": 1637,
+						"x": 1820,
+						"y": 1813,
 						"w": 50,
 						"h": 50
 					}
@@ -224,31 +150,10 @@
 						"h": 34
 					},
 					"frame": {
-						"x": 794,
-						"y": 1689,
+						"x": 1820,
+						"y": 1865,
 						"w": 50,
 						"h": 34
-					}
-				},
-				{
-					"filename": "CH_DRAGON2_HEAD",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 889,
-						"h": 523
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 889,
-						"h": 523
-					},
-					"frame": {
-						"x": 1027,
-						"y": 1,
-						"w": 889,
-						"h": 523
 					}
 				},
 				{
@@ -266,10 +171,94 @@
 						"h": 478
 					},
 					"frame": {
-						"x": 1027,
-						"y": 526,
+						"x": 1203,
+						"y": 1,
 						"w": 608,
 						"h": 478
+					}
+				},
+				{
+					"filename": "ENV_PLOT_EMPTY",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 370,
+						"h": 297
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 370,
+						"h": 297
+					},
+					"frame": {
+						"x": 1203,
+						"y": 481,
+						"w": 370,
+						"h": 297
+					}
+				},
+				{
+					"filename": "CH_DRAGON2_TAIL",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 791,
+						"h": 175
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 791,
+						"h": 175
+					},
+					"frame": {
+						"x": 1203,
+						"y": 780,
+						"w": 791,
+						"h": 175
+					}
+				},
+				{
+					"filename": "ENV_PLOT_FLOODED",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 370,
+						"h": 297
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 370,
+						"h": 297
+					},
+					"frame": {
+						"x": 1575,
+						"y": 481,
+						"w": 370,
+						"h": 297
+					}
+				},
+				{
+					"filename": "SCREEN_DRAGON_TUTORIAL",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 300,
+						"h": 158
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 300,
+						"h": 158
+					},
+					"frame": {
+						"x": 1203,
+						"y": 957,
+						"w": 300,
+						"h": 158
 					}
 				},
 				{
@@ -287,8 +276,8 @@
 						"h": 237
 					},
 					"frame": {
-						"x": 1637,
-						"y": 526,
+						"x": 1505,
+						"y": 957,
 						"w": 263,
 						"h": 237
 					}
@@ -308,52 +297,84 @@
 						"h": 200
 					},
 					"frame": {
-						"x": 1637,
-						"y": 765,
+						"x": 1770,
+						"y": 957,
 						"w": 245,
 						"h": 200
 					}
-				},
+				}
+			]
+		},
+		{
+			"image": "sheet-1.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1782,
+				"h": 1727
+			},
+			"scale": 1,
+			"frames": [
 				{
-					"filename": "ENV_PLOT_EMPTY",
+					"filename": "SCREEN_TUTORIAL_1",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 370,
-						"h": 297
+						"w": 1200,
+						"h": 1200
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 370,
-						"h": 297
+						"w": 1200,
+						"h": 1200
 					},
 					"frame": {
-						"x": 794,
-						"y": 1729,
-						"w": 370,
-						"h": 297
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
 					}
 				},
 				{
-					"filename": "ENV_PLOT_FLOODED",
+					"filename": "CH_DRAGON1_HEAD",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 370,
-						"h": 297
+						"w": 889,
+						"h": 523
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 370,
-						"h": 297
+						"w": 889,
+						"h": 523
 					},
 					"frame": {
-						"x": 1166,
-						"y": 1729,
-						"w": 370,
-						"h": 297
+						"x": 1,
+						"y": 1203,
+						"w": 889,
+						"h": 523
+					}
+				},
+				{
+					"filename": "CH_DRAGON2_HEAD",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 889,
+						"h": 523
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 889,
+						"h": 523
+					},
+					"frame": {
+						"x": 892,
+						"y": 1203,
+						"w": 889,
+						"h": 523
 					}
 				},
 				{
@@ -371,8 +392,8 @@
 						"h": 297
 					},
 					"frame": {
-						"x": 1538,
-						"y": 1729,
+						"x": 1203,
+						"y": 1,
 						"w": 370,
 						"h": 297
 					}
@@ -392,8 +413,8 @@
 						"h": 200
 					},
 					"frame": {
-						"x": 1,
-						"y": 1814,
+						"x": 1203,
+						"y": 300,
 						"w": 245,
 						"h": 200
 					}
@@ -404,30 +425,30 @@
 			"image": "sheet-2.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1026,
-				"h": 1026
+				"w": 1202,
+				"h": 1202
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE3",
+					"filename": "SCREEN_TUTORIAL_2",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					}
 				}
 			]
@@ -436,30 +457,30 @@
 			"image": "sheet-3.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1026,
-				"h": 1026
+				"w": 1202,
+				"h": 1202
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE4",
+					"filename": "SCREEN_TUTORIAL_3",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 1024,
-						"h": 1024
+						"w": 1200,
+						"h": 1200
 					}
 				}
 			]
@@ -474,7 +495,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE5",
+					"filename": "BG_TILE1",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -506,7 +527,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE6",
+					"filename": "BG_TILE1_PIOUS",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -538,7 +559,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE7",
+					"filename": "BG_TILE2",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -570,7 +591,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE8",
+					"filename": "BG_TILE2_PIOUS",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -602,7 +623,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "BG_TILE_GRASS",
+					"filename": "BG_TILE3",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -626,6 +647,390 @@
 		},
 		{
 			"image": "sheet-9.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE3_PIOUS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-10.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE4",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-11.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE4_PIOUS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-12.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE5",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-13.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE5_PIOUS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-14.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE6",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-15.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE6_PIOUS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-16.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE7",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-17.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE7_PIOUS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-18.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE8",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-19.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE8_PIOUS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-20.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 1026
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BG_TILE_GRASS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 1024
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1024
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 1024
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-21.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -660,6 +1065,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:1a522d8decb5b172a053e43889fdc229:05cffba045be853f1dab54091dd0e3ac:9b0b5028ca8782bd37f4748412f4d878$"
+		"smartupdate": "$TexturePacker:SmartUpdate:8fd734bab384305b331bbef4a12f3c2e:e81fbac4ae1fda43712e4beb5f1c461a:e957a37cdd8cf2438f47748b392d65be$"
 	}
 }

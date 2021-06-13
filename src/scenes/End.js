@@ -13,6 +13,7 @@ class End extends Phaser.Scene {
         text.setOrigin(0.5, 0.5);
 
         if (num == 0) {
+            gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Pious");
             text.text = 
 `You favored those who pray to the mighty Snakedragon.
 
@@ -27,6 +28,7 @@ And thus, they are now all dead...
 `
         }
         if (num == 1) {
+            gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Atheist");
             text.text = 
 `You favored those who do not believe in the mighty Snakedragon.
 
@@ -43,6 +45,7 @@ pay them a visit to answer their prayer...
 `
         }
          if (num == 2) {
+             gameanalytics.GameAnalytics.addDesignEvent("EndScenario:CivilWar");
             text.text = 
 `You treated everyone equally. All believers and non-believers of 
 the mighty Snakedragon got rain, and with it, peace and prosperity.
@@ -60,6 +63,7 @@ Maybe best to pick a side...
 
 
         if (num == 3) {
+            gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Flood");
             text.text = 
 `You brought rain to many farms. Torrential rain.
 
@@ -74,6 +78,7 @@ It's best to bring a little less rain to the villagers.
         }
 
         if (num == 4) {
+            gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Arid");
             text.text = 
 `You brought very little rain to the villagers. 
 
@@ -116,6 +121,14 @@ It's best to bring a little more rain to the villagers.
         let plantedAtheist = planted - plantedPious;
         let floodedAtheist = flooded - floodedPious;
         let aridAtheist = arid - aridPious;
+
+        //this.sound.playAudioSprite('audio', 'end');
+        this.endSong = this.sound.addAudioSprite('audio');
+        this.endSong.play('end');
+        this.tweens.add({
+            targets: this.endSong,
+            volume: { value: 1, duration: 1000, ease: 'Linear' },
+        });
 
         console.log({
             planted, flooded, arid, 

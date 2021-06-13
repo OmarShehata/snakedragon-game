@@ -7,6 +7,7 @@ class UIScene extends Phaser.Scene {
     }
 
     setupUI() {
+        this.cameras.main.fadeIn(1000);
         const cloudIcon = this.add.image(0, 0, 'atlas', 'ENV_CLOUD_SMALL')
         cloudIcon.setScrollFactor(0);
         cloudIcon.depth = 2000;
@@ -28,6 +29,12 @@ class UIScene extends Phaser.Scene {
 
     updateCloudNumber(num, diff) {
         this.num = num;
+
+        if (diff == undefined) {
+             this.text.text = `${num}`;
+            return;
+        }
+
         if (this.diff == undefined) {
             this.diff = diff;
         } else {

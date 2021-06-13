@@ -3,6 +3,7 @@ import Loading from './scenes/Loading';
 import Game from './scenes/Game';
 import UIScene from './scenes/UIScene';
 import End from './scenes/End';
+import Menu from './scenes/Menu';
 
 var game = new Phaser.Game({
     type: Phaser.AUTO, // Choose WebGL or Canvas automatically
@@ -23,5 +24,5 @@ var game = new Phaser.Game({
             debug: false
         }
     },
-    scene: [Loading, Game, UIScene, End]
+    scene: [Loading, Game, UIScene, End, Menu]
 });

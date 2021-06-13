@@ -5,6 +5,14 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+  	<!-- GameAnalytics -->
+<script>
+(function(w,d,a,m){var s='script';var g='GameAnalytics';w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)},a=d.createElement(s),m=d.getElementsByTagName(s)[0];a.async=1;a.src='http://download.gameanalytics.com/js/GameAnalytics-4.2.1.min.js';m.parentNode.insertBefore(a,m)})(window,document);
+
+GameAnalytics("setEnabledInfoLog", true);
+GameAnalytics("initialize", "0969b8386220440cd4ec9bdcb11b6bec", "c8ed305bdb2611e1691eb5e4a7f9156eba0e1179");
+</script>
+<!-- End GameAnalytics -->
     <script type="module" src="src/index.js"></script>
 <!--     <div id="fps">fps: 0 </div>
  -->    <div id="game"></div>

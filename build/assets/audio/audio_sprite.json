@@ -6,19 +6,29 @@
     "assets/audio/audio_sprite.ac3"
   ],
   "spritemap": {
-    "rain": {
+    "end": {
       "start": 0,
-      "end": 10.501224489795918,
+      "end": 29.648979591836735,
+      "loop": false
+    },
+    "rain_too_much": {
+      "start": 31,
+      "end": 39.542040816326534,
+      "loop": false
+    },
+    "rain": {
+      "start": 41,
+      "end": 51.501224489795916,
       "loop": false
     },
     "wind1": {
-      "start": 12,
-      "end": 100.39836734693877,
+      "start": 53,
+      "end": 141.39836734693876,
       "loop": false
     },
     "wind2": {
-      "start": 102,
-      "end": 200.01142857142855,
+      "start": 143,
+      "end": 231.39836734693876,
       "loop": false
     }
   }

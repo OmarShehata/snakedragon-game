@@ -39,11 +39,7 @@ class Loading extends Phaser.Scene {
             loadingText.text = "Ready! Click to play";
             //this.scene.start("End", {farmLand: []});
 
-            this.scene.start("Game");
-            
-            // this.input.on('pointerup', pointer => {
-            //     this.scene.start("Game");
-            // });
+            this.scene.start("Menu");
 	    });
     }
 

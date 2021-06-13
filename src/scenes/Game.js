@@ -226,8 +226,7 @@ class Game extends Phaser.Scene {
         this.cameras.main.fadeIn(1000);
 
         // Logging
-        gameanalytics.GameAnalytics.addProgressionEvent(
-            gameanalytics.EGAProgressionStatus.Start, "level1");
+        if (gameanalytics) gameanalytics.GameAnalytics.addProgressionEvent(gameanalytics.EGAProgressionStatus.Start, "level1");
 
 
 
@@ -658,8 +657,7 @@ class Game extends Phaser.Scene {
             return;
         }
         this.ending = true;
-        gameanalytics.GameAnalytics.addProgressionEvent(
-            gameanalytics.EGAProgressionStatus.Complete, "level1");
+        if (gameanalytics) gameanalytics.GameAnalytics.addProgressionEvent(gameanalytics.EGAProgressionStatus.Complete, "level1");
         
         this.cameras.main.fade(3000, 0, 0, 0);
         this.scene.get('UIScene').destroyUI();

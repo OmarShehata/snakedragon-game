@@ -6,8 +6,9 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
+    "clean": "rm -r build/raw_audio && rm -r build/assets/sprites",
     "compile-audio": "audiosprite raw_audio/* --output assets/audio/audio_sprite",
-    "publish-to-itch": "butler push build omarshehata/o-mighty-snakedragon:html"
+    "publish-to-itch": "butler push build omarshehata/o-mighty-snakedragon:html5"
   },
   "devDependencies": {
     "audiosprite": "^0.7.2",

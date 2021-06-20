@@ -52,7 +52,7 @@ class End extends Phaser.Scene {
 
             text.y -= 150;
 
-            if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Pious");
+            if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Pious");
             text.text = 
 `You favored those who pray to the mighty Snakedragon.
 
@@ -68,7 +68,7 @@ And thus, they are now all dead...
             this.makeImage('SCREEN_ENDING_CHAOTICDEITY');
             text.y -= 70;
 
-            if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Atheist");
+            if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Atheist");
             text.text = 
 `You favored those who do not believe in the mighty Snakedragon.
 
@@ -91,7 +91,7 @@ And thus, the villagers starved...
 
              text.y -= 150;
 
-             if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:CivilWar");
+             if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:CivilWar");
             text.text = 
 `You treated everyone equally. All believers and non-believers of 
 the mighty Snakedragon got rain, and with it, peace and prosperity.
@@ -111,7 +111,7 @@ The once peaceful village descended into war and chaos...
 
             //text.y -= 100;
             text.x += 210;
-            if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Flood");
+            if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Flood");
             text.text = 
 `You brought rain to many farms. 
 
@@ -132,7 +132,7 @@ work of an angry god...
             this.makeImage('SCREEN_ENDING_STINGY GOD');
             text.x -= 150;
 
-            if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Arid");
+            if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Arid");
             text.text = 
 `You brought very little 
 rain to the villagers. 

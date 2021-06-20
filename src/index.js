@@ -13,6 +13,10 @@ var game = new Phaser.Game({
     width: 1000,
     height: 1000,
     backgroundColor: 'rgb(0, 0, 0)',
+    fps: {
+        target: 60,
+        forceSetTimeOut: true
+    },
     scale: {
         mode: Phaser.Scale.ScaleModes.FIT ,
         autoCenter: Phaser.Scale.CENTER_BOTH

@@ -226,7 +226,7 @@ class Game extends Phaser.Scene {
         this.cameras.main.fadeIn(1000);
 
         // Logging
-        if (gameanalytics) gameanalytics.GameAnalytics.addProgressionEvent(gameanalytics.EGAProgressionStatus.Start, "level1");
+        if (window.gameanalytics) gameanalytics.GameAnalytics.addProgressionEvent(gameanalytics.EGAProgressionStatus.Start, "level1");
 
 
 
@@ -657,7 +657,7 @@ class Game extends Phaser.Scene {
             return;
         }
         this.ending = true;
-        if (gameanalytics) gameanalytics.GameAnalytics.addProgressionEvent(gameanalytics.EGAProgressionStatus.Complete, "level1");
+        if (window.gameanalytics) gameanalytics.GameAnalytics.addProgressionEvent(gameanalytics.EGAProgressionStatus.Complete, "level1");
         
         this.cameras.main.fade(3000, 0, 0, 0);
         this.scene.get('UIScene').destroyUI();
@@ -676,7 +676,9 @@ class Game extends Phaser.Scene {
     }
 
     update () {
-        //document.querySelector("#fps").innerHTML = `fps: ${Math.round(this.game.loop.actualFps)}`;
+        if (document.querySelector("#fps")) {
+            document.querySelector("#fps").innerHTML = `fps: ${Math.round(this.game.loop.actualFps)}`;
+        }
 
         if (this.numOfClouds < 30 && this.endCounter == 0) {
             this.endCounter = -1;

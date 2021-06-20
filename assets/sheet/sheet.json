@@ -10,7 +10,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "SCREEN_TITLE",
+					"filename": "SCREEN_ENDING_BENEVOLENTGOD",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -315,7 +315,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "SCREEN_TUTORIAL_1",
+					"filename": "SCREEN_ENDING_CHAOTICDEITY",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -431,7 +431,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "SCREEN_TUTORIAL_2",
+					"filename": "SCREEN_ENDING_EGALITARIANGOD",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -463,7 +463,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "SCREEN_TUTORIAL_3",
+					"filename": "SCREEN_ENDING_STINGY GOD",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -487,6 +487,166 @@
 		},
 		{
 			"image": "sheet-4.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1202,
+				"h": 1202
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SCREEN_ENDING_STORM DRAGON",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 1200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 1200
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-5.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1202,
+				"h": 1202
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SCREEN_TITLE",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 1200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 1200
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-6.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1202,
+				"h": 1202
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SCREEN_TUTORIAL_1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 1200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 1200
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-7.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1202,
+				"h": 1202
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SCREEN_TUTORIAL_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 1200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 1200
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-8.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1202,
+				"h": 1202
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SCREEN_TUTORIAL_3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 1200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 1200
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-9.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -518,7 +678,7 @@
 			]
 		},
 		{
-			"image": "sheet-5.png",
+			"image": "sheet-10.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -550,7 +710,7 @@
 			]
 		},
 		{
-			"image": "sheet-6.png",
+			"image": "sheet-11.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -582,7 +742,7 @@
 			]
 		},
 		{
-			"image": "sheet-7.png",
+			"image": "sheet-12.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -614,7 +774,7 @@
 			]
 		},
 		{
-			"image": "sheet-8.png",
+			"image": "sheet-13.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -646,7 +806,7 @@
 			]
 		},
 		{
-			"image": "sheet-9.png",
+			"image": "sheet-14.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -678,7 +838,7 @@
 			]
 		},
 		{
-			"image": "sheet-10.png",
+			"image": "sheet-15.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -710,7 +870,7 @@
 			]
 		},
 		{
-			"image": "sheet-11.png",
+			"image": "sheet-16.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -742,7 +902,7 @@
 			]
 		},
 		{
-			"image": "sheet-12.png",
+			"image": "sheet-17.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -774,7 +934,7 @@
 			]
 		},
 		{
-			"image": "sheet-13.png",
+			"image": "sheet-18.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -806,7 +966,7 @@
 			]
 		},
 		{
-			"image": "sheet-14.png",
+			"image": "sheet-19.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -838,7 +998,7 @@
 			]
 		},
 		{
-			"image": "sheet-15.png",
+			"image": "sheet-20.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -870,7 +1030,7 @@
 			]
 		},
 		{
-			"image": "sheet-16.png",
+			"image": "sheet-21.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -902,7 +1062,7 @@
 			]
 		},
 		{
-			"image": "sheet-17.png",
+			"image": "sheet-22.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -934,7 +1094,7 @@
 			]
 		},
 		{
-			"image": "sheet-18.png",
+			"image": "sheet-23.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -966,7 +1126,7 @@
 			]
 		},
 		{
-			"image": "sheet-19.png",
+			"image": "sheet-24.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -998,7 +1158,7 @@
 			]
 		},
 		{
-			"image": "sheet-20.png",
+			"image": "sheet-25.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -1030,7 +1190,7 @@
 			]
 		},
 		{
-			"image": "sheet-21.png",
+			"image": "sheet-26.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 1026,
@@ -1065,6 +1225,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:8fd734bab384305b331bbef4a12f3c2e:e81fbac4ae1fda43712e4beb5f1c461a:e957a37cdd8cf2438f47748b392d65be$"
+		"smartupdate": "$TexturePacker:SmartUpdate:bbfe91766d0bee654be3013da4e1ab5c:3d9093a3c14c3bd09c1af5549d256a92:2abe8efc20cc9e955e06775a781ad6c4$"
 	}
 }

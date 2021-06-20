@@ -3,48 +3,94 @@ import 'phaser';
 class End extends Phaser.Scene {
     constructor(config) {
     	super('End');
+        window.endScene = this;
+    }
+
+    makeImage(imageName) {
+        const item = this.add.image(0, 0, 'atlas', imageName);
+        item.setOrigin(0);
+        item.scale = (1000 / 1200);
     }
 
     makeScenario(num) {
         var W = this.game.config.width;
         var H = this.game.config.height;
-        const style = { fontFamily: 'Krub, sans-serif', fontSize: 30 };
+
+        const alignMap = {
+            0: 'right',
+            1: 'left',
+            2: 'center',
+            3: 'right',
+            4: 'left'
+        };
+
+        const style = { 
+            fontFamily: 'Roboto, sans-serif', 
+            fontSize: 30,
+            // stroke: '#000000',
+            // strokeThickness: 10
+            padding: 1000,
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            align: alignMap[num]
+            //fixedWidth: W * 0.8
+         };
         const text = this.add.text(W/2, H/2, '', style);
         text.setOrigin(0.5, 0.5);
+        text.depth = 10;
+        this.text = text;
+        text.alpha = 0;
 
+        this.tweens.add({
+            targets: text,
+            alpha: { value: 1, duration: 3000, ease: 'Linear' },
+            delay: 2000
+        });
+
+        
         if (num == 0) {
+            this.makeImage('SCREEN_ENDING_BENEVOLENTGOD');
+
+            text.y -= 150;
+
             if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Pious");
             text.text = 
 `You favored those who pray to the mighty Snakedragon.
 
 You brought them rain, and with it, peace and prosperity.
 
-Unfortunately, the villagers stopped doing any work,
+Unfortunately, the villagers stopped doing any work, 
 they thought prayer would solve all their problems.
 
 And thus, they are now all dead...
-
-(maybe you shouldn't have helped the pious farmers so much...)
 `
         }
         if (num == 1) {
+            this.makeImage('SCREEN_ENDING_CHAOTICDEITY');
+            text.y -= 70;
+
             if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Atheist");
             text.text = 
 `You favored those who do not believe in the mighty Snakedragon.
 
 You brought them rain, and with it, peace and prosperity.
 
-The villagers have destroyed all their idols and temples.
-If there is a god up there, it's clearly not one that listens to them.
+The villagers destroyed all 
+their idols and temples.
 
-This pissed off the mighty Snakedragon, who killed them all 
-in a fit of rage.
+If there is a god up there, 
+it's not one that listens to them.
 
-This has made other villages much more pious. So you decide to 
-pay them a visit to answer their prayer...
+Without prayers, you've lost 
+the ability to summon the rain spirit.
+
+And thus, the villagers starved...
 `
         }
          if (num == 2) {
+             this.makeImage('SCREEN_ENDING_EGALITARIANGOD');
+
+             text.y -= 150;
+
              if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:CivilWar");
             text.text = 
 `You treated everyone equally. All believers and non-believers of 
@@ -53,40 +99,48 @@ the mighty Snakedragon got rain, and with it, peace and prosperity.
 The villagers bickered. Which faction was right? Was there really
 a dragon god answering their prayers and shepherding the rain clouds?
 
-Or was it luck?
+Or was it all just luck?
 
-The village broke out in civil war. They are all dead.
-
-Maybe best to pick a side...
+The once peaceful village descended into war and chaos...
 `
         }
 
 
         if (num == 3) {
+            this.makeImage('SCREEN_ENDING_STORM DRAGON');
+
+            //text.y -= 100;
+            text.x += 210;
             if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Flood");
             text.text = 
-`You brought rain to many farms. Torrential rain.
+`You brought rain to many farms. 
 
-Their farms flooded. And the people starved.
+Torrential rain.
 
-You were so eager to help, that they drowned in your blessing.
+Their farms flooded. 
+And the people starved.
 
-Or perhaps this was the intentional work of an angry Snakedragon god.
+You were so eager to help, 
+that they drowned in your blessing.
 
-It's best to bring a little less rain to the villagers.
+Or perhaps this was the intentional 
+work of an angry god...
 `
         }
 
         if (num == 4) {
+            this.makeImage('SCREEN_ENDING_STINGY GOD');
+            text.x -= 150;
+
             if (gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Arid");
             text.text = 
-`You brought very little rain to the villagers. 
+`You brought very little 
+rain to the villagers. 
 
-They prayed, desperately, but no one answered their call for rain.
+They prayed, desperately, 
+but no one answered their call.
 
 They have all starved to death.
-
-It's best to bring a little more rain to the villagers.
 `
         }
 
@@ -94,6 +148,7 @@ It's best to bring a little more rain to the villagers.
     }
 
     create(data) {
+        this.cameras.main.fadeIn(1000);
         const farmLand = data.farmLand;
         let planted = 0;
         let flooded = 0;

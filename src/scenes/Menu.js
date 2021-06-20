@@ -19,6 +19,8 @@ class Menu extends Phaser.Scene {
                 this.cameras.main.fadeOut(1000);
                 const that = this;
                 setTimeout(function() {
+                    // FOR DEBUG
+                    //that.scene.start("End", {farmLand: []});
                     that.scene.start("Game");
                 }, 1000);
             }

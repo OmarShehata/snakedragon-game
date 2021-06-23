@@ -36,10 +36,13 @@ class Loading extends Phaser.Scene {
     	});
 
     	this.load.on('complete', () => {
-            loadingText.text = "Ready! Click to play";
             //this.scene.start("End", {farmLand: []});
-
-            this.scene.start("Menu");
+            this.cameras.main.fadeOut(500);
+            const that = this;
+            setTimeout(function() {
+                that.scene.start("Menu");
+            }, 500)
+            
 	    });
     }
 

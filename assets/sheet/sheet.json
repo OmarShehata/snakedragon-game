@@ -310,7 +310,7 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 1782,
-				"h": 1727
+				"h": 2027
 			},
 			"scale": 1,
 			"frames": [
@@ -357,6 +357,27 @@
 					}
 				},
 				{
+					"filename": "tutorial-overlay",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 1,
+						"w": 1000,
+						"h": 298
+					},
+					"frame": {
+						"x": 1,
+						"y": 1728,
+						"w": 1000,
+						"h": 298
+					}
+				},
+				{
 					"filename": "CH_DRAGON2_HEAD",
 					"rotated": false,
 					"trimmed": false,
@@ -392,8 +413,8 @@
 						"h": 297
 					},
 					"frame": {
-						"x": 1203,
-						"y": 1,
+						"x": 1003,
+						"y": 1728,
 						"w": 370,
 						"h": 297
 					}
@@ -413,8 +434,8 @@
 						"h": 200
 					},
 					"frame": {
-						"x": 1203,
-						"y": 300,
+						"x": 1375,
+						"y": 1728,
 						"w": 245,
 						"h": 200
 					}
@@ -1225,6 +1246,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:bbfe91766d0bee654be3013da4e1ab5c:3d9093a3c14c3bd09c1af5549d256a92:2abe8efc20cc9e955e06775a781ad6c4$"
+		"smartupdate": "$TexturePacker:SmartUpdate:7ba222a348b2e22bb59cb15452638b61:fa56ac623089222b93727c69f76b60b4:2abe8efc20cc9e955e06775a781ad6c4$"
 	}
 }

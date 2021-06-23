@@ -1,6 +1,7 @@
 import 'phaser';
 import Dragonsnake from '../Dragonsnake.js';
 let isSoloMode = true;
+const FARM_TUTORIAL_RADIUS = 400;
 const plotTypes = {
     'empty': 'ENV_PLOT_EMPTY',
     'vegetables': 'ENV_PLOT_VEGETABLES',
@@ -16,6 +17,8 @@ class Game extends Phaser.Scene {
         window.mute = false;
         this.numOfClouds = 0;
         this.endCounter = 0;
+
+        this.tutorialCameraOffset = 150;
     }
 
     setupKeyboard() {
@@ -38,16 +41,49 @@ class Game extends Phaser.Scene {
 
     createPlayer() {
         const { width, height } = game.sys.canvas;
-        const dragonsnakeOne = new Dragonsnake( width / 2 - width / 4, height / 2, 1, this);
+        const playerX =  width / 2 - width / 4;
+        const playerY =  height / 2;
+
+        const dragonsnakeOne = new Dragonsnake(playerX, playerY, 1, this);
         const dragonsnakeTwo = new Dragonsnake( width / 2 + width / 4, height / 2, 2, this);
 
         this.dragonsnakeOne = dragonsnakeOne;
         this.dragonsnakeTwo = dragonsnakeTwo;
+
+        // Initial cloud where the dragon comes out 
+        const playerCloud = this.add.sprite(480, playerY, 'atlas', 'ENV_CLOUD_BIG');
+        playerCloud.depth = dragonsnakeOne.head.depth + 10;
+        this.playerCloud = playerCloud;
+    }
+
+    showFarmCircles() {
+        const farmCircles = this.add.graphics();
+        farmCircles.lineStyle(25, 0xfff959);
+        const farmRadius = FARM_TUTORIAL_RADIUS;
+        farmCircles.depth = 1000;
+        farmCircles.alpha = 0;
+
+        this.tweens.add({
+            targets: farmCircles,
+            alpha: { value: 1, duration: 500, ease: 'Linear' },
+        });
+
+        for (let farm of this.farmLand) { 
+            const { x, y } = farm.plot;
+            farmCircles.beginPath();
+            farmCircles.arc(x, y, farmRadius, Phaser.Math.DegToRad(0), Phaser.Math.DegToRad(360), false, 0.02);
+            farmCircles.strokePath();
+            farmCircles.closePath();
+        }
+
+        this.farmCircles = farmCircles;
     }
 
     setupUI() {
         this.scene.get('UIScene').setupUI();
         this.scene.get('UIScene').updateCloudNumber(this.numOfClouds);
+
+        this.scene.get('UIScene').setupTutorial();
     }
 
     generateBackground() {
@@ -59,7 +95,7 @@ class Game extends Phaser.Scene {
        
         const farmLocations = [
             [1, 1, true],
-            [2, 3, false],
+            [3, 2, false],
             [4, 2, true],
             [4, 0, false]
         ];
@@ -209,10 +245,22 @@ class Game extends Phaser.Scene {
             // cloud.x = bounds.x + bounds.width - 512 - i * 30;
             // cloud.y = bounds.y + bounds.height - 512 - i * 30;
 
+            // Avoid clouds near spawn point
+            const spawn = {x: 250, y: 500};
+            const threshold = 500;
+            const dx = cloud.x - spawn.x;
+            const dy = cloud.y - spawn.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < threshold) {
+                const angle = Math.atan2(dy, dx);
+                cloud.x += Math.cos(angle) * threshold;
+                cloud.y += Math.sin(angle) * threshold;
+            }
+
             cloud.alpha = 0.5;
             cloud.originalAlpha = cloud.alpha;
             game.physics.add.existing(cloud, false);
-            cloud.body.setCircle(150);
+            cloud.body.setCircle(70);
 
             this.clouds.push(cloud);
         }
@@ -346,6 +394,19 @@ class Game extends Phaser.Scene {
             factor = (cloudNumber - 3) / (MAX - 3);
         }
 
+        let doTutorial = false;
+
+        if (this.startRainDanceTutStep) {
+            this.startRainDanceTutStep = false;
+            this.dismissSpiritTutStep = true;
+            doTutorial = true;
+            // Fade away yellow circles
+            this.tweens.add({
+                targets: this.farmCircles,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+            });
+        }
+
         rainCloud.scale = 0.25 + factor * 0.75;
         this.rainClouds.push(rainCloud);
 
@@ -368,6 +429,7 @@ class Game extends Phaser.Scene {
 
         this.numOfClouds -= cloudNumber;
         this.scene.get('UIScene').updateCloudNumber(this.numOfClouds, cloudNumber);
+        let foundFarm = false;
 
         // Find the farmland closest to it, decide whether to move it to the next phase
         for (let farm of this.farmLand) {
@@ -376,9 +438,22 @@ class Game extends Phaser.Scene {
             if (dist <= cloudSize + 100) {
                 const forceFlood = cloudNumber >= 20;
                 this.advanceFarm(farm, forceFlood);
+                foundFarm = true;
+                if (doTutorial && !forceFlood) {
+                    this.scene.get('UIScene').setTutorialStep('rain-on-farm');
+                }
+                if (doTutorial && forceFlood) {
+                    this.scene.get('UIScene').setTutorialStep('flood-farm');
+                }
             }
+
+           
         }
         // If farmland is more than 10 is automatically floods
+
+        if (doTutorial && !foundFarm) {
+            this.scene.get('UIScene').setTutorialStep('rain-outside');
+        }
     }
 
     advanceFarm(farm, forceFlood) {
@@ -403,6 +478,42 @@ class Game extends Phaser.Scene {
         return dist;
     }
 
+    initRainDanceTutorial() {
+        this.startRainDanceTutStep = true;
+    }
+
+    advanceBeyondCloudTutorialStep() {
+        if (this.finishedCloudTutorial) {
+            return;
+        }
+
+        this.finishedCloudTutorial = true;
+        this.scene.get('UIScene').setTutorialStep('finished-clouds');
+
+        this.initRainDanceTutorial();
+    }
+
+    initCloudsTutorialDetection() {
+        if (this.initCloudsTutorial) {
+            return;
+        }
+        this.initCloudsTutorial = true;
+        this.numOfCloudsPushedInToFarm = 0;
+
+        // Mark clouds that are already in the farm circles
+        for (let cloud of this.clouds) {
+            for (let farm of this.farmLand) { 
+                const dx = (farm.plot.x) - cloud.x; 
+                const dy = (farm.plot.y) - cloud.y; 
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < FARM_TUTORIAL_RADIUS) {
+                    cloud.farmTutorial = farm; 
+                    //cloud.setTint(0xFF0000); 
+                }
+            }
+        }
+    }
+
     updateClouds() {
         const that = this;
         const bounds = this.cameras.main.getBounds();
@@ -412,7 +523,7 @@ class Game extends Phaser.Scene {
             if (cloud.speedX == undefined) {
                 cloud.speedX = 0;
                 cloud.speedY = 0;
-                cloud.friction = 0.8;
+                cloud.friction = 0.9;
                 cloud.shake = false;
                 cloud.Ox = cloud.x;
                 cloud.Oy = cloud.y;
@@ -480,18 +591,65 @@ class Game extends Phaser.Scene {
                     this.y = this.Oy;
                 }
             }
+
+            // If tutorial is active, check if any new clouds have entered farm circles
+            // And the cloud wasn't already in the circle
+            if (this.initCloudsTutorial && this.finishedCloudTutorial != true) {
+                for (let farm of this.farmLand) { 
+                    // And if the cloud already has a farm, it's not this farm
+                    const dx = (farm.plot.x) - cloud.x; 
+                    const dy = (farm.plot.y) - cloud.y; 
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < FARM_TUTORIAL_RADIUS) {
+                        if (cloud.farmTutorial == undefined) {
+                            // All good, cloud was not already in a farm
+                            this.numOfCloudsPushedInToFarm ++;
+                            cloud.farmTutorial = farm;
+                            if (this.numOfCloudsPushedInToFarm > 3) {
+                                this.advanceBeyondCloudTutorialStep();
+                            }
+                        } else {
+                            // Cloud was already in a farm, check if it's in a diff farm now 
+                            if (cloud.farmTutorial.x != farm.x || cloud.farmTutorial.y != farm.y) {
+                                this.numOfCloudsPushedInToFarm ++;
+                                cloud.farmTutorial = farm;
+                                if (this.numOfCloudsPushedInToFarm > 3) {
+                                    this.advanceBeyondCloudTutorialStep();
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+
              // Can't move clouds while split 
-            if (isSoloMode == true && cloud.collidingPieces != undefined && cloud.collidingPieces.length > 0 && !cloud.isOutOfBounds) {
+            if (isSoloMode == true 
+                && cloud.isColliding 
+                && !cloud.isOutOfBounds) {
               // For each colliding piece, make the cloud move parallel to it 
               // Then add up all those velocities to make up the final distance
-              for (let piece of cloud.collidingPieces) {
-                  const angle = (piece.angle - 180) * (Math.PI/180);
-                  const power = 0.15;
-                  // cloud.speedX += Math.cos(angle) * power;
-                  // cloud.speedY += Math.sin(angle) * power;
-                  cloud.speedX = Math.cos(angle) * playerSpeed;
-                  cloud.speedY = Math.sin(angle) * playerSpeed;
-              }
+              // Figure out dist to dragon head 
+              const head = this.dragonsnakeOne.head; 
+              // const dx = head.x - cloud.x;
+              // const dy = head.y - cloud.y;
+              // const radiusDist = 300;
+              // if (Math.abs(dx) < radiusDist && Math.abs(dy) < radiusDist) {
+              //     const dist = Math.sqrt( dx * dx + dy * dy );
+              //     if (dist < radiusDist) {
+              //          const playerAngle = (head.angle - 180) * (Math.PI/180);
+              //          const playerCloudAngle = Math.atan2(dy, dx);
+
+              //          cloud.speedX = Math.cos(playerAngle) * playerSpeed;
+              //          cloud.speedY = Math.sin(playerAngle) * playerSpeed;
+              //     }
+              // }
+
+              //for (let piece of cloud.collidingPieces) {
+                  const playerAngle = (head.angle - 180) * (Math.PI/180);
+                  cloud.speedX = Math.cos(playerAngle) * playerSpeed;
+                  cloud.speedY = Math.sin(playerAngle) * playerSpeed;
+              //}
             }
 
             if (cloud.isOutOfBounds && cloud.alpha > 0) {
@@ -533,11 +691,13 @@ class Game extends Phaser.Scene {
                 }
             }
 
-            cloud.collidingPieces = [];
+            if (!this.dragonsnakeOne.isForwardDown() || !isSoloMode) {
+                cloud.isColliding = false;
+            }
         }
     }
 
-    updateSoloCamera() {
+    updateSoloCamera(force) {
         const camera = this.cameras.main;
         const { min, max } = this.dragonsnakeOne.bounds();
 
@@ -555,8 +715,20 @@ class Game extends Phaser.Scene {
 
         const cx = (max.x + min.x) / 2;
         const cy = (max.y + min.y) / 2;
-       
-        camera.centerOn(cx, cy);
+           
+        // Offset for tutorial 
+        // if (this.scene.get('UIScene').isTutorialOn()) {
+        //     camera.centerOn(cx, cy + 150);
+        // } else {
+        //     camera.centerOn(cx, cy);
+        // }
+
+        // Don't move camera while dragon is hovering
+        if (this.dragonsnakeOne.hoverTweens != undefined && force != true) {
+            return;
+        }
+        camera.centerOn(cx, cy + this.tutorialCameraOffset);
+        
     }
 
     updateDualCamera() {
@@ -576,8 +748,7 @@ class Game extends Phaser.Scene {
             y: Math.max(boundsOne.max.y, boundsTwo.max.y),
         };
 
-        // this.iconMin.x = min.x;
-        // this.iconMin.y = min.y;
+        
 
         // this.iconMax.x = max.x;
         // this.iconMax.y = max.y;
@@ -601,19 +772,18 @@ class Game extends Phaser.Scene {
     }
 
     detectRainDance() {
-        if (isSoloMode) {
-            return;
-        }
-
         // Visualize average X/Y
         const pos1 = this.dragonsnakeOne.averagePos();
         const pos2 = this.dragonsnakeTwo.averagePos();
 
-        this.iconMin.x = pos1.x;
-        this.iconMin.y = pos1.y;
+        // this.iconMin.x = pos1.x;
+        // this.iconMin.y = pos1.y;
 
-        this.iconMax.x = pos2.x;
-        this.iconMax.y = pos2.y;
+        // this.iconMax.x = pos2.x;
+        // this.iconMax.y = pos2.y;
+
+        this.iconMin.x = this.dragonsnakeOne.head.x;
+        this.iconMin.y = this.dragonsnakeOne.head.y;
 
         this.iconMin.alpha = 0;
         this.iconMax.alpha = 0;
@@ -627,7 +797,7 @@ class Game extends Phaser.Scene {
             y: (pos1.y + pos2.y) / 2
         };
 
-        const thresholdForDragonCloseness = 200;
+        const thresholdForDragonCloseness = 400;
         const thresholdForCloudCloseness = 500;
 
 
@@ -644,7 +814,11 @@ class Game extends Phaser.Scene {
                 cloud.Oy = cloud.y;
             }
 
-            if (cloud.shake == true && !(distDragons < thresholdForDragonCloseness && distClouds < thresholdForCloudCloseness)) {
+            if (cloud.shake == true 
+                && 
+                !(distDragons < thresholdForDragonCloseness 
+                    && distClouds < thresholdForCloudCloseness
+                    && !isSoloMode && this.dragonsnakeOne.isForwardDown())) {
                 cloud.resetShake();
             }
             
@@ -675,6 +849,13 @@ class Game extends Phaser.Scene {
 
     }
 
+    removeTutorialCameraOffset() {
+        this.tweens.add({
+            targets: this,
+            tutorialCameraOffset: { value: 0, duration: 1000, ease: 'Quadratic.easeInOut' },
+        });
+    }
+
     update () {
         if (document.querySelector("#fps")) {
             document.querySelector("#fps").innerHTML = `fps: ${Math.round(this.game.loop.actualFps)}`;
@@ -686,13 +867,20 @@ class Game extends Phaser.Scene {
 
         if (this.endCounter < 0) {
             this.endCounter --;
-            if (this.endCounter < -60 * 10) {
+            if (this.endCounter < -60 * 2) {
                 this.triggerEnd();
             }
         }
 
         this.dragonsnakeOne.update();
         this.dragonsnakeTwo.update();
+
+        // Remove spawn cloud after dragon moves enough
+        if (this.playerCloud.alpha > 0 && this.dragonsnakeOne.reachedFullLength()) {
+            this.playerCloud.alpha -= 0.01;
+            this.scene.get('UIScene').setTutorialStep('dragon-out');
+            this.initCloudsTutorialDetection();
+        }
 
         if (Phaser.Input.Keyboard.JustDown(this.RKey)) {
             // Trigger end screen
@@ -716,6 +904,11 @@ class Game extends Phaser.Scene {
             //isSoloMode = true;
             //this.dragonsnakeTwo.isFrozen = true;
             this.dragonsnakeTwo.fadeAway();
+
+            if (this.dismissSpiritTutStep) {
+                this.dismissSpiritTutStep = false;
+                this.scene.get('UIScene').setTutorialStep('dismissed-rain');
+            }
         }
         if (!isSoloMode && this.dragonsnakeTwo.isFrozen) {
             isSoloMode = true;
@@ -724,10 +917,15 @@ class Game extends Phaser.Scene {
         }
 
 
-        if (isSoloMode) {
-            this.updateSoloCamera();
-        } else {
-            this.updateDualCamera();
+        // if (isSoloMode) {
+        //     this.updateSoloCamera();
+        // } else {
+        //     this.updateDualCamera();
+        // }
+        this.updateSoloCamera();
+        if (this.initCameraForce != true) {
+            this.updateSoloCamera(true);
+            this.initCameraForce = true;
         }
 
         this.detectRainDance();

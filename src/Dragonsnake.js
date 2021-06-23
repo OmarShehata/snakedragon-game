@@ -1,6 +1,6 @@
 const KEYBOARD_ANGULAR_ACC = 1;
 const ANGULAR_SPEED_FRICTION = 0.85;
-const PLAYER_SPEED = 18;
+const PLAYER_SPEED = 18 * 0.75;
 //const PLAYER_SPEED = 1;
 
 const SYMMETRY_MODE = true;
@@ -28,6 +28,11 @@ class Dragonsnake {
 		head.scale = SCALE;
 		head.depth = 500 - playerNumber * 50;
 		head.body.setCircle(1);
+
+		head.headCollider = game.add.sprite(0, 0, 'atlas', 'icon_crossLarge');
+		game.physics.add.existing(head.headCollider, false);
+		head.headCollider.body.collideWorldBounds = true;
+		head.headCollider.body.setCircle(50, -25, -25);
 
 		if (playerNumber == 2) {
 			head.alpha = 0;
@@ -98,25 +103,26 @@ class Dragonsnake {
 	}
 
 	setupCollider(clouds) {
-		const allPieces = [this.head, ...this.pieceArray];
+		// const allPieces = [this.head, ...this.pieceArray];
+		const allPieces = [this.head.headCollider];
+		const that = this;
 
 		const collider = this.game.physics.add.collider(allPieces, clouds, (dragonPiece, cloudPiece) => {
 			// Make cloud disappear
 			//cloudPiece.alpha = 0;
 
 			// Do not push clouds when going slow
-			if (dragonPiece.head.speedMode != 'fast') {
+			if (that.head.speedMode != 'fast') {
 				return;
 			}
-
-			if (cloudPiece.collidingPieces == undefined) {
-				cloudPiece.collidingPieces = [];
-			}
-
-			cloudPiece.collidingPieces.push(dragonPiece);
+			cloudPiece.isColliding = true;
 		});
 
 		collider.overlapOnly = true;
+	}
+
+	reachedFullLength() {
+		return this.headStepsArray.length > 120;
 	}
 
 	averagePos() {
@@ -253,34 +259,72 @@ class Dragonsnake {
 		const { head, headStepsArray } = this;
 
         // Keyboard controls to turn
-        if (this.isLeftDown()) {
+        if (this.isLeftDown() && this.isForwardDown()) {
             head.angularSpeed -= KEYBOARD_ANGULAR_ACC;
         }
-        if (this.isRightDown()) {
+        if (this.isRightDown() && this.isForwardDown()) {
             head.angularSpeed += KEYBOARD_ANGULAR_ACC;
         }
 
-        head.angularSpeed *= ANGULAR_SPEED_FRICTION;
-
-        head.angle += head.angularSpeed;
+        if (this.isForwardDown()) {
+        	head.angularSpeed *= ANGULAR_SPEED_FRICTION;
+        	head.angle += head.angularSpeed;
+        }
+        
 
         // Make player move in direction they are facing
-        let speed = PLAYER_SPEED * 0.75;
+        let speed = PLAYER_SPEED * 0.0;
         head.speedMode = 'slow'
         if (this.isForwardDown()) {
         	speed = PLAYER_SPEED;
         	head.speedMode = 'fast'
         }
 
+        // Make dragon hover when not moving
+        if (speed == 0 && this.hoverTweens == undefined) {
+        	this.hoverTweens = [];
+        	for (let piece of allPieces) {
+        		piece.originalY = piece.y;
+        		const tween = this.game.tweens.add({
+	                targets: piece,
+	                y: { value: piece.y - 10, duration: 3000, ease: 'Quadratic.easeInOut' },
+	                loop: -1,
+	                yoyo: true
+	            });
+
+	            this.hoverTweens.push(tween);
+        	}
+        } 
+        // Destroy hover tween when dragon is moving 
+        if (this.hoverTweens != undefined && speed != 0) {
+        	for (let tween of this.hoverTweens) {
+        		tween.stop();
+        	}
+        	for (let piece of allPieces) {
+        		piece.y = piece.originalY;
+        		piece.originalY = undefined;
+        	}
+        	this.hoverTweens = undefined;
+        }
+        if (this.hoverTweens != undefined) {
+        	return;
+        }
+
+
+
         const angle = (head.angle + 180) * (Math.PI / 180);
         head.x += Math.cos(angle) * speed;
         head.y += Math.sin(angle) * speed;
+        head.headCollider.x = head.x + Math.cos(angle) * 100;
+        head.headCollider.y = head.y + Math.sin(angle) * 100;
 
-        headStepsArray.push({
-        	x: head.x, 
-        	y: head.y, 
-        	angle: head.angle
-        });
+        if (this.isForwardDown()) {
+	        headStepsArray.push({
+	        	x: head.x, 
+	        	y: head.y, 
+	        	angle: head.angle
+	        });
+	    }
 
         // Make the body pieces follow the one before it
         for (let piece of this.pieceArray) {

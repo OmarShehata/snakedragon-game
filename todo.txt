@@ -1,0 +1,48 @@
+* Make dragon turn whiteish when rain dance mode (to communicate that you can't push clouds in this mode)
+* Rain animation
+
+
+	
+* Make it possible to reset game
+
+* Look into displays stats in the game?
+	https://apidocs.gameanalytics.com/metrics#section/Metrics-API/Integration
+	need to contact them to get access...
+
+	Use NG api instead? https://www.newgrounds.io/get-started/#step-4-implement-the-api-into-your-game
+	Maybe I can use the scoreboard as a hack? Don't see a way to retrieve events after logging them
+
+* Figure out how buttons work (to make a "skip tutorial" button)
+* Add buttons for help or exit
+	Help contains the following
+	- 1. Move with W or UP. 
+	- 2. Turn with arrows or A/D
+	- 3. Push clouds onto farms
+	- 4. SPACE to summon the rain spirit
+	- 5. Dance with rain spirit to make it rain
+	- 6. Bring rain to your worshippers (who have a snakedragon idol). Or don't! It's up to you.
+	- 7. Game ends when less than 30 clouds remain.  
+
+Done:
+* Make it exit when you reach 30 right away
+* Make dragons hover when they are frozen
+* Plan new tutorial
+	- Show 3rd step saying to press space, and dance
+	- Final step, say
+		- Cool, you made it rain, but not on a farm.
+		- You made it rain on the farm!
+		- You flooded the farm! Try using less clouds. 
+	- Final final step says bring rain to your followers, or don't. 
+	- Fade out. 
+	- Detect when clouds enter yellow circles (must be 2 or more. Must NOT be already in the circles).
+	- Make second step text only appear after dragon is fully elongated
+* Make moving clouds only use head
+* Add big cloud to where dragon spawns
+* Make camera transition smoother (just removed the dual camera)
+* Make rain dance wider
+* Make it so for dragon dance to work you have to be moving
+
+
+Examples of good tutorials:
+
+* From: https://norrimo.itch.io/buggish, consider having a little ? icon in the game to remind you what to do? And/or to exit out?

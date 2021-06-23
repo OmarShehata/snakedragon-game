@@ -51,10 +51,12 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+         this.cameras.main.fadeIn(500);
+
         this.makeImage('SCREEN_TITLE')
-        this.makeImage('SCREEN_TUTORIAL_1')
-        this.makeImage('SCREEN_TUTORIAL_2')
-        this.makeImage('SCREEN_TUTORIAL_3')
+        // this.makeImage('SCREEN_TUTORIAL_1')
+        // this.makeImage('SCREEN_TUTORIAL_2')
+        // this.makeImage('SCREEN_TUTORIAL_3')
 
         const { width, height } = game.sys.canvas;
         const screenDragon = this.add.image(width / 2 + 150, height - 300, 'atlas', 'SCREEN_DRAGON_TUTORIAL');

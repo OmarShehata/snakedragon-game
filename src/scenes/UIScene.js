@@ -1,4 +1,7 @@
 import 'phaser';
+import Button from '../Button.js';
+import FullscreenButton from '../FullscreenButton.js';
+import { initButtons } from '../Button.js';
 
 class UIScene extends Phaser.Scene {
     constructor(config) {
@@ -6,6 +9,14 @@ class UIScene extends Phaser.Scene {
         window.ui = this;
 
         this.lastTextIndex = -1;
+        this.tweenArray = [];
+    }
+
+    _stopAllTweens() {
+        for (let tween of this.tweenArray) {
+            tween.stop();
+        }
+        this.tweenArray = [];
     }
 
     _debugRemoveTutorial() {
@@ -18,99 +29,143 @@ class UIScene extends Phaser.Scene {
     }
 
     setTutorialStep(stepKey) {
+        /*
+            Broken state: 
+
+            tutorialStep = 2
+
+            textObjectArray[1].alpha = 1
+            textObjectArray[2].alpha = 1
+
+            so that means "finished-clouds" was initiated
+            that's the only place where textObjectArray[2]appears 
+
+            but in that SAME if statement, 1 is supposed to disappear??
+
+
+            log: tutorialStep 0 turning to 1
+                 tutorialStep 1 turning to 2
+
+                 Turns out it was because the tween to hide it started while the tween to show it was still showing
+
+        */
         if (this.tutorialStep == 0 && stepKey == 'dragon-out') {
+            console.log("tutorialStep", this.tutorialStep, "turning to 1");
+            this._stopAllTweens();
             this.tutorialStep = 1;
             this.scene.get('Game').showFarmCircles();
             // Tween in next step
-            this.tweens.add({
+            let tween = this.tweens.add({
                 targets: this.textObjectArray[0],
                 alpha: { value: 0, duration: 500, ease: 'Linear' },
                 delay: 0
             });
+            this.tweenArray.push(tween);
 
-            this.tweens.add({
+            tween = this.tweens.add({
                 targets: this.textObjectArray[1],
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
             });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 1 && stepKey == 'finished-clouds') {
+            console.log("tutorialStep", this.tutorialStep, "turning to 2");
+            this._stopAllTweens();
             this.tutorialStep = 2;
-            this.tweens.add({
+            let tween = this.tweens.add({
                 targets: this.textObjectArray[1],
                 alpha: { value: 0, duration: 500, ease: 'Linear' },
                 delay: 0
             });
+            this.tweenArray.push(tween);
 
-            this.tweens.add({
+            tween = this.tweens.add({
                 targets: this.textObjectArray[2],
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
             });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 2 && stepKey == 'rain-on-farm') {
+            console.log("tutorialStep", this.tutorialStep, "turning to 3");
+            this._stopAllTweens();
             this.tutorialStep = 3;
-            this.tweens.add({
+            let tween = this.tweens.add({
                 targets: this.textObjectArray[2],
                 alpha: { value: 0, duration: 500, ease: 'Linear' },
                 delay: 0
             });
+            this.tweenArray.push(tween);
 
             this.lastTextIndex = 3;
-            this.tweens.add({
+            tween = this.tweens.add({
                 targets: this.textObjectArray[3],
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
             });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 2 && stepKey == 'flood-farm') {
+            console.log("tutorialStep", this.tutorialStep, "turning to 3");
+            this._stopAllTweens();
             this.tutorialStep = 3;
-            this.tweens.add({
+            let tween = this.tweens.add({
                 targets: this.textObjectArray[2],
                 alpha: { value: 0, duration: 500, ease: 'Linear' },
                 delay: 0
             });
+            this.tweenArray.push(tween);
 
             this.lastTextIndex = 5;
-            this.tweens.add({
+            tween = this.tweens.add({
                 targets: this.textObjectArray[5],
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
             });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 2 && stepKey == 'rain-outside') {
+            console.log("tutorialStep", this.tutorialStep, "turning to 3");
+            this._stopAllTweens();
             this.tutorialStep = 3;
-            this.tweens.add({
+            let tween = this.tweens.add({
                 targets: this.textObjectArray[2],
                 alpha: { value: 0, duration: 500, ease: 'Linear' },
                 delay: 0
             });
+            this.tweenArray.push(tween);
 
             this.lastTextIndex = 4;
-            this.tweens.add({
+            tween = this.tweens.add({
                 targets: this.textObjectArray[4],
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
             });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 3 && stepKey == 'dismissed-rain') {
+            console.log("tutorialStep", this.tutorialStep, "turning to 4");
+            this._stopAllTweens();
             this.tutorialStep = 4;
-            this.tweens.add({
+            let tween = this.tweens.add({
                 targets: this.textObjectArray[this.lastTextIndex],
                 alpha: { value: 0, duration: 500, ease: 'Linear' },
                 delay: 0
             });
+            this.tweenArray.push(tween);
 
-            this.tweens.add({
+            tween = this.tweens.add({
                 targets: this.textObjectArray[6],
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
             });
+            this.tweenArray.push(tween);
             // Automatically make final panel disappear
             const that = this;
             setTimeout(function() {
@@ -126,13 +181,13 @@ class UIScene extends Phaser.Scene {
                 });
 
 
-            }, 3000)
+            }, 10 * 1000)//10 seconds
         }
     }
 
-    isTutorialOn() {
-        return true;
-    }
+    // isTutorialOn() {
+    //     return true;
+    // }
 
     setupTutorial() {
         this.tutorialStep = 0;
@@ -161,6 +216,7 @@ Turn with A/D or left/right
         this.textObjectArray.push(textObject);
 
         // Step two text
+        // index 1
 const t2 = 
 `Push clouds onto farms
 
@@ -169,6 +225,7 @@ const t2 =
         textStep2.alpha = 0;
         this.textObjectArray.push(textStep2);
 
+        // index 2
         const t3 = 
 `Press SPACE to toggle rain spirit
 Dance together tight for 3 seconds
@@ -211,7 +268,54 @@ Or don't up to you! (Show idols in farms)`;
         this.textObjectArray.push(bringRainToFollowers_text);
     }
 
+    toggleHelp(bool) {
+        if (bool == undefined) {
+            bool = !(this.helpSummary.alpha == 1);
+        }
+        if (bool) {
+            this.closeButton.sprite.alpha = 1;
+            this.helpSummary.alpha = 1;
+        } else {
+            this.closeButton.sprite.alpha = 0;
+            this.helpSummary.alpha = 0;
+        }
+    }
+
     setupUI() {
+        initButtons(this);
+        const fullscreenButton = new FullscreenButton(this);
+        // Create help button 
+        const helpButton = new Button({ 
+            game: this, 
+            x: 950, 
+            y: 50,
+            sprite: 'HELP_BUTTON',
+            onclick: () => {
+                this.toggleHelp();
+            }
+        }); 
+
+        // Help summary
+        const helpSummary = this.add.image(100, 100, 'atlas', 'INSTRUCTION_SUMMARY');
+        helpSummary.depth = 5000;
+        helpSummary.setOrigin(0, 0);
+        // Close summary button 
+        const closeButton = new Button({ 
+            game: this, 
+            x: 850, 
+            y: 150,
+            sprite: 'X_BUTTON',
+            onclick: () => {
+                 this.toggleHelp(false);
+            }
+        }); 
+        closeButton.sprite.depth = helpSummary.depth + 1;
+
+        this.helpSummary = helpSummary;
+        this.closeButton = closeButton;
+        window.closeButton = closeButton;
+        this.toggleHelp(false);
+
         this.cameras.main.fadeIn(1000);
         const cloudIcon = this.add.image(0, 0, 'atlas', 'ENV_CLOUD_SMALL')
         cloudIcon.setScrollFactor(0);

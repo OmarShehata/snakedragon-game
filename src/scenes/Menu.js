@@ -1,4 +1,7 @@
 import 'phaser';
+import Button from '../Button.js';
+import FullscreenButton from '../FullscreenButton.js';
+import { initButtons } from '../Button.js';
 
 class Menu extends Phaser.Scene {
     constructor(config) {
@@ -7,10 +10,9 @@ class Menu extends Phaser.Scene {
         this.frame = 0;
         this.frames = [];
         this.fadeOut = false;
-        window.menuScene = this;
     }
 
-    advance() {
+    advance(skipTutorial) {
         const currentFrame = this.frames[this.frame];
         const nextFrame = this.frames[this.frame + 1];
         if (nextFrame == undefined) {
@@ -21,7 +23,9 @@ class Menu extends Phaser.Scene {
                 setTimeout(function() {
                     // FOR DEBUG
                     //that.scene.start("End", {farmLand: []});
-                    that.scene.start("Game");
+                    that.scene.start("Game", {
+                        skipTutorial
+                    });
                 }, 1000);
             }
             return;
@@ -84,13 +88,41 @@ class Menu extends Phaser.Scene {
         this.dragonAnimationPieces = [screenDragon, cloud1, cloud2, cloud3];
         this.dragonAnimationPieces.forEach(p => {p.alpha = 0;});
 
+        // Add play button 
+        initButtons(this);
+        const playButton = new Button({ 
+            game: this, 
+            x: width / 2, 
+            y: height / 2 - 200,
+            sprite: 'PLAY_BUTTON',
+            onclick: () => {
+                this.advance();
+            }
+        });
+        
+        // Add skip tutorial button 
+        // Only show it if user has already played before
+        const hasPlayedBefore = localStorage.getItem('played-before');
+        if (hasPlayedBefore) {
+            const skipTutorialButton = new Button({ 
+                game: this, 
+                x: width / 2, 
+                y: height / 2,
+                sprite: 'SKIP_BUTTON',
+                onclick: () => {
+                    this.advance(true);
+                }
+            });
+        }
 
-        this.input.on('pointerup', pointer => {
-            this.advance();
-        });
-        this.input.keyboard.on('keydown', key => {
-            this.advance();
-        });
+        const fullscreenButton = new FullscreenButton(this);
+
+        // this.input.on('pointerup', pointer => {
+        //     this.advance();
+        // });
+        // this.input.keyboard.on('keydown', key => {
+        //     this.advance();
+        // });
     }
 
     update() {

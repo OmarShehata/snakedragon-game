@@ -30,3 +30,4 @@ var game = new Phaser.Game({
     },
     scene: [Loading, Game, UIScene, End, Menu]
 });
+

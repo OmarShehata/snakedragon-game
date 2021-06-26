@@ -1,29 +1,27 @@
-* Make dragon turn whiteish when rain dance mode (to communicate that you can't push clouds in this mode)
-* Rain animation
-
-
-	
 * Make it possible to reset game
+	* Just a "Next" button
+	* Next screen just has "Thanks for playing! There are 5 possible endings to this game". "Back to menu" button. 
 
-* Look into displays stats in the game?
-	https://apidocs.gameanalytics.com/metrics#section/Metrics-API/Integration
-	need to contact them to get access...
-
-	Use NG api instead? https://www.newgrounds.io/get-started/#step-4-implement-the-api-into-your-game
-	Maybe I can use the scoreboard as a hack? Don't see a way to retrieve events after logging them
-
-* Figure out how buttons work (to make a "skip tutorial" button)
-* Add buttons for help or exit
-	Help contains the following
-	- 1. Move with W or UP. 
-	- 2. Turn with arrows or A/D
-	- 3. Push clouds onto farms
-	- 4. SPACE to summon the rain spirit
-	- 5. Dance with rain spirit to make it rain
-	- 6. Bring rain to your worshippers (who have a snakedragon idol). Or don't! It's up to you.
-	- 7. Game ends when less than 30 clouds remain.  
-
+* Implement medals
+	https://www.newgrounds.io/get-started/#step-4-implement-the-api-into-your-game
+	
 Done:
+* Rain animation
+* Add new music 
+* Add buttons for help
+* Add fullscreen button
+* Make skip tutorial button work 
+* Make dragon turn whiteish when rain dance mode (to communicate that you can't push clouds in this mode)
+	* Or just make camera follow both?
+
+* Make clouds stick to farms when you pass through them.
+* Look into bug where rain spirit separates
+	(I think it was the hovering)
+* Look into bug where you can touch cloud but it doesn't move?
+* Make clouds stick to farms
+* Bug where multiple tutorial steps are on top of each other
+
+
 * Make it exit when you reach 30 right away
 * Make dragons hover when they are frozen
 * Plan new tutorial

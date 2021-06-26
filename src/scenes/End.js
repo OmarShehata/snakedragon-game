@@ -1,4 +1,7 @@
 import 'phaser';
+import Button from '../Button.js';
+import FullscreenButton from '../FullscreenButton.js';
+import { initButtons } from '../Button.js';
 
 class End extends Phaser.Scene {
     constructor(config) {
@@ -148,6 +151,9 @@ They have all starved to death.
     }
 
     create(data) {
+        initButtons(this);
+        const fullscreenButton = new FullscreenButton(this);
+
         this.cameras.main.fadeIn(1000);
         const farmLand = data.farmLand;
         let planted = 0;

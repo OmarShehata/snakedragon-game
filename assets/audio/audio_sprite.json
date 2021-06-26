@@ -8,27 +8,27 @@
   "spritemap": {
     "end": {
       "start": 0,
-      "end": 29.648979591836735,
+      "end": 60.99591836734694,
       "loop": false
     },
     "rain_too_much": {
-      "start": 31,
-      "end": 39.542040816326534,
+      "start": 62,
+      "end": 70.54204081632653,
       "loop": false
     },
     "rain": {
-      "start": 41,
-      "end": 51.501224489795916,
+      "start": 72,
+      "end": 82.50122448979592,
       "loop": false
     },
     "wind1": {
-      "start": 53,
-      "end": 141.39836734693876,
+      "start": 84,
+      "end": 172.39836734693876,
       "loop": false
     },
     "wind2": {
-      "start": 143,
-      "end": 231.39836734693876,
+      "start": 174,
+      "end": 262.39836734693876,
       "loop": false
     }
   }

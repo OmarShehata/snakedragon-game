@@ -230,20 +230,31 @@ class Dragonsnake {
 		const allPieces = [this.head, ...this.pieceArray];
 
 		if (this.isFrozen) {
+			// Move this to the other dragon
+			// To make the camera transition from "dual" to "solo"
+			const otherDragon = this.otherDragon.head;
+
 			for (let piece of allPieces) {
 				piece.alpha = 0;
+
+				const dx = otherDragon.x - piece.x; 
+				const dy = otherDragon.y - piece.y; 
+				const dist = Math.sqrt(dx * dx + dy * dy);
+				const angle = Math.atan2(dy, dx);
+				piece.x += Math.cos(angle) * dist * 0.05;
+				piece.y += Math.sin(angle) * dist * 0.05;
 			}
+
 			return;
 		}
 
 		if (this.isFadingAway) {
-			
 			let allIsInvisible = true;
 
 			for (let i = 0; i < allPieces.length; i++) {
 				const piece = allPieces[i];
 				if (piece.alpha > 0) {
-					piece.alpha -= 0.01;
+					piece.alpha -= 0.05;
 					allIsInvisible = false;
 				}
 				
@@ -252,6 +263,13 @@ class Dragonsnake {
 			if (allIsInvisible) {
 				this.isFadingAway = false;
 				this.isFrozen = true;
+
+				if (this.hoverTweens != undefined) {
+					for (let tween of this.hoverTweens) {
+			    		tween.stop();
+			    	}
+					this.hoverTweens = undefined;
+				}
 				return;
 			}
 		}
@@ -287,7 +305,7 @@ class Dragonsnake {
         		piece.originalY = piece.y;
         		const tween = this.game.tweens.add({
 	                targets: piece,
-	                y: { value: piece.y - 10, duration: 3000, ease: 'Quadratic.easeInOut' },
+	                y: { value: piece.y - 20, duration: 1500, ease: 'Cubic.easeInOut' },
 	                loop: -1,
 	                yoyo: true
 	            });
@@ -300,9 +318,15 @@ class Dragonsnake {
         	for (let tween of this.hoverTweens) {
         		tween.stop();
         	}
-        	for (let piece of allPieces) {
-        		piece.y = piece.originalY;
-        		piece.originalY = undefined;
+        	// Offset all the steps' Y based on how much the head.y - its originalY
+        	// this is so that when you exit the tween it doesn't jump 
+        	// for (let piece of allPieces) {
+        	// 	piece.y = piece.originalY;
+        	// 	piece.originalY = undefined;
+        	// }
+        	const diffY = head.originalY - head.y;
+        	for (let step of headStepsArray) {
+        		step.y -= diffY;
         	}
         	this.hoverTweens = undefined;
         }

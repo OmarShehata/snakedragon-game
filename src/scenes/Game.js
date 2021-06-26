@@ -1,7 +1,9 @@
 import 'phaser';
 import Dragonsnake from '../Dragonsnake.js';
+
+
 let isSoloMode = true;
-const FARM_TUTORIAL_RADIUS = 400;
+const FARM_TUTORIAL_RADIUS = 410;
 const plotTypes = {
     'empty': 'ENV_PLOT_EMPTY',
     'vegetables': 'ENV_PLOT_VEGETABLES',
@@ -17,8 +19,10 @@ class Game extends Phaser.Scene {
         window.mute = false;
         this.numOfClouds = 0;
         this.endCounter = 0;
+        this.rainDrops = [];
 
         this.tutorialCameraOffset = 150;
+        console.log("v3");
     }
 
     setupKeyboard() {
@@ -46,6 +50,7 @@ class Game extends Phaser.Scene {
 
         const dragonsnakeOne = new Dragonsnake(playerX, playerY, 1, this);
         const dragonsnakeTwo = new Dragonsnake( width / 2 + width / 4, height / 2, 2, this);
+        dragonsnakeTwo.otherDragon = dragonsnakeOne;
 
         this.dragonsnakeOne = dragonsnakeOne;
         this.dragonsnakeTwo = dragonsnakeTwo;
@@ -83,7 +88,10 @@ class Game extends Phaser.Scene {
         this.scene.get('UIScene').setupUI();
         this.scene.get('UIScene').updateCloudNumber(this.numOfClouds);
 
-        this.scene.get('UIScene').setupTutorial();
+        if (this.skipTutorial != true) {
+            this.scene.get('UIScene').setupTutorial();
+        }
+        
     }
 
     generateBackground() {
@@ -96,7 +104,7 @@ class Game extends Phaser.Scene {
         const farmLocations = [
             [1, 1, true],
             [3, 2, false],
-            [4, 2, true],
+            [4, 1, true],
             [4, 0, false]
         ];
 
@@ -221,7 +229,7 @@ class Game extends Phaser.Scene {
 
     generateClouds() {
         // Generate clouds randomly
-        const numClouds = 100;
+        const numClouds = 80;
         this.clouds = [];
         const bounds = game.cameras.main.getBounds();
         const padding = 0;
@@ -248,19 +256,31 @@ class Game extends Phaser.Scene {
             // Avoid clouds near spawn point
             const spawn = {x: 250, y: 500};
             const threshold = 500;
-            const dx = cloud.x - spawn.x;
-            const dy = cloud.y - spawn.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+            let dx = cloud.x - spawn.x;
+            let dy = cloud.y - spawn.y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < threshold) {
                 const angle = Math.atan2(dy, dx);
                 cloud.x += Math.cos(angle) * threshold;
                 cloud.y += Math.sin(angle) * threshold;
             }
+            // And near any farms
+            for (let farm of this.farmLand) { 
+                dx = (farm.plot.x) - cloud.x; 
+                dy = (farm.plot.y) - cloud.y; 
+                dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 300) {
+                    const angle = Math.atan2(dy, dx);
+                    cloud.x -= Math.cos(angle) * 300;
+                    cloud.y -= Math.sin(angle) * 300;
+                }
+            }
 
             cloud.alpha = 0.5;
             cloud.originalAlpha = cloud.alpha;
             game.physics.add.existing(cloud, false);
-            cloud.body.setCircle(70);
+            cloud.body.setCircle(80, 40, 40);
 
             this.clouds.push(cloud);
         }
@@ -270,7 +290,9 @@ class Game extends Phaser.Scene {
         this.dragonsnakeTwo.setupCollider(this.clouds);
     }
 
-    create() {
+    create(data) {
+        const skipTutorial = data.skipTutorial;
+        this.skipTutorial = skipTutorial;
         this.cameras.main.fadeIn(1000);
 
         // Logging
@@ -378,6 +400,30 @@ class Game extends Phaser.Scene {
         }
     }
 
+    makeRainDrop(x, y, delayMs) {
+        const rainDrop = this.add.sprite(x, y, 'atlas', 'RAIN_DROP');
+        rainDrop.alpha = 0;
+        rainDrop.counter = (delayMs + 1000) * 60;
+
+        this.tweens.add({
+            targets: rainDrop,
+            alpha: { value: 1, duration: 300, ease: 'Linear' },
+            delay: delayMs
+        });
+        this.tweens.add({
+            targets: rainDrop,
+            y: { value: y + 300, duration: 1000, ease: 'Linear' },
+            delay: delayMs
+        });
+        this.tweens.add({
+            targets: rainDrop,
+            alpha: { value: 0, duration: 300, ease: 'Linear' },
+            delay: 600 + delayMs,
+        });
+
+        this.rainDrops.push(rainDrop);
+    }
+
     makeRainCloud(x, y, cloudNumber) {
         const rainCloud = this.add.sprite(x, y, 'atlas', 'ENV_CLOUD_RAIN');
         rainCloud.depth = 1000;
@@ -454,6 +500,15 @@ class Game extends Phaser.Scene {
         if (doTutorial && !foundFarm) {
             this.scene.get('UIScene').setTutorialStep('rain-outside');
         }
+
+        // Rain drops
+        // The rain cloud disappears after 3000 + 3000 milliseconds
+        const totalDuration = 3000 + 3000 - 1000;
+        const numDrops = totalDuration / 150;
+        const width = rainCloud.scale * rainCloud.width - 200;
+        for (var i = 0; i < numDrops; i++) {
+          this.makeRainDrop(x + Math.random() * width - width / 2, y, i * 150)
+        } 
     }
 
     advanceFarm(farm, forceFlood) {
@@ -483,12 +538,15 @@ class Game extends Phaser.Scene {
     }
 
     advanceBeyondCloudTutorialStep() {
+        const uiScene = this.scene.get('UIScene');
         if (this.finishedCloudTutorial) {
             return;
         }
 
+        if (uiScene.tutorialStep != 1) return;
+
         this.finishedCloudTutorial = true;
-        this.scene.get('UIScene').setTutorialStep('finished-clouds');
+        uiScene.setTutorialStep('finished-clouds');
 
         this.initRainDanceTutorial();
     }
@@ -520,7 +578,7 @@ class Game extends Phaser.Scene {
         if (this.clouds == undefined) return;
         const playerSpeed = this.dragonsnakeOne.getSpeed();
         for (let cloud of this.clouds) {
-            if (cloud.speedX == undefined) {
+            if (cloud.speedX == undefined) {//init cloud variables
                 cloud.speedX = 0;
                 cloud.speedY = 0;
                 cloud.friction = 0.9;
@@ -530,6 +588,7 @@ class Game extends Phaser.Scene {
                 cloud.shakeCounter = 0;
                 cloud.rainCloudTransform = false;
                 cloud.isOutOfBounds = false;
+                cloud.distanceToClick = 200 + Math.random() * 100; 
 
                 cloud.setOutOfBounds = () => {
                     if (cloud.isOutOfBounds) {
@@ -590,6 +649,17 @@ class Game extends Phaser.Scene {
                     this.x = this.Ox;
                     this.y = this.Oy;
                 }
+            }// end init cloud variables
+
+            // Make clouds "click" into farms
+            for (let farm of this.farmLand) { 
+                const dx = (farm.plot.x) - cloud.x; 
+                const dy = (farm.plot.y) - cloud.y; 
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < cloud.distanceToClick) {
+                    cloud.clicked = true;
+                }
             }
 
             // If tutorial is active, check if any new clouds have entered farm circles
@@ -625,6 +695,7 @@ class Game extends Phaser.Scene {
 
              // Can't move clouds while split 
             if (isSoloMode == true 
+                && cloud.clicked != true
                 && cloud.isColliding 
                 && !cloud.isOutOfBounds) {
               // For each colliding piece, make the cloud move parallel to it 
@@ -699,7 +770,17 @@ class Game extends Phaser.Scene {
 
     updateSoloCamera(force) {
         const camera = this.cameras.main;
-        const { min, max } = this.dragonsnakeOne.bounds();
+        const boundsOne = this.dragonsnakeOne.bounds();
+        const boundsTwo = this.dragonsnakeTwo.bounds();
+
+        const min = {
+            x: Math.min(boundsOne.min.x, boundsTwo.min.x),
+            y: Math.min(boundsOne.min.y, boundsTwo.min.y),
+        }; 
+        const max = {
+            x: Math.max(boundsOne.max.x, boundsTwo.max.x),
+            y: Math.max(boundsOne.max.y, boundsTwo.max.y),
+        };
 
         const padding = 800;
         const dx = Math.abs(max.x - min.x) + padding;
@@ -725,9 +806,18 @@ class Game extends Phaser.Scene {
 
         // Don't move camera while dragon is hovering
         if (this.dragonsnakeOne.hoverTweens != undefined && force != true) {
-            return;
+            //return;
         }
-        camera.centerOn(cx, cy + this.tutorialCameraOffset);
+        // See: https://github.com/photonstorm/phaser/blob/8373e6f81a3b61c617534f1a219cbdd774385279/src/cameras/2d/BaseCamera.js#L639
+
+
+        //console.log(camera.scrollY - cy);
+
+        const targetX = cx - (camera.width * 0.5);
+        const targetY = cy - (camera.height * 0.5);
+        camera.scrollX += (targetX - camera.scrollX) * 0.16;
+        camera.scrollY += (targetY - camera.scrollY) * 0.16;
+        //camera.centerOn(cx, cy + this.tutorialCameraOffset);
         
     }
 
@@ -747,11 +837,6 @@ class Game extends Phaser.Scene {
             x: Math.max(boundsOne.max.x, boundsTwo.max.x),
             y: Math.max(boundsOne.max.y, boundsTwo.max.y),
         };
-
-        
-
-        // this.iconMax.x = max.x;
-        // this.iconMax.y = max.y;
 
         const padding = 800;
         const dx = Math.abs(max.x - min.x) + padding;
@@ -850,6 +935,9 @@ class Game extends Phaser.Scene {
     }
 
     removeTutorialCameraOffset() {
+        // Allow the player to skip tutorial next time they play 
+        localStorage.setItem('played-before', true);
+
         this.tweens.add({
             targets: this,
             tutorialCameraOffset: { value: 0, duration: 1000, ease: 'Quadratic.easeInOut' },
@@ -857,6 +945,16 @@ class Game extends Phaser.Scene {
     }
 
     update () {
+        // Cleanup raindrops
+        for (let i = 0; i < this.rainDrops.length; i++) {
+            const drop = this.rainDrops[i];
+            drop.counter --;
+            if (drop.counter <= 0) {
+                drop.destroy();
+                this.rainDrops.splice(i, 1);
+            }
+        }
+
         if (document.querySelector("#fps")) {
             document.querySelector("#fps").innerHTML = `fps: ${Math.round(this.game.loop.actualFps)}`;
         }

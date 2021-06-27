@@ -634,6 +634,10 @@ class Game extends Phaser.Scene {
                 cloud.rainCloudTransform = false;
                 cloud.isOutOfBounds = false;
                 cloud.distanceToClick = 200 + Math.random() * 100; 
+                cloud.clickCounter = 0;
+                cloud.clicked = false;
+                cloud.canBeClicked = true;
+                cloud.clickedFarm = undefined;
 
                 cloud.setOutOfBounds = () => {
                     if (cloud.isOutOfBounds) {
@@ -649,9 +653,9 @@ class Game extends Phaser.Scene {
                     // Make all shaking clouds also rainclouds
                     let X = 0;
                     let Y = 0;
-                    let c = 0;
+                    let c = 1;//include current cloud
                     for (let otherCloud of that.clouds) {
-                        if (otherCloud.shake) {
+                        if (otherCloud.shake && otherCloud.rainCloudTransform != true) {
                           otherCloud.rainCloudTransform = true;
                             X += otherCloud.x;
                             Y += otherCloud.y; 
@@ -697,15 +701,35 @@ class Game extends Phaser.Scene {
             }// end init cloud variables
 
             // Make clouds "click" into farms
+            // But they can be unclicked after af ew seconds
             for (let farm of this.farmLand) { 
                 const dx = (farm.plot.x) - cloud.x; 
                 const dy = (farm.plot.y) - cloud.y; 
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (dist < cloud.distanceToClick) {
+                if (dist < cloud.distanceToClick && cloud.canBeClicked) {
                     cloud.clicked = true;
+                    cloud.clickCounter = 60 * 2;
+                    cloud.canBeClicked = false;
+                    cloud.clickedFarm = farm.plot;
+                }
+
+                const clickedFarm = cloud.clickedFarm;
+                if (!cloud.canBeClicked && dist > cloud.distanceToClick && 
+                    (clickedFarm != undefined && clickedFarm.x == farm.plot.x && clickedFarm.y == farm.plot.y)) {
+                    cloud.canBeClicked = true;
+                    cloud.clickedFarm = undefined;
                 }
             }
+
+            if (cloud.clicked) {
+                cloud.clickCounter --;
+                if (cloud.clickCounter < 0) {
+                    cloud.clicked = false;
+                    cloud.isColliding = false;
+                }
+            }
+
 
             // If tutorial is active, check if any new clouds have entered farm circles
             // And the cloud wasn't already in the circle

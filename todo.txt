@@ -1,11 +1,14 @@
+
+	
+Done:
+* Make it possible to unstick clouds from farm after a few seconds
+* Look into bug with incorrect count if you water farm twice?
 * Implement medals
 	https://www.newgrounds.io/get-started/#step-4-implement-the-api-into-your-game
 
 	https://bitbucket.org/newgrounds/newgrounds.io-for-javascript-html5/src/master/
 
 	https://www.newgrounds.com/projects/games/1689408/apitools/medals
-	
-Done:
 * Make it possible to reset game
 	* Just a "Next" button
 	* Next screen just has "Thanks for playing! There are 5 possible endings to this game". "Back to menu" button. 

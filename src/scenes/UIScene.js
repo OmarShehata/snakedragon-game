@@ -282,8 +282,10 @@ Or don't up to you! (Show idols in farms)`;
     }
 
     setupUI() {
+        this.destroyed = false;
         initButtons(this);
         const fullscreenButton = new FullscreenButton(this);
+        this.fullscreenButton = fullscreenButton;
         // Create help button 
         const helpButton = new Button({ 
             game: this, 
@@ -294,6 +296,7 @@ Or don't up to you! (Show idols in farms)`;
                 this.toggleHelp();
             }
         }); 
+        this.helpButton = helpButton;
 
         // Help summary
         const helpSummary = this.add.image(100, 100, 'atlas', 'INSTRUCTION_SUMMARY');
@@ -355,6 +358,9 @@ Or don't up to you! (Show idols in farms)`;
         
     }
     update() {
+        if (this.destroyed) {
+            return;
+        }
         this.count --;
         if (this.count < 0 && this.diff != undefined) {
             this.diff = undefined;
@@ -364,8 +370,17 @@ Or don't up to you! (Show idols in farms)`;
 
     destroyUI() {
         this.cameras.main.fade(3000, 0, 0, 0);
-        // this.cloudIcon.destroy();
-        // this.text.destroy();
+        setTimeout(() => {
+            this.cloudIcon.destroy();
+            this.text.destroy();
+
+            this.helpSummary.destroy();
+            this.closeButton.sprite.destroy();
+            this.helpButton.sprite.destroy();
+            this.fullscreenButton.button.sprite.destroy();
+            this.destroyed = true;
+        }, 3000);
+        
     }
 }
 

@@ -10,6 +10,7 @@ class Menu extends Phaser.Scene {
         this.frame = 0;
         this.frames = [];
         this.fadeOut = false;
+        window.menuScene = this;
     }
 
     advance(skipTutorial) {
@@ -21,8 +22,10 @@ class Menu extends Phaser.Scene {
                 this.cameras.main.fadeOut(1000);
                 const that = this;
                 setTimeout(function() {
+                    that.cleanup();
                     // FOR DEBUG
                     //that.scene.start("End", {farmLand: []});
+                    
                     that.scene.start("Game", {
                         skipTutorial
                     });
@@ -52,6 +55,15 @@ class Menu extends Phaser.Scene {
         if (this.frames.length > 0) item.alpha = 0;
 
         this.frames.push(item);
+    }
+
+    cleanup() {
+        for (let frame of this.frames) {
+            frame.destroy();
+        }
+        this.frame = 0;
+        this.frames = [];
+        this.fadeOut = false;
     }
 
     create() {
@@ -116,6 +128,9 @@ class Menu extends Phaser.Scene {
         }
 
         const fullscreenButton = new FullscreenButton(this);
+
+        window.mute = (localStorage.getItem('mute') == "true");
+        this.sound.setMute(window.mute);
 
         // this.input.on('pointerup', pointer => {
         //     this.advance();

@@ -7,12 +7,22 @@ class End extends Phaser.Scene {
     constructor(config) {
     	super('End');
         window.endScene = this;
+        this.images = [];
     }
 
     makeImage(imageName) {
         const item = this.add.image(0, 0, 'atlas', imageName);
         item.setOrigin(0);
         item.scale = (1000 / 1200);
+
+        this.images.push(item);
+    }
+
+    showFinalScreen() {
+        // Fade out the current scenario background and text
+
+        // Fade in the "Main menu button" and thanks for playing text 
+
     }
 
     makeScenario(num) {
@@ -147,12 +157,75 @@ They have all starved to death.
 `
         }
 
-        
+        // Next button 
+        const nextButton = new Button({ 
+            game: this, 
+            x: 500, 
+            y: 900,
+            sprite: 'NEXT_BUTTON',
+            onclick: () => {
+                this.cameras.main.fadeOut(500);
+                setTimeout(() => {
+                    for (let img of this.images) {
+                        img.destroy();
+                    }
+                    this.images = [];
+                    this.cameras.main.fadeIn(500);
+                    text.destroy();
+                    this.nextButton.sprite.destroy();
+
+                    this.mainMenuButton.sprite.alpha = 1;
+                    this.thanksForPlaying.alpha = 1;
+                }, 500);
+            }
+        });
+        nextButton.sprite.alpha = 0;
+        nextButton.sprite.depth = 100;
+        this.tweens.add({
+            targets: nextButton.sprite,
+            alpha: { value: 1, duration: 1000, ease: 'Linear' },
+            delay: 2000 + 3000 + 1000
+        });
+
+        const { planted, plantedPious, flooded, floodedPious } = this.stats;
+
+        const thanksText = `Thanks for playing!
+
+You successfully watered ${planted} farms${planted > 0 ? ` (${plantedPious} of those were Snakedragon worshippers).` : '.'} You flooded ${flooded} farms${flooded > 0 ? ` (${floodedPious} of those were Snakedragon worshippers)` : ''}.
+
+This game has 5 possible endings.`
+        const thanksForPlaying = this.add.text(W/2, H/2, thanksText, { 
+            fontFamily: 'Roboto, sans-serif', 
+            fontSize: 30,
+            align: 'center'
+         });
+        thanksForPlaying.setOrigin(0.5, 0.5);
+        thanksForPlaying.alpha = 0.0;
+        thanksForPlaying.setWordWrapWidth(800)
+
+        const mainMenuButton = new Button({ 
+            game: this, 
+            x: 500, 
+            y: 900,
+            sprite: 'MAIN_MENU_BUTTON',
+            onclick: () => {
+                this.cameras.main.fadeOut(500);
+                setTimeout(() => {
+                    this.scene.start("Menu");
+                }, 500);
+            }
+        });
+        mainMenuButton.sprite.alpha = 0;
+
+        this.thanksForPlaying = thanksForPlaying;
+        this.mainMenuButton = mainMenuButton;
+        this.nextButton = nextButton
     }
 
     create(data) {
         initButtons(this);
         const fullscreenButton = new FullscreenButton(this);
+        // Add next button 
 
         this.cameras.main.fadeIn(1000);
         const farmLand = data.farmLand;
@@ -191,10 +264,12 @@ They have all starved to death.
             volume: { value: 1, duration: 1000, ease: 'Linear' },
         });
 
-        console.log({
+        this.stats = {
             planted, flooded, arid, 
             plantedPious, floodedPious, aridPious
-        })
+        }
+
+        console.log(this.stats);
 
         if (flooded > planted) {
             // You have flooded many villagers farms

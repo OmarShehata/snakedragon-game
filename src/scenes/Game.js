@@ -22,7 +22,37 @@ class Game extends Phaser.Scene {
         this.rainDrops = [];
 
         this.tutorialCameraOffset = 150;
-        console.log("v3");
+        console.log("v4");
+    }
+
+    cleanup() {
+        isSoloMode = true;
+        for (let cloud of this.rainClouds) {
+            cloud.destroy();
+        }
+        this.rainClouds = [];
+
+        for (let farm of this.farmLand) {
+            farm.plot.destroy();
+            farm.destroy();
+        }
+        this.farmLand = [];
+
+        for (let drop of this.rainDrops) {
+            drop.destroy();
+        }
+        this.rainDrops = [];
+
+        this.numOfClouds = 0;
+        this.endCounter = 0;
+        this.tutorialCameraOffset = 150;
+        this.startRainDanceTutStep = undefined;
+        this.dismissSpiritTutStep = undefined;
+        this.finishedCloudTutorial = undefined;
+        this.initCloudsTutorial = undefined;
+        this.numOfCloudsPushedInToFarm = undefined;
+        this.ending = undefined
+        this.initCameraForce = undefined
     }
 
     setupKeyboard() {
@@ -104,7 +134,7 @@ class Game extends Phaser.Scene {
         const farmLocations = [
             [1, 1, true],
             [3, 2, false],
-            [4, 1, true],
+            [5, 1, true],
             [4, 0, false]
         ];
 
@@ -135,9 +165,23 @@ class Game extends Phaser.Scene {
 
                 for (let loc of farmLocations) {
                     if (x == loc[0] && y == loc[1]) {
-                        const index = Math.round(Math.random() * (houseTypes.length - 1));
+                        let index = Math.round(Math.random() * (houseTypes.length - 1));
+                        if (x == 5) {
+                            // On right edge. Pick index where statue would be visible
+                            index = 5;
+                        }
+                        if (y == 0) {
+                            // On top edge. 
+                            index = 1;
+                        }
+                        if (x == 1) {
+                            index = 0
+                        }
+                        if (x == 3) {
+                            index = 4;
+                        } 
                         type = houseTypes[index];
-                        houseTypes.splice(index, 1);
+                        //houseTypes.splice(index, 1);
                         isFarmLand = true;
                         isPious = loc[2];
                     }
@@ -404,6 +448,7 @@ class Game extends Phaser.Scene {
         const rainDrop = this.add.sprite(x, y, 'atlas', 'RAIN_DROP');
         rainDrop.alpha = 0;
         rainDrop.counter = (delayMs + 1000) * 60;
+        rainDrop.depth = 1000 - 1;
 
         this.tweens.add({
             targets: rainDrop,
@@ -923,8 +968,10 @@ class Game extends Phaser.Scene {
         const that = this;
         setTimeout(function() {
             
-            that.scene.get('UIScene').scene.stop()
+            //that.scene.get('UIScene').scene.stop()
             that.scene.start("End", { farmLand: that.farmLand });
+            that.scene.get('Game').scene.stop();
+            that.cleanup();
             that.windLoop1.stop();
             that.windLoop2.stop();
 
@@ -982,7 +1029,7 @@ class Game extends Phaser.Scene {
 
         if (Phaser.Input.Keyboard.JustDown(this.RKey)) {
             // Trigger end screen
-            //this.triggerEnd();
+            this.triggerEnd();
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.MKey)) {

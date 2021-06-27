@@ -1,11 +1,12 @@
-* Make it possible to reset game
-	* Just a "Next" button
-	* Next screen just has "Thanks for playing! There are 5 possible endings to this game". "Back to menu" button. 
+
 
 * Implement medals
 	https://www.newgrounds.io/get-started/#step-4-implement-the-api-into-your-game
 	
 Done:
+* Make it possible to reset game
+	* Just a "Next" button
+	* Next screen just has "Thanks for playing! There are 5 possible endings to this game". "Back to menu" button. 
 * Rain animation
 * Add new music 
 * Add buttons for help

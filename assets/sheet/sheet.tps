@@ -323,6 +323,86 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../sprites/FULLSCREEN_BUTTON.png</key>
+            <key type="filename">../sprites/X_BUTTON.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9Paddings</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../sprites/HELP_BUTTON.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,20,40,40</rect>
+                <key>scale9Paddings</key>
+                <rect>20,20,40,40</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../sprites/INSTRUCTION_SUMMARY.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>200,200,400,400</rect>
+                <key>scale9Paddings</key>
+                <rect>200,200,400,400</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../sprites/MAIN_MENU_BUTTON.png</key>
+            <key type="filename">../sprites/NEXT_BUTTON.png</key>
+            <key type="filename">../sprites/PLAY_BUTTON.png</key>
+            <key type="filename">../sprites/SCREEN_ENDING_EXIT.png</key>
+            <key type="filename">../sprites/SKIP_BUTTON.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>90,19,179,38</rect>
+                <key>scale9Paddings</key>
+                <rect>90,19,179,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../sprites/RAIN_DROP.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,10,9,19</rect>
+                <key>scale9Paddings</key>
+                <rect>5,10,9,19</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../sprites/SCREEN_DRAGON_TUTORIAL.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -358,21 +438,6 @@
                 <rect>300,300,600,600</rect>
                 <key>scale9Paddings</key>
                 <rect>300,300,600,600</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../sprites/SCREEN_ENDING_EXIT.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>90,19,179,38</rect>
-                <key>scale9Paddings</key>
-                <rect>90,19,179,38</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

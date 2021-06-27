@@ -15,6 +15,17 @@ GameAnalytics("setEnabledInfoLog", false);
 GameAnalytics("initialize", "0969b8386220440cd4ec9bdcb11b6bec", "c8ed305bdb2611e1691eb5e4a7f9156eba0e1179");
 </script>
 <!-- End GameAnalytics -->
+    <script src="lib/newgroundsio.min.js"></script>
+    <script type="text/javascript">
+      var ngio = new Newgrounds.io.core("52367:KCjFi8AH", "kvVDRmSvsekUZQjhX3h2Jg==");
+      window.ngio = ngio;
+      // See: https://bitbucket.org/newgrounds/newgrounds.io-for-javascript-html5/src/master/
+      ngio.getValidSession(function() {
+        if (ngio.user) {
+          window.newgroundsUser = ngio.user;
+        }
+      });
+    </script>
     <script type="module" src="src/index.js"></script>
     <!-- <div id="fps">fps: 0 </div> -->
     <div id="game"></div>

@@ -1,7 +1,9 @@
-
-
 * Implement medals
 	https://www.newgrounds.io/get-started/#step-4-implement-the-api-into-your-game
+
+	https://bitbucket.org/newgrounds/newgrounds.io-for-javascript-html5/src/master/
+
+	https://www.newgrounds.com/projects/games/1689408/apitools/medals
 	
 Done:
 * Make it possible to reset game

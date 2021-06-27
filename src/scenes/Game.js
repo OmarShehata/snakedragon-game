@@ -22,7 +22,7 @@ class Game extends Phaser.Scene {
         this.rainDrops = [];
 
         this.tutorialCameraOffset = 150;
-        console.log("v4");
+        console.log("v5");
     }
 
     cleanup() {
@@ -1027,7 +1027,7 @@ class Game extends Phaser.Scene {
             this.initCloudsTutorialDetection();
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.RKey)) {
+        if (Phaser.Input.Keyboard.JustDown(this.RKey) && window.secretDebugDragon == true) {
             // Trigger end screen
             this.triggerEnd();
         }

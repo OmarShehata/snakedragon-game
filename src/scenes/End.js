@@ -18,14 +18,26 @@ class End extends Phaser.Scene {
         this.images.push(item);
     }
 
-    showFinalScreen() {
-        // Fade out the current scenario background and text
+    unlockNewgroundsMedal(endingName) {
+        if (window.newgroundsUser == undefined) {
+            return;
+        }
+        const medalIds = {
+            'BENEVOLENT_GOD': 63729,
+            'CHAOTIC_DEITY': 63730,
+            'EGALITARIAN_GOD': 63731,
+            'STINGY_GOD': 63733,
+            'STORM_DRAGON': 63732
+        };
 
-        // Fade in the "Main menu button" and thanks for playing text 
 
+        const id = medalIds[endingName];
+        ngio.callComponent('Medal.unlock', {id:id}, function(result) {
+            console.log("Unlock medal", result);
+        });
     }
 
-    makeScenario(num) {
+    makeScenario(num) {        
         var W = this.game.config.width;
         var H = this.game.config.height;
 
@@ -62,6 +74,7 @@ class End extends Phaser.Scene {
         
         if (num == 0) {
             this.makeImage('SCREEN_ENDING_BENEVOLENTGOD');
+            this.unlockNewgroundsMedal('BENEVOLENT_GOD');
 
             text.y -= 150;
 
@@ -79,6 +92,7 @@ And thus, they are now all dead...
         }
         if (num == 1) {
             this.makeImage('SCREEN_ENDING_CHAOTICDEITY');
+            this.unlockNewgroundsMedal('CHAOTIC_DEITY');
             text.y -= 70;
 
             if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Atheist");
@@ -101,7 +115,7 @@ And thus, the villagers starved...
         }
          if (num == 2) {
              this.makeImage('SCREEN_ENDING_EGALITARIANGOD');
-
+             this.unlockNewgroundsMedal('EGALITARIAN_GOD');
              text.y -= 150;
 
              if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:CivilWar");
@@ -121,7 +135,7 @@ The once peaceful village descended into war and chaos...
 
         if (num == 3) {
             this.makeImage('SCREEN_ENDING_STORM DRAGON');
-
+            this.unlockNewgroundsMedal('STORM_DRAGON');
             //text.y -= 100;
             text.x += 210;
             if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Flood");
@@ -143,6 +157,7 @@ work of an angry god...
 
         if (num == 4) {
             this.makeImage('SCREEN_ENDING_STINGY GOD');
+            this.unlockNewgroundsMedal('STINGY_GOD');
             text.x -= 150;
 
             if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Arid");

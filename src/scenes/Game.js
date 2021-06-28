@@ -22,7 +22,7 @@ class Game extends Phaser.Scene {
         this.rainDrops = [];
 
         this.tutorialCameraOffset = 150;
-        console.log("v5");
+        console.log("v6");
     }
 
     cleanup() {
@@ -653,7 +653,7 @@ class Game extends Phaser.Scene {
                     // Make all shaking clouds also rainclouds
                     let X = 0;
                     let Y = 0;
-                    let c = 1;//include current cloud
+                    let c = 0;
                     for (let otherCloud of that.clouds) {
                         if (otherCloud.shake && otherCloud.rainCloudTransform != true) {
                           otherCloud.rainCloudTransform = true;
@@ -663,6 +663,11 @@ class Game extends Phaser.Scene {
                         }
                         
                     }
+
+                    // Include current cloud
+                    X += this.x; 
+                    Y += this.y; 
+                    c += 1;
 
                     X /= c; Y /= c;
 

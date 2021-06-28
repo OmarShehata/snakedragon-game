@@ -4,3 +4,8 @@ body {
 	padding: 0px;
 	overflow: hidden;
 }
+
+@font-face {
+    font-family: Coiny-Regular;
+    src: url('./assets/Coiny-Regular.ttf');
+}

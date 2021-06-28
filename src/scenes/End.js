@@ -50,7 +50,7 @@ class End extends Phaser.Scene {
         };
 
         const style = { 
-            fontFamily: 'Roboto, sans-serif', 
+            fontFamily: 'Coiny-Regular, sans-serif', 
             fontSize: 30,
             // stroke: '#000000',
             // strokeThickness: 10
@@ -210,7 +210,7 @@ You successfully watered ${planted} farms${planted > 0 ? ` (${plantedPious} of t
 
 This game has 5 possible endings.`
         const thanksForPlaying = this.add.text(W/2, H/2, thanksText, { 
-            fontFamily: 'Roboto, sans-serif', 
+            fontFamily: 'Coiny-Regular, sans-serif', 
             fontSize: 30,
             align: 'center'
          });

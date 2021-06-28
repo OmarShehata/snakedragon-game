@@ -201,7 +201,7 @@ class UIScene extends Phaser.Scene {
         const X = 200;
         const Y = 750;
         const style = { 
-            fontFamily: 'Krub, sans-serif', 
+            fontFamily: 'Coiny-Regular, sans-serif', 
             fontSize: 50, 
             align: 'center',
             //backgroundColor: 'rgba(255, 0, 0, 0.3)',
@@ -330,7 +330,7 @@ Or don't up to you! (Show idols in farms)`;
         cloudIcon.x = (cloudIcon.width / 2) * cloudIcon.scale + padding;
         cloudIcon.y = (cloudIcon.height / 2) * cloudIcon.scale + padding;
 
-        const style = { fontFamily: 'Krub, sans-serif', fontSize: 50 };
+        const style = { fontFamily: 'Coiny-Regular, sans-serif', fontSize: 50 };
         const text = this.add.text(cloudIcon.x + 80, cloudIcon.y - 20, '70', style);
         text.setOrigin(0.0);
 

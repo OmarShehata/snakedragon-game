@@ -9,7 +9,7 @@ class Loading extends Phaser.Scene {
     	var W = this.game.config.width;
     	var H = this.game.config.height;
 
-    	var style = { fontFamily: 'Krub, sans-serif', fontSize: 60 };
+    	var style = { fontFamily: 'Coiny-Regular, sans-serif', fontSize: 60 };
     	var text = this.add.text(W/2, H/2, '0%', style);
     	text.setOrigin(0.5);
 

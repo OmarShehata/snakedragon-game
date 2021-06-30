@@ -97,7 +97,8 @@ And thus, they are now all dead...
 
             if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:Atheist");
             text.text = 
-`You favored those who do not believe in the mighty Snakedragon.
+`You favored those who do not believe 
+in the mighty Snakedragon.
 
 You brought them rain, and with it, peace and prosperity.
 
@@ -120,11 +121,13 @@ And thus, the villagers starved...
 
              if (window.gameanalytics) gameanalytics.GameAnalytics.addDesignEvent("EndScenario:CivilWar");
             text.text = 
-`You treated everyone equally. All believers and non-believers of 
-the mighty Snakedragon got rain, and with it, peace and prosperity.
+`You treated everyone equally. All believers 
+and non-believers of the mighty Snakedragon got 
+rain, and with it, peace and prosperity.
 
-The villagers bickered. Which faction was right? Was there really
-a dragon god answering their prayers and shepherding the rain clouds?
+The villagers bickered. Which faction was right? 
+Was there reallya dragon god answering their prayers 
+and shepherding the rain clouds?
 
 Or was it all just luck?
 

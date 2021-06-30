@@ -609,7 +609,7 @@
 					}
 				},
 				{
-					"filename": "PANEL_TUTORIAL_DANCE",
+					"filename": "PANEL_TUTORIAL_1",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -651,7 +651,7 @@
 					}
 				},
 				{
-					"filename": "PANEL_TUTORIAL_EMPTY",
+					"filename": "PANEL_TUTORIAL_2",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -677,13 +677,518 @@
 			"image": "sheet-2.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1202,
-				"h": 2002
+				"w": 2006,
+				"h": 1810
 			},
 			"scale": 1,
 			"frames": [
 				{
 					"filename": "SCREEN_ENDING_EGALITARIANGOD",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 1200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 1200
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1,
+						"y": 1205,
+						"w": 1000,
+						"h": 300
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_3_NODRAGONS",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1005,
+						"y": 1205,
+						"w": 1000,
+						"h": 300
+					}
+				},
+				{
+					"filename": "ENV_CLOUD_SMALL",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 263,
+						"h": 237
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 263,
+						"h": 237
+					},
+					"frame": {
+						"x": 1205,
+						"y": 1,
+						"w": 263,
+						"h": 237
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_DANCE_NORECTANGLE",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 275,
+						"h": 222
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 275,
+						"h": 222
+					},
+					"frame": {
+						"x": 1205,
+						"y": 242,
+						"w": 275,
+						"h": 222
+					}
+				},
+				{
+					"filename": "BUTTON_NEXT",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 276,
+						"h": 120
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 276,
+						"h": 120
+					},
+					"frame": {
+						"x": 1472,
+						"y": 1,
+						"w": 276,
+						"h": 120
+					}
+				},
+				{
+					"filename": "CH_DRAGON1_MIDDLE",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 245,
+						"h": 200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 245,
+						"h": 200
+					},
+					"frame": {
+						"x": 1205,
+						"y": 468,
+						"w": 245,
+						"h": 200
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_DANCE_DRAGON2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 174,
+						"h": 209
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 174,
+						"h": 209
+					},
+					"frame": {
+						"x": 1454,
+						"y": 468,
+						"w": 174,
+						"h": 209
+					}
+				},
+				{
+					"filename": "BUTTON_PLAY",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 276,
+						"h": 120
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 276,
+						"h": 120
+					},
+					"frame": {
+						"x": 1484,
+						"y": 125,
+						"w": 276,
+						"h": 120
+					}
+				},
+				{
+					"filename": "CH_DRAGON2_MIDDLE",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 245,
+						"h": 200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 245,
+						"h": 200
+					},
+					"frame": {
+						"x": 1484,
+						"y": 249,
+						"w": 245,
+						"h": 200
+					}
+				},
+				{
+					"filename": "BUTTON_W",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 197,
+						"h": 196
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 197,
+						"h": 196
+					},
+					"frame": {
+						"x": 1205,
+						"y": 672,
+						"w": 197,
+						"h": 196
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_DANCE_DRAGON1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 209,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 209,
+						"h": 181
+					},
+					"frame": {
+						"x": 1406,
+						"y": 681,
+						"w": 209,
+						"h": 181
+					}
+				},
+				{
+					"filename": "BUTTON_A",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 196,
+						"h": 196
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 196,
+						"h": 196
+					},
+					"frame": {
+						"x": 1619,
+						"y": 681,
+						"w": 196,
+						"h": 196
+					}
+				},
+				{
+					"filename": "BUTTON_D",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 196,
+						"h": 196
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 196,
+						"h": 196
+					},
+					"frame": {
+						"x": 1406,
+						"y": 866,
+						"w": 196,
+						"h": 196
+					}
+				},
+				{
+					"filename": "BUTTON_LEFTARROW",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 196,
+						"h": 196
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 196,
+						"h": 196
+					},
+					"frame": {
+						"x": 1205,
+						"y": 872,
+						"w": 196,
+						"h": 196
+					}
+				},
+				{
+					"filename": "BUTTON_RIGHTARROW",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 196,
+						"h": 196
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 196,
+						"h": 196
+					},
+					"frame": {
+						"x": 1632,
+						"y": 453,
+						"w": 196,
+						"h": 196
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_4A",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1,
+						"y": 1509,
+						"w": 1000,
+						"h": 300
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_4B",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1005,
+						"y": 1509,
+						"w": 1000,
+						"h": 300
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-3.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 2006,
+				"h": 1810
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SCREEN_ENDING_STINGY GOD",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 1200
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 1200
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 1200
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_4C",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1,
+						"y": 1205,
+						"w": 1000,
+						"h": 300
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_5",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1005,
+						"y": 1205,
+						"w": 1000,
+						"h": 300
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_DANCE",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1,
+						"y": 1509,
+						"w": 1000,
+						"h": 300
+					}
+				},
+				{
+					"filename": "PANEL_TUTORIAL_EMPTY",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1000,
+						"h": 300
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1000,
+						"h": 300
+					},
+					"frame": {
+						"x": 1005,
+						"y": 1509,
+						"w": 1000,
+						"h": 300
+					}
+				}
+			]
+		},
+		{
+			"image": "sheet-4.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1202,
+				"h": 1506
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SCREEN_ENDING_STORM DRAGON",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -722,343 +1227,6 @@
 						"y": 1205,
 						"w": 1000,
 						"h": 300
-					}
-				},
-				{
-					"filename": "BUTTON_A",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 196,
-						"h": 196
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 196,
-						"h": 196
-					},
-					"frame": {
-						"x": 1005,
-						"y": 1205,
-						"w": 196,
-						"h": 196
-					}
-				},
-				{
-					"filename": "ENV_CLOUD_SMALL",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 263,
-						"h": 237
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 263,
-						"h": 237
-					},
-					"frame": {
-						"x": 1,
-						"y": 1509,
-						"w": 263,
-						"h": 237
-					}
-				},
-				{
-					"filename": "PANEL_TUTORIAL_DANCE_NORECTANGLE",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 275,
-						"h": 222
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 275,
-						"h": 222
-					},
-					"frame": {
-						"x": 268,
-						"y": 1509,
-						"w": 275,
-						"h": 222
-					}
-				},
-				{
-					"filename": "BUTTON_D",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 196,
-						"h": 196
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 196,
-						"h": 196
-					},
-					"frame": {
-						"x": 1005,
-						"y": 1405,
-						"w": 196,
-						"h": 196
-					}
-				},
-				{
-					"filename": "CH_DRAGON1_MIDDLE",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 245,
-						"h": 200
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 245,
-						"h": 200
-					},
-					"frame": {
-						"x": 1,
-						"y": 1750,
-						"w": 245,
-						"h": 200
-					}
-				},
-				{
-					"filename": "CH_DRAGON2_MIDDLE",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 245,
-						"h": 200
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 245,
-						"h": 200
-					},
-					"frame": {
-						"x": 547,
-						"y": 1509,
-						"w": 245,
-						"h": 200
-					}
-				},
-				{
-					"filename": "BUTTON_W",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 197,
-						"h": 196
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 197,
-						"h": 196
-					},
-					"frame": {
-						"x": 796,
-						"y": 1509,
-						"w": 197,
-						"h": 196
-					}
-				},
-				{
-					"filename": "BUTTON_LEFTARROW",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 196,
-						"h": 196
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 196,
-						"h": 196
-					},
-					"frame": {
-						"x": 997,
-						"y": 1605,
-						"w": 196,
-						"h": 196
-					}
-				},
-				{
-					"filename": "BUTTON_NEXT",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 276,
-						"h": 120
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 276,
-						"h": 120
-					},
-					"frame": {
-						"x": 268,
-						"y": 1735,
-						"w": 276,
-						"h": 120
-					}
-				},
-				{
-					"filename": "BUTTON_PLAY",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 276,
-						"h": 120
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 276,
-						"h": 120
-					},
-					"frame": {
-						"x": 250,
-						"y": 1859,
-						"w": 276,
-						"h": 120
-					}
-				},
-				{
-					"filename": "PANEL_TUTORIAL_DANCE_DRAGON1",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 209,
-						"h": 181
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 209,
-						"h": 181
-					},
-					"frame": {
-						"x": 548,
-						"y": 1713,
-						"w": 209,
-						"h": 181
-					}
-				},
-				{
-					"filename": "PANEL_TUTORIAL_DANCE_DRAGON2",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 174,
-						"h": 209
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 174,
-						"h": 209
-					},
-					"frame": {
-						"x": 761,
-						"y": 1713,
-						"w": 174,
-						"h": 209
-					}
-				},
-				{
-					"filename": "BUTTON_RIGHTARROW",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 196,
-						"h": 196
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 196,
-						"h": 196
-					},
-					"frame": {
-						"x": 939,
-						"y": 1805,
-						"w": 196,
-						"h": 196
-					}
-				}
-			]
-		},
-		{
-			"image": "sheet-3.png",
-			"format": "RGBA8888",
-			"size": {
-				"w": 1202,
-				"h": 1202
-			},
-			"scale": 1,
-			"frames": [
-				{
-					"filename": "SCREEN_ENDING_STINGY GOD",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 1200,
-						"h": 1200
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 1200,
-						"h": 1200
-					},
-					"frame": {
-						"x": 1,
-						"y": 1,
-						"w": 1200,
-						"h": 1200
-					}
-				}
-			]
-		},
-		{
-			"image": "sheet-4.png",
-			"format": "RGBA8888",
-			"size": {
-				"w": 1202,
-				"h": 1202
-			},
-			"scale": 1,
-			"frames": [
-				{
-					"filename": "SCREEN_ENDING_STORM DRAGON",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 1200,
-						"h": 1200
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 1200,
-						"h": 1200
-					},
-					"frame": {
-						"x": 1,
-						"y": 1,
-						"w": 1200,
-						"h": 1200
 					}
 				}
 			]
@@ -1675,6 +1843,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:3a055cfc27699f80f109de8c36475edd:b22129c32b1eb220626b2ed6c1bd70c2:f9162ba3953d516466cdeb02fbcb8f2e$"
+		"smartupdate": "$TexturePacker:SmartUpdate:e9ee5d5cddeed765d10fd9794b28fbda:d57b85e8908254271d35c94d53a3b2b9:f9162ba3953d516466cdeb02fbcb8f2e$"
 	}
 }

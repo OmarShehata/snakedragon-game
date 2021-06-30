@@ -105,12 +105,13 @@ class Menu extends Phaser.Scene {
         const playButton = new Button({ 
             game: this, 
             x: width / 2, 
-            y: 330,
+            y: 300,
             sprite: 'BUTTON_PLAY',
             onclick: () => {
                 this.advance();
             }
         });
+        window.playButton = playButton;
         
         // Add skip tutorial button 
         // Only show it if user has already played before
@@ -118,15 +119,16 @@ class Menu extends Phaser.Scene {
         if (hasPlayedBefore) {
             const skipTutorialButton = new Button({ 
                 game: this, 
-                x: 670, 
-                y: 330,
+                x: 590, 
+                y: 300,
                 sprite: 'BUTTON_SKIP',
                 onclick: () => {
                     this.advance(true);
                 }
             });
+            window.skipTutorialButton = skipTutorialButton;
 
-            playButton.sprite.x = 350;
+            playButton.sprite.x = 370;
         }
 
         const fullscreenButton = new FullscreenButton(this);

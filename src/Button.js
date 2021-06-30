@@ -13,7 +13,7 @@ class Button {
 		button.isButton = true;
 		button.onclick = onclick;
 		this.sprite = button;
-		this.sprite.baseScale = 0.8;
+		this.sprite.baseScale = 0.52;
 		this.sprite.scale = this.sprite.baseScale;
 	}
 }

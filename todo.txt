@@ -1,4 +1,5 @@
-
+* Question mark button
+* Fullscreen button
 	
 Done:
 * Make it possible to unstick clouds from farm after a few seconds

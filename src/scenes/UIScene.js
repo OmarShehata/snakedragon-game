@@ -68,6 +68,13 @@ class UIScene extends Phaser.Scene {
                 delay: 500
             });
             this.tweenArray.push(tween);
+            // Show farm icon
+            tween = this.tweens.add({
+                targets: this.farmIcon,
+                alpha: { value: 1, duration: 500, ease: 'Linear' },
+                delay: 500
+            });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 1 && stepKey == 'finished-clouds') {
@@ -83,6 +90,26 @@ class UIScene extends Phaser.Scene {
 
             tween = this.tweens.add({
                 targets: this.textObjectArray[2],
+                alpha: { value: 1, duration: 500, ease: 'Linear' },
+                delay: 500
+            });
+            this.tweenArray.push(tween);
+
+            // Hide previous icon and show new icon
+            tween = this.tweens.add({
+                targets: this.farmIcon,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+                delay: 0
+            });
+            this.tweenArray.push(tween);
+
+            tween = this.tweens.add({
+                targets: this.dragonIcon1,
+                alpha: { value: 1, duration: 500, ease: 'Linear' },
+                delay: 500
+            });
+            tween = this.tweens.add({
+                targets: this.dragonIcon2,
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
             });
@@ -107,6 +134,19 @@ class UIScene extends Phaser.Scene {
                 delay: 500
             });
             this.tweenArray.push(tween);
+
+            // Hide previous icon and show new icon
+             tween = this.tweens.add({
+                targets: this.dragonIcon1,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+                delay: 0
+            });
+             tween = this.tweens.add({
+                targets: this.dragonIcon2,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+                delay: 0
+            });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 2 && stepKey == 'flood-farm') {
@@ -125,6 +165,18 @@ class UIScene extends Phaser.Scene {
                 targets: this.textObjectArray[5],
                 alpha: { value: 1, duration: 500, ease: 'Linear' },
                 delay: 500
+            });
+            this.tweenArray.push(tween);
+
+             tween = this.tweens.add({
+                targets: this.dragonIcon1,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+                delay: 0
+            });
+             tween = this.tweens.add({
+                targets: this.dragonIcon2,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+                delay: 0
             });
             this.tweenArray.push(tween);
         }
@@ -147,6 +199,18 @@ class UIScene extends Phaser.Scene {
                 delay: 500
             });
             this.tweenArray.push(tween);
+
+             tween = this.tweens.add({
+                targets: this.dragonIcon1,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+                delay: 0
+            });
+             tween = this.tweens.add({
+                targets: this.dragonIcon2,
+                alpha: { value: 0, duration: 500, ease: 'Linear' },
+                delay: 0
+            });
+            this.tweenArray.push(tween);
         }
 
         if (this.tutorialStep == 3 && stepKey == 'dismissed-rain') {
@@ -166,6 +230,13 @@ class UIScene extends Phaser.Scene {
                 delay: 500
             });
             this.tweenArray.push(tween);
+
+            tween = this.tweens.add({
+                targets: this.idolIcon,
+                alpha: { value: 1, duration: 500, ease: 'Linear' },
+                delay: 500
+            });
+            this.tweenArray.push(tween);
             // Automatically make final panel disappear
             const that = this;
             setTimeout(function() {
@@ -177,6 +248,11 @@ class UIScene extends Phaser.Scene {
 
                 that.tweens.add({
                     targets: that.textOverlay,
+                    alpha: { value: 0, duration: 500, ease: 'Linear' },
+                });
+
+                that.tweens.add({
+                    targets: that.idolIcon,
                     alpha: { value: 0, duration: 500, ease: 'Linear' },
                 });
 
@@ -193,17 +269,35 @@ class UIScene extends Phaser.Scene {
         this.tutorialStep = 0;
         this.textObjectArray = [];
 
-        const textOverlay = this.add.image(0, 700, 'atlas', 'tutorial-overlay');
+        const textOverlay = this.add.image(0, 700, 'atlas', 'PANEL_TUTORIAL_EMPTY');
         textOverlay.setOrigin(0, 0);
-        textOverlay.alpha = 0.7;
+        textOverlay.alpha = 1;
         this.textOverlay = textOverlay;
+
+        // Create the dragon dance tutorial icon
+        const dragonIcon1 = this.add.image(850, 850, 'atlas', 'PANEL_TUTORIAL_DANCE_DRAGON1')
+        this.dragonIcon1 = dragonIcon1;
+        dragonIcon1.setOrigin(136 / 209, 104 / 181);
+        dragonIcon1.alpha = 0;
+        const dragonIcon2 = this.add.image(800, 850, 'atlas', 'PANEL_TUTORIAL_DANCE_DRAGON2')
+        this.dragonIcon2 = dragonIcon2;
+        dragonIcon2.alpha = 0;
+        dragonIcon2.setOrigin(75 / 174, 75 / 209);
+
+        this.farmIcon = this.add.image(850, 850, 'atlas', 'PANEL_TUTORIAL_FARM')
+        this.farmIcon.alpha = 0;
+
+        this.idolIcon = this.add.image(850, 850, 'atlas', 'PANEL_TUTORIAL_IDOL_NORECTANGLE')
+        this.idolIcon.alpha = 0;
+        this.idolIcon.scale = 0.8
 
         const X = 200;
         const Y = 750;
         const style = { 
             fontFamily: 'Coiny-Regular, sans-serif', 
-            fontSize: 50, 
+            fontSize: 45, 
             align: 'center',
+            color: '0x003f74'
             //backgroundColor: 'rgba(255, 0, 0, 0.3)',
              };
         const t1 =  
@@ -218,20 +312,23 @@ Turn with A/D or left/right
         // Step two text
         // index 1
 const t2 = 
-`Push clouds onto farms
-
-(into the marked yellow circles)`;
-        const textStep2 = this.add.text(X, Y, t2, style);
+`Push clouds onto farms`;
+        const textStep2 = this.add.text(X - 150, Y + 50, t2, {
+            ...style,
+            align: 'left'
+        });
         textStep2.alpha = 0;
         this.textObjectArray.push(textStep2);
 
         // index 2
         const t3 = 
-`Press SPACE to toggle rain spirit
-Dance together tight for 3 seconds
- near clouds to make it rain 
- (TODO: show image)`;
-        const textStep3 = this.add.text(X - 80, Y, t3, style);
+`SPACE to toggle rain spirit
+
+Dance together near clouds`;
+        const textStep3 = this.add.text(X - 180, Y, t3, {
+            ...style,
+            align: 'left'
+        });
         textStep3.alpha = 0;
         this.textObjectArray.push(textStep3);
 
@@ -239,22 +336,34 @@ Dance together tight for 3 seconds
         // index 3
         const  tRainOnFarm = 
 `You brought rain to the farm!
-Press SPACE again to remove rain spirit`;
-        const tRainOnFarm_text = this.add.text(X - 100, Y, tRainOnFarm, style);
+
+Press SPACE to remove rain spirit`;
+        const tRainOnFarm_text = this.add.text(X - 160, Y, tRainOnFarm, {
+            ...style,
+            align: 'left'
+        });
         tRainOnFarm_text.alpha = 0;
         this.textObjectArray.push(tRainOnFarm_text);
         // 4
         const  tRainOutside = 
 `You brought rain, but not on the farm...
-Press SPACE again to remove rain spirit`;
-        const tRainOutside_text = this.add.text(X - 100, Y, tRainOutside, style);
+
+Press SPACE to remove rain spirit`;
+        const tRainOutside_text = this.add.text(X - 160, Y, tRainOutside, {
+            ...style,
+            align: 'left'
+        });
         tRainOutside_text.alpha = 0;
         this.textObjectArray.push(tRainOutside_text);
         // 5
         const  tFlood = 
-`You flooded the farm! Try using less clouds
-Press SPACE again to remove rain spirit`;
-        const tFlood_text = this.add.text(X - 100, Y, tFlood, style);
+`You flooded the farm! Too many clouds
+
+Press SPACE to remove rain spirit`;
+        const tFlood_text = this.add.text(X - 160, Y, tFlood, {
+            ...style,
+            align: 'left'
+        });
         tFlood_text.alpha = 0;
         this.textObjectArray.push(tFlood_text);
 
@@ -262,8 +371,12 @@ Press SPACE again to remove rain spirit`;
         // 6
         const  bringRainToFollowers = 
 `Bring rain to your followers
-Or don't up to you! (Show idols in farms)`;
-        const bringRainToFollowers_text = this.add.text(X, Y, bringRainToFollowers, style);
+
+Or don't, up to you!`;
+        const bringRainToFollowers_text = this.add.text(X - 160, Y, bringRainToFollowers, {
+            ...style,
+            align: 'left'
+        });
         bringRainToFollowers_text.alpha = 0;
         this.textObjectArray.push(bringRainToFollowers_text);
     }
@@ -291,29 +404,31 @@ Or don't up to you! (Show idols in farms)`;
             game: this, 
             x: 950, 
             y: 50,
-            sprite: 'HELP_BUTTON',
+            sprite: 'BUTTON__INTERROGATION',
             onclick: () => {
                 this.toggleHelp();
             }
         }); 
+        helpButton.sprite.baseScale = 0.6;
+        helpButton.sprite.scale = 0.6;
         this.helpButton = helpButton;
 
         // Help summary
-        const helpSummary = this.add.image(100, 100, 'atlas', 'INSTRUCTION_SUMMARY');
+        const helpSummary = this.add.image(100, 100, 'atlas', 'PANEL_INSTRUCTIONS SUMMARY');
         helpSummary.depth = 5000;
         helpSummary.setOrigin(0, 0);
         // Close summary button 
         const closeButton = new Button({ 
             game: this, 
-            x: 850, 
+            x: 870, 
             y: 150,
-            sprite: 'X_BUTTON',
+            sprite: 'BUTTON_X',
             onclick: () => {
                  this.toggleHelp(false);
             }
         }); 
         closeButton.sprite.depth = helpSummary.depth + 1;
-
+        helpSummary.scale = 1.1;
         this.helpSummary = helpSummary;
         this.closeButton = closeButton;
         window.closeButton = closeButton;
@@ -361,6 +476,14 @@ Or don't up to you! (Show idols in farms)`;
         if (this.destroyed) {
             return;
         }
+
+        if (this.dragonIcon1) {
+            this.dragonIcon1.angle += 1;
+        this.dragonIcon2.angle -= 1;
+        }
+        //  
+        
+
         this.count --;
         if (this.count < 0 && this.diff != undefined) {
             this.diff = undefined;

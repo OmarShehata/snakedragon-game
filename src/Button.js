@@ -13,6 +13,8 @@ class Button {
 		button.isButton = true;
 		button.onclick = onclick;
 		this.sprite = button;
+		this.sprite.baseScale = 0.8;
+		this.sprite.scale = this.sprite.baseScale;
 	}
 }
 
@@ -20,7 +22,7 @@ function initButtons(game) {
 	game.input.on('pointerover', function (event, gameObjects) {
 		for (let object of gameObjects) {
 			if (object.isButton) {
-				object.scale = 1.1;
+				object.scale = object.baseScale + 0.1;
 			}
 		}
     });
@@ -36,7 +38,7 @@ function initButtons(game) {
     game.input.on('pointerout', function (event, gameObjects) {
         for (let object of gameObjects) {
 			if (object.isButton) {
-				object.scale = 1;
+				object.scale = object.baseScale;
 			}
 		}
     });

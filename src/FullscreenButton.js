@@ -10,7 +10,7 @@ class FullscreenButton {
 			game,
 			x: width - 50,
             y: height - 50,
-            sprite: 'FULLSCREEN_BUTTON',
+            sprite: 'BUTTON_MAXIMIZE',
             onclick: () => {
             	this.toggleFullscreen();
             }
@@ -32,10 +32,12 @@ class FullscreenButton {
 		if (game.scale.isFullscreen)
         {
             game.scale.stopFullscreen();
+            this.button.sprite.setTexture('atlas', 'BUTTON_MAXIMIZE');
         }
         else
         {
             game.scale.startFullscreen();
+            this.button.sprite.setTexture('atlas', 'BUTTON_MINIMIZE');
         }
 	}
 }

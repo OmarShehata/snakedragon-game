@@ -445,7 +445,7 @@ class Game extends Phaser.Scene {
     }
 
     makeRainDrop(x, y, delayMs) {
-        const rainDrop = this.add.sprite(x, y, 'atlas', 'RAIN_DROP');
+        const rainDrop = this.add.sprite(x, y, 'atlas', 'ENV_RAINDROP');
         rainDrop.alpha = 0;
         rainDrop.counter = (delayMs + 1000) * 60;
         rainDrop.depth = 1000 - 1;

@@ -177,7 +177,7 @@ They have all starved to death.
             game: this, 
             x: 500, 
             y: 900,
-            sprite: 'NEXT_BUTTON',
+            sprite: 'BUTTON_NEXT',
             onclick: () => {
                 this.cameras.main.fadeOut(500);
                 setTimeout(() => {
@@ -222,7 +222,7 @@ This game has 5 possible endings.`
             game: this, 
             x: 500, 
             y: 900,
-            sprite: 'MAIN_MENU_BUTTON',
+            sprite: 'BUTTON_MAINMENU',
             onclick: () => {
                 this.cameras.main.fadeOut(500);
                 setTimeout(() => {

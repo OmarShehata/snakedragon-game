@@ -22,7 +22,7 @@ class Game extends Phaser.Scene {
         this.rainDrops = [];
 
         this.tutorialCameraOffset = 150;
-        console.log("v6");
+        console.log("v7");
     }
 
     cleanup() {

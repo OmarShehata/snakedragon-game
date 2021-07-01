@@ -126,7 +126,7 @@ and non-believers of the mighty Snakedragon got
 rain, and with it, peace and prosperity.
 
 The villagers bickered. Which faction was right? 
-Was there reallya dragon god answering their prayers 
+Was there really a dragon god answering their prayers 
 and shepherding the rain clouds?
 
 Or was it all just luck?
